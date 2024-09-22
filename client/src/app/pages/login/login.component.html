@@ -1,0 +1,24 @@
+<!-- Modal background -->
+<div class="modal-background" (click)="closeLogin($event)">
+  <!-- Modal container (clicking here should NOT close the modal) -->
+  <div class="modal-container blue-grey white-text" (click)="$event.stopPropagation()">
+    <div class="container">
+      <div class="center">
+        <h6>Login</h6>
+      </div>
+      <div class="input-field">
+        <input id="email" type="email" class="validate white-text">
+        <label for="email">Email Address</label>
+      </div>
+      <div class="input-field">
+        <input id="password" type="password" class="validate white-text">
+        <label for="password">Password</label>
+      </div>
+      <div class="modal-footer">
+        <button class="btn wave-effect waves-light">Login</button>
+        <!-- Close button inside the modal -->
+        <button class="btn-flat modal-close white-text" (click)="closeLogin()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

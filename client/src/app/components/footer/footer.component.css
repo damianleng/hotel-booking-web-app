@@ -1,0 +1,15 @@
+.page-footer {
+    padding-top: 20px;
+  }
+  
+  .page-footer .container {
+    margin-bottom: 0;
+  }
+  
+  .page-footer h5 {
+    margin-bottom: 20px;
+  }
+  
+  .page-footer ul li a {
+    text-decoration: none;
+  }

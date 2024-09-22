@@ -1,0 +1,32 @@
+<!-- Modal background -->
+<div class="modal-background" (click)="closeRegister($event)">
+    <!-- Modal container (clicking here should NOT close the modal) -->
+    <div class="modal-container blue-grey white-text" (click)="$event.stopPropagation()">
+      <div class="container">
+        <div class="center">
+          <h6>Sign Up for Booking</h6>
+        </div>
+        <div class="input-field">
+          <input id="email" type="email" class="validate white-text" placeholder="Email">
+        </div>
+        <div class="input-field">
+          <input id="password" type="password" class="validate white-text" placeholder="Password">
+        </div>
+        <div class="input-field">
+          <input id="re-password" type="password" class="validate white-text" placeholder="Re-type Password">
+        </div>
+        <div class="input-field">
+          <input id="first-name" type="text" class="validate white-text" placeholder="First Name">
+        </div>
+        <div class="input-field">
+          <input id="last-name" type="text" class="validate white-text" placeholder="Last Name">
+        </div>
+        <div class="modal-footer">
+          <button class="btn wave-effect waves-light">Register</button>
+          <!-- Close button inside the modal -->
+          <button class="btn-flat white-text modal-close" (click)="closeRegister()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
