@@ -3,12 +3,11 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const housekeepingSchema = new Schema({
-  KeyID: { type: String, required: true },
-  BookingID: { type: String, required: true },
+  TaskID: { type: String, required: true },
   RoomID: { type: String, required: true },
-  KeyCode: { type: String, required: true },
-  ValidityPeriod: { type: String, required: true },
-  IsActive: { type: Boolean, required: true }
+  CleanerID: { type: String, required: true },
+  AssignedDate: { type: Date, required: true },
+  TaskStatus: { type: String, required: true }
 });
 
 const HousekeepingDetail = model("housekeepings", housekeepingSchema);
