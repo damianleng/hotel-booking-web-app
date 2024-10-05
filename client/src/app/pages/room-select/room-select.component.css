@@ -1,0 +1,253 @@
+/* Hero Section with Background Image */
+.hero-section {
+    background-image: url('/assets/images/AKG.png');
+    background-size: cover;
+    background-position: center;
+    height: 300px; /* Adjust height as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Dark Overlay for the Background Image */
+.overlay {
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Date and Guest Selection Styling */
+.date-selection {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
+    border-radius: 8px;
+}
+
+/* Room Selection Column */
+.room-selection {
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    margin-top: 30px; /* Space below the header */
+}
+
+/* Room Cards */
+.room-card {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;;
+}
+
+.room-details h5 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+.room-details p {
+    margin: 5px 0 15px;
+}
+
+.room-details .btn {
+    margin-top: 10px; /* Adjust this value for more space */
+}
+
+.room-title {
+    display: flex;
+    align-items: center; /* Aligns the icon and text on the same line */
+}
+
+.capacity-icon {
+    margin-left: 8px; /* Adjust spacing between text and icon */
+    font-size: 1.45rem; /* Adjust the icon size */
+    vertical-align: middle;
+}
+
+/* Price Summary Column (Desktop Only) */
+.price-summary {
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: white;
+    border-radius: 8px;
+    margin-top: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.price-content {
+    margin-top: 20px;
+}
+
+.book-now-btn {
+    margin-top: 20px;
+}
+
+.price-summary h5 {
+    font-size: 1.5rem;
+}
+
+.price-summary p {
+    margin: 10px 0;
+}
+
+.price-summary .btn {
+    width: 100%;
+}
+
+/* Trashcan Icon Styling */
+.delete-icon {
+    cursor: pointer;
+    color: #e53935; /* Red color for delete */
+    font-size: 24px;
+    vertical-align: middle; /* Align with the text */
+    transition: color 0.3s ease;
+  }
+  
+  .delete-icon:hover {
+    color: #d32f2f; /* Darker red on hover */
+  }
+  
+
+/* Room Image Styling */
+.room-image {
+    width: 100%; /* Full width */
+    height: 300px; /* Fixed height for all images */
+    object-fit: cover; /* Ensure the images fill the space while maintaining aspect ratio */
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+/* Mobile Booking Summary (Full Width, Price Left, Button Right) */
+.mobile-summary-full {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    padding: 10px 15px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+/* Text Section on the Left */
+.summary-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-text p {
+    margin: 0;
+    font-weight: bold;
+}
+
+/* Button on the Right */
+.mobile-summary-full .btn {
+    padding: 10px 20px; /* Adjust padding as needed */
+    background-color: #007BFF;
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+    box-shadow: none;
+    border: none;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px; 
+    line-height: normal;
+}
+
+/* Hide mobile booking summary on larger screens */
+@media only screen and (min-width: 600px) {
+    .mobile-summary-full {
+        display: none;
+    }
+
+}
+
+/* Mobile-specific layout for adjusting the form position */
+@media (max-width: 600px) {
+    .room-image {
+        height: 200px; /* Adjust the height for mobile devices */
+    }
+    
+    header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1050; /* Ensure the header is above all content */
+    }
+
+    .container {
+        margin-top: 30px; /* Adjust this value based on the actual height of your header */
+    }
+
+    .hero-section {
+        padding-top: 40px; /* Reduce padding to move content up */
+        height: 400px; /* Adjust height to make room for the content */
+        display: flex;
+        align-items: flex-start; /* Move content to start closer to the top */
+    }
+
+    /* Adjusting the .date-selection class specifically for mobile */
+    .date-selection {
+        margin-bottom: 100px; /* Additional top margin to push it down */
+        padding: 10px; /* Ensure padding is sufficient but not too large */
+        background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+        border-radius: 8px;
+        box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+    }
+
+    .mobile-summary-full {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 10px 15px;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+        z-index: 1000; /* Ensures this is above other content but below the header */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 1200px) {
+    /* Adjust width of the room selection and booking summary */
+    .col.s12.m8 {
+        width: 56%;
+    }
+
+    .col.s12.m4 {
+        width: 44%;
+    }
+
+    .room-image {
+        height: 250px; /* Adjust the height for images in tablet */
+    }
+
+    .price-summary {
+        padding: 25px;
+    }
+
+    .price-summary h5 {
+        font-size: 1.4rem;
+    }
+
+    .price-summary p {
+        margin: 12px 0;
+    }
+
+}
+
+
