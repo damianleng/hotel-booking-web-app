@@ -2,6 +2,8 @@
 .DS_Store
 
 # Environment variables
-.env
+/server/config.env
 
-# Test
+# ignore node_modules
+/server/node_modules
+/client/node_modules
