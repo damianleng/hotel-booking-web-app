@@ -3,24 +3,29 @@
         <div class="container">
             <div class="date-selection">
                 <!-- Date and Guest Selection -->
-                <div class="row">
-                    <div class="col s12 m3">
-                        <label for="checkin-date">Check-in Date</label>
-                        <input id="checkin-date" type="date" class="datepicker">
+                <form class="row" (submit)="continueSearch()" (submit)="resetSelection()">
+                    <div class="row">
+                        <div class="col s12 m3">
+                            <label for="checkin-date">Check-in Date</label>
+                            <input id="checkin-date" type="date" [(ngModel)]="checkInDate" name="checkInDate" (change)="validateDates()" [min]="today">
+                        </div>
+                        <div class="col s12 m3">
+                            <label for="checkout-date">Check-out Date</label>
+                            <input id="checkout-date" type="date" [(ngModel)]="checkOutDate" name="checkOutDate" (change)="validateDates()">
+                        </div>
+                        <div class="col s12 m3">
+                            <label for="Adults">Adults</label>
+                            <input placeholder="Adults" type="number" [(ngModel)]="adults" name="adults" class="black-text" (input)="validateDates()">
+                        </div>
+                        <div class="col s12 m3">
+                            <label for="childrens">Children</label>
+                            <input placeholder="Children" type="number" [(ngModel)]="children" name="children" class="black-text">
+                        </div>
                     </div>
-                    <div class="col s12 m3">
-                        <label for="checkout-date">Check-out Date</label>
-                        <input id="checkout-date" type="date" class="datepicker">
+                    <div class="center">
+                        <button type="submit" class="btn blue-grey" [disabled]="!isFormValid">Search</button>
                     </div>
-                    <div class="col s12 m3">
-                        <label for="Adults">Adults</label>
-                        <input placeholder="Adults" type="number" class="black-text">
-                    </div>
-                    <div class="col s12 m3">
-                        <label for="childrens">Childrens</label>
-                        <input placeholder="Childrens" type="number" class="black-text">
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -32,22 +37,20 @@
         <div class="col s12 m8">
             <div class="room-selection">
                 <h4>Select a Room</h4>
-                <div class="room-card" *ngFor="let room of rooms">
+                <div class="room-card" *ngFor="let room of availableRooms">
                     <div class="room-details">
                         <!-- Room Image -->
-                        <img [src]="room.image" alt="{{ room.name }} Image" class="room-image">
-                        
+                        <img [src]="room.Image" alt="{{ room.RoomType }} Image" class="room-image">
+
                         <!-- Room Details -->
                         <h5 class="room-title">
-                            {{ room.name }} 
-                            <i class="material-icons capacity-icon">person</i> {{ room.capacity }}
-                        </h5>          
-                        <p><strong>Price: {{ room.price }} per night</strong></p>
-                        <p>Amenities: {{ room.amenities.join(', ') }}</p>
-                        <button 
-                          class="btn waves-effect blue-grey darken-2" 
-                          (click)="selectRoom(room)">
-                          Select Room
+                            {{ room.RoomType }}
+                            <i class="material-icons capacity-icon">person</i> {{ room.MaxPeople }}
+                        </h5>
+                        <p><strong>Price: {{ room.Price | currency: 'USD' }} per night</strong></p>
+                        <p>Amenities: {{ room.Amenities.join(', ') }}</p>
+                        <button class="btn blue-grey" (click)="selectRoom(room)" [disabled]="selectedRoom === room">
+                            Select Room
                         </button>
                     </div>
                 </div>
@@ -58,21 +61,19 @@
         <div class="col s12 m4 hide-on-small-only">
             <div class="price-summary card">
                 <div class="card-content">
-                    <h5>Booking Summary  
+                    <h5>Booking Summary
                         <!-- Add the trashcan icon here to reset the booking summary -->
-                        <span *ngIf="selectedRoom" class="material-icons delete-icon" (click)="resetSelection()"> delete </span>
+                        <span *ngIf="selectedRoom" class="material-icons delete-icon" (click)="resetSelection()"> delete
+                        </span>
                     </h5>
-                    <p><strong>Selected Room:</strong> {{ selectedRoom?.name || 'None' }} </p> 
+                    <p><strong>Selected Room:</strong> {{ selectedRoom?.RoomType || 'None' }} </p>
                     <p><strong>Total Price:</strong> USD {{ totalPrice || 0 }}.00</p>
-                    <p><strong>Stay Duration:</strong> {{ stayDuration }} nights</p>
+                    <p><strong>Stay Duration:</strong> {{ stayDuration }}</p>
                     <p><strong>Number of Guests:</strong> {{ guests }}</p>
-                    
-                    <button 
-                      class="btn waves-effect blue-grey darken-2" 
-                      [routerLink]="['/checkout']"
-                      (click)="bookNow()"
-                      [disabled]="!selectedRoom"> <!-- Disable if no room selected -->
-                      Book Now
+
+                    <button class="btn waves-effect blue-grey darken-2" [routerLink]="['/checkout']" (click)="bookNow()"
+                        [disabled]="!selectedRoom"> <!-- Disable if no room selected -->
+                        Book Now
                     </button>
                 </div>
             </div>
@@ -82,7 +83,10 @@
         <div class="mobile-summary-full hide-on-med-and-up">
             <div class="summary-text">
                 <p><strong>USD {{ totalPrice || 0 }}.00</strong></p>
-                <p>{{ guests }} room{{ guests > 1 ? 's' : '' }} | {{ guests }} guest{{ guests > 1 ? 's' : '' }}</p>
+                <p>
+                    {{ selectedRoom?.RoomType ? selectedRoom.RoomType + ' room' : 'None' }} |
+                    {{ guests }} guest{{ guests > 1 ? 's' : '' }}
+                  </p>                  
             </div>
             <button class="btn waves-effect blue-grey darken-2" (click)="openBookingSummary()">Book</button>
         </div>
@@ -91,20 +95,17 @@
     <!-- Mobile Booking Summary Modal -->
     <div id="mobileBookingSummary" class="modal bottom-sheet">
         <div class="modal-content">
-            <h5>Booking Summary 
+            <h5>Booking Summary
                 <!-- Add the trashcan icon here to reset the booking summary -->
                 <span *ngIf="selectedRoom" class="material-icons delete-icon" (click)="resetSelection()"> delete </span>
             </h5>
-            <p><strong>Selected Room:</strong> {{ selectedRoom?.name || 'None' }}</p>
+            <p><strong>Selected Room:</strong> {{ selectedRoom?.RoomType || 'None' }}</p>
             <p><strong>Total Price:</strong> USD {{ totalPrice || 0 }}.00</p>
-            <p><strong>Stay Duration:</strong> {{ stayDuration }} nights</p>
+            <p><strong>Stay Duration:</strong> {{ stayDuration }}</p>
             <p><strong>Number of Guests:</strong> {{ guests }}</p>
-            <button 
-              class="btn waves-effect blue-grey darken-2"
-              [routerLink]="['/checkout']"
-              (click)="bookNow()"
-              [disabled]="!selectedRoom">
-              Confirm Booking
+            <button class="btn waves-effect blue-grey darken-2" [routerLink]="['/checkout']" (click)="bookNow()"
+                [disabled]="!selectedRoom">
+                Confirm Booking
             </button>
         </div>
     </div>

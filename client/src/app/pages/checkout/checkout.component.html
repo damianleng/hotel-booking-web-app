@@ -1,149 +1,127 @@
 <div class="container">
-    <div class="row">
-      <div class="col s12 m8">
-        <!-- Room and Price Details -->
-        <div class="room-summary card">
-          <div class="card-content">
-            <div class="room-summary-content">
-              <!-- Left: Image -->
-              <div class="room-image">
-                <img [src]="selectedRoom.image" alt="{{ selectedRoom.name }} Image" class="responsive-img">
-              </div>
-              <!-- Right: Room Details -->
-              <div class="room-details">
-                <h5>{{ selectedRoom.name }}</h5>
-                <p>Guests: {{ guests }} guests</p>
-                <p>Amenities: {{ selectedRoom.amenities.join(', ') }}</p>
-                <p><strong>Price: USD {{ totalPrice }}.00</strong></p>
-              </div>
+  <div class="row">
+    <div class="col s12 m8">
+      <!-- Room and Price Details -->
+      <div class="room-summary card">
+        <div class="card-content">
+          <div class="room-summary-content">
+            <!-- Left: Image -->
+            <div class="room-image">
+              <img [src]="image" alt="{{ roomType }} Image" class="responsive-img">
+            </div>
+            <!-- Right: Room Details -->
+            <div class="room-details">
+              <h5>{{ roomType }}</h5>
+              <p>Guests: {{ guests }} guests</p>
+              <p>Amenities: {{ amenities }}</p>
+              <p><strong>Price: {{ price | currency: 'USD' }}</strong></p>
             </div>
           </div>
         </div>
-  
-        <!-- Your Details Section -->
-        <form (ngSubmit)="onSubmit(f)" #f="ngForm" class="checkout-form card">
-          <div class="card-content">
-            <h5>Your Details</h5>
-            <div class="row">
-              <div class="input-field col s6">
-                <input id="first_name" type="text" class="validate" required [(ngModel)]="firstName" name="firstName">
-                <label for="first_name">First Name</label>
-              </div>
-              <div class="input-field col s6">
-                <input id="last_name" type="text" class="validate" required [(ngModel)]="lastName" name="lastName">
-                <label for="last_name">Last Name</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s6">
-                <input id="email" type="email" class="validate" required [(ngModel)]="email" name="email">
-                <label for="email">E-mail</label>
-              </div>
-              <div class="input-field col s6">
-                <input id="confirm_email" type="email" class="validate" required [(ngModel)]="confirmEmail" name="confirmEmail">
-                <label for="confirm_email">Confirm E-mail</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s6">
-                <input id="phone" type="tel" class="validate" required [(ngModel)]="phone" name="phone">
-                <label for="phone">Phone</label>
-              </div>
-              <div class="input-field col s6">
-                <input id="address" type="text" class="validate" required [(ngModel)]="address" name="address">
-                <label for="address">Address</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <textarea id="special_request" class="materialize-textarea" [(ngModel)]="specialRequest" name="specialRequest"></textarea>
-                <label for="special_request">Any personal requests?</label>
-              </div>
-            </div>
-            <div class="button-row">
-              <button type="submit" class="btn waves-effect blue-grey darken-2">Book Now</button>
-            </div>
-          </div>
-        </form>
       </div>
-  
-      <!-- Right Column: Price Summary -->
-      <div class="col s12 m4">
-        <div class="price-summary card">
-          <div class="card-content">
-            <!-- Display total price -->
-            <h5>USD {{ totalPrice }} total</h5>
-            <p>{{ stayDuration }} nights</p>
-            <p>{{ guests }} guest{{ guests > 1 ? 's' : '' }}</p>
-  
-            <!-- Stay details toggle -->
-            <a (click)="toggleDetails()" style="cursor:pointer">
-              <strong>Stay details</strong>
-              <span [ngClass]="{'rotate': detailsVisible}">&#9650;</span>
-            </a>
-  
-            <!-- Stay details content -->
-            <div *ngIf="detailsVisible" class="details-content">
-              <p>{{ selectedRoom.name }} - Book Direct Rate</p>
-              <p>{{ guests }} guest{{ guests > 1 ? 's' : '' }} for {{ stayDuration }} night{{ stayDuration > 1 ? 's' : '' }}</p>
-              <p>USD {{ totalPrice }}.00</p>
+
+      <!-- Your Details Section -->
+      <form class="checkout-form card">
+        <div class="card-content">
+          <h5>Your Details</h5>
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="first_name" type="text" class="validate" required [(ngModel)]="firstName" name="firstName">
+              <label for="first_name">First Name</label>
             </div>
-  
-            <!-- Total and taxes/fees toggle -->
-            <h6>Total</h6>
-            <a (click)="toggleFees()" style="cursor:pointer">
-              Includes taxes + fees
-              <span [ngClass]="{'rotate': feesVisible}">&#9650;</span>
-            </a>
-  
-            <!-- Taxes and fees breakdown -->
-            <div *ngIf="feesVisible" class="details-content">
-              <p>Accommodation Tax: USD {{ accommodationTax }}</p>
-              <p>VAT: USD {{ vat }}</p>
-              <p>Service Charge: USD {{ serviceCharge }}</p>
+            <div class="input-field col s6">
+              <input id="last_name" type="text" class="validate" required [(ngModel)]="lastName" name="lastName">
+              <label for="last_name">Last Name</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="email" type="email" class="validate" required [(ngModel)]="email" name="email">
+              <label for="email">E-mail</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="phone" type="tel" class="validate" required [(ngModel)]="phone" name="phone">
+              <label for="phone">Phone</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="address" type="text" class="validate" required [(ngModel)]="address" name="address">
+              <label for="address">Address</label>
+            </div>
+          </div>
+          
+          <!-- Do something here -->
+           <div class="row" *ngIf="paymentMethod === 'creditCard'">
+            <div class="col s12">
+              <app-payment [totalPrice]="totalPrice" (paymentSuccess)="onPaymentSuccess()"></app-payment>
+            </div>
+           </div>
+           <div class="row">
+            <div class="col m6 s12">
+            <button class="btn waves-effect blue-grey" [disabled]="isLoading" (click)="handleCheckout()">
+              <span *ngIf="!isLoading">Pay Now</span>
+              <span *ngIf="isLoading">Processing...</span>
+            </button>
             </div>
           </div>
         </div>
-  
-        <!-- Payment Method Section -->
-        <div class="payment-method card">
-          <div class="card-content">
-            <h5>Payment Method</h5>
-            <div class="row">
-              <div class="input-field col s12">
-                <label>
-                  <input name="paymentMethod" type="radio" value="creditCard" [(ngModel)]="paymentMethod" required>
-                  <span>Credit/Debit Card</span>
-                </label>
-              </div>
-              <div class="input-field col s12">
-                <label>
-                  <input name="paymentMethod" type="radio" value="paypal" [(ngModel)]="paymentMethod">
-                  <span>PayPal</span>
-                </label>
-              </div>
-            </div>
-            <div class="row" *ngIf="paymentMethod === 'creditCard'">
-              <div class="input-field col s12">
-                <input id="cardName" type="text" required [(ngModel)]="cardName" name="cardName">
-                <label for="cardName">Name on card</label>
-              </div>
-              <div class="input-field col s12">
-                <input id="cardNumber" type="text" required [(ngModel)]="cardNumber" name="cardNumber">
-                <label for="cardNumber">Card number</label>
-              </div>
-              <div class="input-field col s8">
-                <input id="expiryDate" type="text" required [(ngModel)]="expiryDate" name="expiryDate">
-                <label for="expiryDate">Expiry Date (MM/YY)</label>
-              </div>
-              <div class="input-field col s4">
-                <input id="cvv" type="text" required [(ngModel)]="cvv" name="cvv">
-                <label for="cvv">CVV</label>
-              </div>
+      </form>
+    </div>
+
+    <!-- Right Column: Price Summary -->
+    <div class="col s12 m4">
+      <div class="price-summary card">
+        <div class="card-content">
+          <!-- Display total price -->
+          <h5>Total: {{ totalPrice | currency: 'USD' }}</h5>
+          <p>{{ stayDuration }} nights</p>
+          <p>{{ guests }} guest{{ guests > 1 ? 's' : '' }}</p>
+
+          <!-- Stay details toggle -->
+          <a (click)="toggleDetails()" style="cursor:pointer">
+            <strong>Stay details</strong>
+            <span [ngClass]="{'rotate': detailsVisible}">&#9650;</span>
+          </a>
+
+          <!-- Stay details content -->
+          <div *ngIf="detailsVisible" class="details-content">
+            <p>{{ roomType }} - Book Direct Rate</p>
+            <p>{{ guests }} guest{{ guests > 1 ? 's' : '' }} for {{ stayDuration }} night{{ stayDuration > 1 ? 's' : ''
+              }}</p>
+            <p> Price: {{ price | currency: 'USD' }}</p>
+          </div>
+
+          <!-- Total and taxes/fees toggle -->
+          <h6>Receipt</h6>
+          <a (click)="toggleFees()" style="cursor:pointer">
+            Includes taxes + fees
+            <span [ngClass]="{'rotate': feesVisible}">&#9650;</span>
+          </a>
+
+          <!-- Taxes and fees breakdown -->
+          <div *ngIf="feesVisible" class="details-content">
+            <p>Accommodation Tax: {{ accomodationTax | currency: 'USD' }}</p>
+            <p>VAT: USD {{ vat | currency: 'USD' }}</p>
+            <p>Service Charge: {{ serviceCharge | currency: 'USD' }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Method Section -->
+      <div class="payment-method card">
+        <div class="card-content">
+          <h5>Payment Method</h5>
+          <div class="row">
+            <div class="input-field col s12">
+              <label>
+                <input name="paymentMethod" type="radio" value="creditCard" [(ngModel)]="paymentMethod" required>
+                <span>Credit/Debit Card</span>
+              </label>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

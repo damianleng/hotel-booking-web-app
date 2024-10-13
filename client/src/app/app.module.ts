@@ -11,6 +11,9 @@ import { FooterComponent } from './components/footer/footer.component';
 import { RoomSelectComponent } from './pages/room-select/room-select.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { PaymentComponent } from './components/payment/payment.component';
+
 
 
 @NgModule({
@@ -23,11 +26,13 @@ import { FormsModule } from '@angular/forms';
     FooterComponent,
     RoomSelectComponent,
     CheckoutComponent,
+    PaymentComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

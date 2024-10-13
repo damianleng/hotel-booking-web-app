@@ -13,29 +13,29 @@
                     <div class="card overlay-form">
                         <div class="card-content white-text">
                             <span class="card-title">Start Booking</span>
-                            <form class="row">
+                            <form class="row" (submit)="searchRooms()">
                                 <div class="input-field col s12 m6">
                                     <i class="material-icons prefix blue-grey-text">perm_contact_calendar</i>
-                                    <input placeholder="Check-in" type="date" class="datepicker white-text">
+                                    <input placeholder="Check-in" type="date" [(ngModel)]="checkIn" name="check-in-date" (change)="validateDates()" [min]="today"  class="datepicker white-text">
                                 </div>
                                 <div class="input-field col s12 m6">
                                     <i class="material-icons prefix blue-grey-text">perm_contact_calendar</i>
-                                    <input placeholder="Check-out" type="date" class="datepicker white-text">
+                                    <input placeholder="Check-out" type="date" [(ngModel)]="checkOut" name="check-out-date" (change)="validateDates()" [min]="checkIn" class="datepicker white-text" >
                                 </div>
                                 <div class="input-field col s12 m6">
                                     <i class="material-icons prefix blue-grey-text">person</i>
-                                    <input placeholder="Adults" type="number" class="white-text">
+                                    <input placeholder="Adults" type="number" [(ngModel)]="adults" name="adults" (input)="validateDates()" class="white-text">
                                 </div>
                                 <div class="input-field col s12 m6">
                                     <i class="material-icons prefix blue-grey-text">person</i>
-                                    <input placeholder="Children" type="number" class="white-text">
+                                    <input placeholder="Children" type="number" [(ngModel)]="children" name="children" class="white-text">
+                                </div>
+                                <div class="center">
+                                    <button type="submit"  class="btn blue-grey" [disabled]="!isFormValid">
+                                        Book Now
+                                    </button>
                                 </div>
                             </form>
-                            <div class="card-action center">
-                                <button class="btn waves-effect waves-light blue-grey darken-2" [routerLink]="['/room-select']">
-                                    Book Now
-                                </button>
-                            </div>
                         </div>
                     </div>
                 </div>

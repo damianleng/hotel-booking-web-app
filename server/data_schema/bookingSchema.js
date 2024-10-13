@@ -1,15 +1,26 @@
+// Initialize mongoose model
 const mongoose = require("mongoose");
 
-const { Schema, model } = mongoose;
-
-const bookingSchema = new Schema({
-  BookingID: { type: String, required: true },
-  UserID: { type: String, required: true },
-  RoomID: { type: String, required: true },
+// Create a booking Schema
+const bookingSchema = new mongoose.Schema({
+  UserID: { type: String, required: false },
+  RoomID: {
+    type: mongoose.Schema.Types.ObjectId, // Reference to Room _id
+    ref: "rooms", // Reference the 'rooms' collection
+    require: true,
+  },
   CheckInDate: { type: Date, required: true },
   CheckOutDate: { type: Date, required: true },
-  BookingStatus: { type: String, required: true }
+  RoomType: { type: String, required: true },
+  BookingStatus: { type: String, required: true, default: "Pending" },
+  Guests: { type: Number, required: true },
+  FirstName: { type: String, required: true },
+  LastName: { type: String, required: true },
+  Email: { type: String, required: true },
+  Phone: { type: String, required: true },
+  Address: { type: String, required: true },
 });
 
-const BookingDetail = model("bookings", bookingSchema);
+// Build the model and export
+const BookingDetail = mongoose.model("bookings", bookingSchema);
 module.exports = BookingDetail;
