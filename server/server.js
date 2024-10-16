@@ -1,6 +1,7 @@
 // modules
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const authRoutes = require("./routes/authRoutes");
 
 // initialize config.env
 dotenv.config({ path: "./config.env" });
@@ -23,6 +24,8 @@ mongoose
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error);
   });
+
+app.use('/api/auth', authRoutes);
 
 const port = process.env.PORT || 3000;
 
