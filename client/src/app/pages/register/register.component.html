@@ -7,22 +7,22 @@
           <h6>Sign Up for Booking</h6>
         </div>
         <div class="input-field">
-          <input id="email" type="email" class="validate white-text" placeholder="Email">
+          <input id="email" type="email" class="validate white-text" placeholder="Email" [(ngModel)]="email">
         </div>
         <div class="input-field">
-          <input id="password" type="password" class="validate white-text" placeholder="Password">
+          <input id="password" type="password" class="validate white-text" placeholder="Password" [(ngModel)]="password">
         </div>
         <div class="input-field">
-          <input id="re-password" type="password" class="validate white-text" placeholder="Re-type Password">
+          <input id="re-password" type="password" class="validate white-text" placeholder="Re-type Password" [(ngModel)]="rePassword">
         </div>
         <div class="input-field">
-          <input id="first-name" type="text" class="validate white-text" placeholder="First Name">
+          <input id="first-name" type="text" class="validate white-text" placeholder="First Name" [(ngModel)]="firstName">
         </div>
         <div class="input-field">
-          <input id="last-name" type="text" class="validate white-text" placeholder="Last Name">
+          <input id="last-name" type="text" class="validate white-text" placeholder="Last Name" [(ngModel)]="lastName">
         </div>
         <div class="modal-footer">
-          <button class="btn wave-effect waves-light">Register</button>
+          <button class="btn wave-effect waves-light" (click)="register()">Register</button>
           <!-- Close button inside the modal -->
           <button class="btn-flat white-text modal-close" (click)="closeRegister()">Cancel</button>
         </div>
