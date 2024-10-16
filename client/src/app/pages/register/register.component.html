@@ -8,39 +8,39 @@
       </div>
       <form [formGroup]="registerForm" (ngSubmit)="register()">
         <div class="input-field">
-          <input id="email" type="email" class="validate white-text" placeholder="Email" formControlName="email">
+          <input id="email" type="email" class="validate white-text" placeholder="Email" formControlName="email" [ngClass]="{'ng-invalid': registerForm.get('email')?.invalid && registerForm.get('email')?.touched}">
           <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="error">
             <small *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</small>
             <small *ngIf="registerForm.get('email')?.errors?.['email']">Invalid email format.</small>
           </div>
         </div>
         <div class="input-field">
-          <input id="password" type="password" class="validate white-text" placeholder="Password" formControlName="password">
+          <input id="password" type="password" class="validate white-text" placeholder="Password" formControlName="password" [ngClass]="{'ng-invalid': registerForm.get('password')?.invalid && registerForm.get('password')?.touched}">
           <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error">
             <small *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</small>
             <small *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters long.</small>
           </div>
         </div>
         <div class="input-field">
-          <input id="re-password" type="password" class="validate white-text" placeholder="Re-type Password" formControlName="rePassword">
+          <input id="re-password" type="password" class="validate white-text" placeholder="Re-type Password" formControlName="rePassword" [ngClass]="{'ng-invalid': registerForm.get('rePassword')?.invalid && registerForm.get('rePassword')?.touched}">
           <div *ngIf="registerForm.get('rePassword')?.invalid && registerForm.get('rePassword')?.touched" class="error">
             <small *ngIf="registerForm.get('rePassword')?.errors?.['required']">Re-type Password is required.</small>
           </div>
         </div>
         <div class="input-field">
-          <input id="first-name" type="text" class="validate white-text" placeholder="First Name" formControlName="firstName">
+          <input id="first-name" type="text" class="validate white-text" placeholder="First Name" formControlName="firstName" [ngClass]="{'ng-invalid': registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched}">
           <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched" class="error">
             <small *ngIf="registerForm.get('firstName')?.errors?.['required']">First Name is required.</small>
           </div>
         </div>
         <div class="input-field">
-          <input id="last-name" type="text" class="validate white-text" placeholder="Last Name" formControlName="lastName">
+          <input id="last-name" type="text" class="validate white-text" placeholder="Last Name" formControlName="lastName" [ngClass]="{'ng-invalid': registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched}">
           <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched" class="error">
             <small *ngIf="registerForm.get('lastName')?.errors?.['required']">Last Name is required.</small>
           </div>
         </div>
         <div class="input-field">
-          <input id="phone-number" type="text" class="validate white-text" placeholder="Phone Number" formControlName="phoneNumber">
+          <input id="phone-number" type="text" class="validate white-text" placeholder="Phone Number" formControlName="phoneNumber" [ngClass]="{'ng-invalid': registerForm.get('phoneNumber')?.invalid && registerForm.get('phoneNumber')?.touched}">
           <div *ngIf="registerForm.get('phoneNumber')?.invalid && registerForm.get('phoneNumber')?.touched" class="error">
             <small *ngIf="registerForm.get('phoneNumber')?.errors?.['required']">Phone Number is required.</small>
             <small *ngIf="registerForm.get('phoneNumber')?.errors?.['pattern']">Phone Number must be 10 digits.</small>

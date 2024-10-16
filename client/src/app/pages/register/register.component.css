@@ -26,3 +26,13 @@
     gap: 10px;
   }
   
+  /* Style for error messages */
+.error small {
+  color: red;
+}
+
+/* Style for invalid input fields */
+input.ng-invalid.ng-touched {
+  border-bottom: 1px solid red;
+  box-shadow: 0 1px 0 0 red;
+}
