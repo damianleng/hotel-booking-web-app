@@ -5,6 +5,7 @@ const cors = require("cors");
 const bookingRoutes = require("./routes/bookingRoutes");
 const roomRoutes = require("./routes/roomRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 // Initialize expressJS and port
 const app = express();
@@ -20,5 +21,6 @@ app.use(bodyParser.json());
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/rooms", roomRoutes);
 app.use("/api/payments", paymentRoutes);
+app.use("/api/users", userRoutes);
 
 module.exports = app;
