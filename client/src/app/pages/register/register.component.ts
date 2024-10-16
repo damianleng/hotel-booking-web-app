@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service'; 
 import { Router } from '@angular/router';
 
@@ -9,39 +10,50 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   @Output() closeModalEvent = new EventEmitter<void>();
+  registerForm!: FormGroup;
 
-  email: string = '';
-  password: string = '';
-  rePassword: string = '';
-  firstName: string = '';
-  lastName: string = '';
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
-  constructor(private authService: AuthService, private router: Router) { }
-
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.registerForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      rePassword: ['', [Validators.required]],
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]]
+    });
+  }
 
   register() {
-    console.log('Register button clicked');
-    if (this.password !== this.rePassword) {
+    if (this.registerForm.invalid) {
+      return;
+    }
+
+    const { email, password, rePassword, firstName, lastName, phoneNumber } = this.registerForm.value;
+
+    if (password !== rePassword) {
       alert('Passwords do not match');
       return;
     }
 
     const user = {
-      email: this.email,
-      password: this.password,
-      name: `${this.firstName} ${this.lastName}`,
-      phoneNumber: '1234567890', // Add phone number if needed
+      email,
+      password,
+      name: `${firstName} ${lastName}`,
+      phoneNumber,
       role: 'user' // Default role
     };
-
-    console.log('User data:', user);
 
     this.authService.register(user).subscribe(
       response => {
         console.log('Registration successful', response);
         this.router.navigate(['/room-select']);
-        this.closeRegister();
+        this.closeRegister(); // Close the registration form
       },
       error => {
         console.error('Registration failed', error);

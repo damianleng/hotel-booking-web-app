@@ -1,32 +1,57 @@
 <!-- Modal background -->
 <div class="modal-background" (click)="closeRegister($event)">
-    <!-- Modal container (clicking here should NOT close the modal) -->
-    <div class="modal-container blue-grey white-text" (click)="$event.stopPropagation()">
-      <div class="container">
-        <div class="center">
-          <h6>Sign Up for Booking</h6>
+  <!-- Modal container (clicking here should NOT close the modal) -->
+  <div class="modal-container blue-grey white-text" (click)="$event.stopPropagation()">
+    <div class="container">
+      <div class="center">
+        <h6>Sign Up for Booking</h6>
+      </div>
+      <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <div class="input-field">
+          <input id="email" type="email" class="validate white-text" placeholder="Email" formControlName="email">
+          <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="error">
+            <small *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</small>
+            <small *ngIf="registerForm.get('email')?.errors?.['email']">Invalid email format.</small>
+          </div>
         </div>
         <div class="input-field">
-          <input id="email" type="email" class="validate white-text" placeholder="Email" [(ngModel)]="email">
+          <input id="password" type="password" class="validate white-text" placeholder="Password" formControlName="password">
+          <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error">
+            <small *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</small>
+            <small *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters long.</small>
+          </div>
         </div>
         <div class="input-field">
-          <input id="password" type="password" class="validate white-text" placeholder="Password" [(ngModel)]="password">
+          <input id="re-password" type="password" class="validate white-text" placeholder="Re-type Password" formControlName="rePassword">
+          <div *ngIf="registerForm.get('rePassword')?.invalid && registerForm.get('rePassword')?.touched" class="error">
+            <small *ngIf="registerForm.get('rePassword')?.errors?.['required']">Re-type Password is required.</small>
+          </div>
         </div>
         <div class="input-field">
-          <input id="re-password" type="password" class="validate white-text" placeholder="Re-type Password" [(ngModel)]="rePassword">
+          <input id="first-name" type="text" class="validate white-text" placeholder="First Name" formControlName="firstName">
+          <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched" class="error">
+            <small *ngIf="registerForm.get('firstName')?.errors?.['required']">First Name is required.</small>
+          </div>
         </div>
         <div class="input-field">
-          <input id="first-name" type="text" class="validate white-text" placeholder="First Name" [(ngModel)]="firstName">
+          <input id="last-name" type="text" class="validate white-text" placeholder="Last Name" formControlName="lastName">
+          <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched" class="error">
+            <small *ngIf="registerForm.get('lastName')?.errors?.['required']">Last Name is required.</small>
+          </div>
         </div>
         <div class="input-field">
-          <input id="last-name" type="text" class="validate white-text" placeholder="Last Name" [(ngModel)]="lastName">
+          <input id="phone-number" type="text" class="validate white-text" placeholder="Phone Number" formControlName="phoneNumber">
+          <div *ngIf="registerForm.get('phoneNumber')?.invalid && registerForm.get('phoneNumber')?.touched" class="error">
+            <small *ngIf="registerForm.get('phoneNumber')?.errors?.['required']">Phone Number is required.</small>
+            <small *ngIf="registerForm.get('phoneNumber')?.errors?.['pattern']">Phone Number must be 10 digits.</small>
+          </div>
         </div>
         <div class="modal-footer">
-          <button class="btn wave-effect waves-light" (click)="register()">Register</button>
+          <button class="btn wave-effect waves-light" type="submit" [disabled]="registerForm.invalid">Register</button>
           <!-- Close button inside the modal -->
           <button class="btn-flat white-text modal-close" (click)="closeRegister()">Cancel</button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
-  
+</div>
