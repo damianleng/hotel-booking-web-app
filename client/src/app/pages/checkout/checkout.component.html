@@ -54,8 +54,6 @@
           <!-- Do something here -->
            <div class="row" *ngIf="paymentMethod === 'creditCard'">
             <div class="col s12">
-              <h5>Payment Details</h5>
-              <br>
               <app-payment [totalPrice]="totalPrice" (paymentSuccess)="onPaymentSuccess()"></app-payment>
             </div>
            </div>
@@ -120,11 +118,6 @@
                 <input name="paymentMethod" type="radio" value="creditCard" [(ngModel)]="paymentMethod" required>
                 <span>Credit/Debit Card</span>
               </label>
-              <div class="row" *ngIf="paymentMethod === 'creditCard'">
-                <div class="col s12">
-                  <app-payment [totalPrice]="totalPrice" (paymentSuccess)="onPaymentSuccess()"></app-payment>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -132,6 +125,3 @@
     </div>
   </div>
 </div>
-
-
-

@@ -29,6 +29,7 @@ exports.fetchBookings = async () => {
 // function to create booking and save to model
 exports.createBooking = async (bookingData) => {
   const newBooking = new BookingDetail(bookingData);
+  newBooking.BookingStatus = "Booked";
   return await newBooking.save();
 };
 
