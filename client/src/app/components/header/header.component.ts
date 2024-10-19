@@ -11,6 +11,7 @@ export class HeaderComponent implements OnInit {
   isLoginVisible = false;
   isRegisterVisible = false;
   isAuthenticated = false;
+  user: any = null;
   
   openLogin() {
     this.isLoginVisible = true;
@@ -26,11 +27,17 @@ export class HeaderComponent implements OnInit {
   }
 
   checkAuthentication() {
-    this.isAuthenticated = !!localStorage.getItem('token');
+    const token = localStorage.getItem('token');
+    this.isAuthenticated = !!token;
+    if (this.isAuthenticated) {
+      this.user = JSON.parse(localStorage.getItem('user') || '{}');
+    }
   }
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('userId');
     this.checkAuthentication();
     this.router.navigate(['/home']); // Redirect to home after logout
   }

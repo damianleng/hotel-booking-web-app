@@ -38,7 +38,10 @@ export class LoginComponent implements OnInit {
       response => {
         console.log('Login successful', response);
         console.log('Token:', response.token);	
+        console.log('User Information:', response.user);
         localStorage.setItem('token', response.token); // Store the token
+        localStorage.setItem('user', JSON.stringify(response.user)); // Store user information
+        localStorage.setItem('userId', response.user.id);
         this.loginSuccessEvent.emit(); // Emit login success event
         this.closeLogin(); // Close the login form
         this.router.navigate(['/room-select']); // Navigate to the dashboard or desired route

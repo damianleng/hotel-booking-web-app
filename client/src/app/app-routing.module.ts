@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'room-select', component: RoomSelectComponent, canActivate: [AuthGuard] },
+  { path: 'room-select', component: RoomSelectComponent },
   { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
