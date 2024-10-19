@@ -13,6 +13,7 @@ import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PaymentComponent } from './components/payment/payment.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -32,7 +33,8 @@ import { PaymentComponent } from './components/payment/payment.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

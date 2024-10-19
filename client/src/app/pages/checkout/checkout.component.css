@@ -144,28 +144,29 @@ h6 {
     margin-bottom: 20px; /* Adds spacing between cards */
 }
 
-/* Payment Method Styling */
-.payment-method {
-    padding: 20px;
-    margin-top: 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
+/* Hotel Policy Styling */
+.hotel-policy {
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.payment-method h5 {
-    margin-bottom: 15px;
-}
-
-.payment-method .input-field {
-    margin-bottom: 15px;
-}
-
-.payment-method input[type="radio"] + span {
-    font-size: 16px;
-    color: #333;
-}
+    border: 1px solid #e0e0e0;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hotel-policy h5 {
+    font-size: 1.5em;
+    margin-bottom: 16px;
+  }
+  
+  .hotel-policy p {
+    font-size: 1em;
+    margin: 8px 0;
+    color: #555;
+  }
+  
+  .card-content {
+    padding: 16px;
+  }
+  
 
 /* Responsive adjustments for mobile */
 @media (max-width: 600px) {
