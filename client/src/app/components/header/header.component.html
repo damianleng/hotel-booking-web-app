@@ -1,3 +1,4 @@
+<!-- client/src/app/components/header/header.component.html -->
 <nav class="nav-wrapper blue-grey">
   <div class="container">
     <a href="#" class="brand-logo left hide-on-med-and-down"><span><i class="material-icons">hd</i></span> Fonder</a>
@@ -7,23 +8,20 @@
     </a>
     <ul class="right hide-on-med-and-down">
       <li><a routerLink="home">Home</a></li>
-      <li><a (click)="openLogin()">Login</a></li>
-      <li style="font-weight: bold;"><a (click)="openRegister()">Sign Up</a></li>
+      <li *ngIf="!isAuthenticated"><a (click)="openLogin()">Login</a></li>
+      <li *ngIf="!isAuthenticated" style="font-weight: bold;"><a (click)="openRegister()">Sign Up</a></li>
     </ul>
   </div>
 </nav>
-
 <ul class="sidenav blue-grey" id="mobile-links">
   <li><a class="white-text" routerLink="home">Home</a></li>
-  <li><a class="white-text" (click)="openLogin()">Login</a></li>
-  <li><a class="white-text" (click)="openRegister()">Sign Up</a></li>
+  <li *ngIf="!isAuthenticated"><a class="white-text" (click)="openLogin()">Login</a></li>
+  <li *ngIf="!isAuthenticated"><a class="white-text" (click)="openRegister()">Sign Up</a></li>
 </ul>
-
 <!-- Conditional display of the Login -->
 <div *ngIf="isLoginVisible">
-  <app-login (closeModalEvent)="closeModal()"></app-login>
+  <app-login (closeModalEvent)="closeModal()" (loginSuccessEvent)="checkAuthentication()"></app-login>
 </div>
-
 <!-- Conditional display of the Register -->
 <div *ngIf="isRegisterVisible">
   <app-register (closeModalEvent)="closeModal()"></app-register>

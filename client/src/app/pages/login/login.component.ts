@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   @Output() closeModalEvent = new EventEmitter<void>();
+  @Output() loginSuccessEvent = new EventEmitter<void>();
   loginForm!: FormGroup;
 
   constructor(
@@ -38,8 +39,9 @@ export class LoginComponent implements OnInit {
         console.log('Login successful', response);
         console.log('Token:', response.token);	
         localStorage.setItem('token', response.token); // Store the token
-        this.router.navigate(['/room-select']); // Navigate to the dashboard or desired route
+        this.loginSuccessEvent.emit(); // Emit login success event
         this.closeLogin(); // Close the login form
+        this.router.navigate(['/room-select']); // Navigate to the dashboard or desired route
       },
       error => {
         console.error('Login failed', error);

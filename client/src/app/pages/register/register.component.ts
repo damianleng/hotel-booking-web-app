@@ -52,8 +52,8 @@ export class RegisterComponent implements OnInit {
     this.authService.register(user).subscribe(
       response => {
         console.log('Registration successful', response);
-        this.router.navigate(['/room-select']);
         this.closeRegister(); // Close the registration form
+        this.router.navigate(['/home']);
       },
       error => {
         console.error('Registration failed', error);

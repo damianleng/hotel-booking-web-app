@@ -9,6 +9,7 @@ declare var $: any
 export class HeaderComponent implements OnInit {
   isLoginVisible = false;
   isRegisterVisible = false;
+  isAuthenticated = false;
   
   openLogin() {
     this.isLoginVisible = true;
@@ -23,9 +24,14 @@ export class HeaderComponent implements OnInit {
     this.isRegisterVisible = false;
   }
 
+  checkAuthentication() {
+    this.isAuthenticated = !!localStorage.getItem('token');
+  }
+
   constructor() { }
 
   ngOnInit(): void {
+    this.checkAuthentication();
     $(document).ready(function () {
       ($('.sidenav') as any).sidenav();
     });
