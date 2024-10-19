@@ -10,6 +10,7 @@
       <li><a routerLink="home">Home</a></li>
       <li *ngIf="!isAuthenticated"><a (click)="openLogin()">Login</a></li>
       <li *ngIf="!isAuthenticated" style="font-weight: bold;"><a (click)="openRegister()">Sign Up</a></li>
+      <li *ngIf="isAuthenticated"><a (click)="logout()">Logout</a></li>
     </ul>
   </div>
 </nav>
@@ -17,6 +18,7 @@
   <li><a class="white-text" routerLink="home">Home</a></li>
   <li *ngIf="!isAuthenticated"><a class="white-text" (click)="openLogin()">Login</a></li>
   <li *ngIf="!isAuthenticated"><a class="white-text" (click)="openRegister()">Sign Up</a></li>
+  <li *ngIf="isAuthenticated"><a class="white-text" (click)="logout()">Logout</a></li>
 </ul>
 <!-- Conditional display of the Login -->
 <div *ngIf="isLoginVisible">

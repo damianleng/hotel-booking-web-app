@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 declare var $: any
 
@@ -28,7 +29,13 @@ export class HeaderComponent implements OnInit {
     this.isAuthenticated = !!localStorage.getItem('token');
   }
 
-  constructor() { }
+  logout() {
+    localStorage.removeItem('token');
+    this.checkAuthentication();
+    this.router.navigate(['/home']); // Redirect to home after logout
+  }
+
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.checkAuthentication();
