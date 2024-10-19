@@ -47,6 +47,12 @@ exports.createBooking = async (req, res) => {
     const bookingData = req.body;
     const booking = await bookingService.createBooking(bookingData);
 
+    const room = await RoomDetail.findById(bookingData.RoomID);
+    
+    // update the room status to the database
+    room.Status = "Reserved";
+    await room.save();
+
     res.status(201).json({
       status: "success",
       data: {
@@ -115,6 +121,7 @@ exports.deleteBooking = async (req, res) => {
   }
 };
 
+// this function will also check if a room status is reserved or occupied 
 exports.getAvailableRooms = async (req, res) => {
   try {
     const { checkInDate, checkOutDate, maxPeople } = req.query;
