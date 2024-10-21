@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { PaymentComponent } from "src/app/components/payment/payment.component";
 import { BookingService } from "src/app/services/booking.service";
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-checkout",
@@ -48,24 +49,28 @@ export class CheckoutComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private bookingService: BookingService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {}
 
   async ngOnInit() {
     // Initialize the reactive form without paymentMethod
     this.checkoutForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', Validators.required], // No validation pattern for phone
-      address: ['', Validators.required],
+      firstName: ["", Validators.required],
+      lastName: ["", Validators.required],
+      email: ["", [Validators.required, Validators.email]],
+      phone: ["", Validators.required], // No validation pattern for phone
+      address: ["", Validators.required],
     });
 
     this.route.queryParams.subscribe((params) => {
       this.RoomID = params["RoomID"];
       this.roomType = params["roomType"] || "";
       this.guests = +params["guests"] || 0;
-      this.amenities = params["amenities"] instanceof Array ? params["amenities"] : [params["amenities"]];
+      this.amenities =
+        params["amenities"] instanceof Array
+          ? params["amenities"]
+          : [params["amenities"]];
       this.image = decodeURIComponent(params["image"]) || "";
       this.CheckInDate = params["CheckInDate"] || "";
       this.CheckOutDate = params["CheckOutDate"] || "";
@@ -76,12 +81,12 @@ export class CheckoutComponent implements OnInit {
     this.calculate();
 
     // Log form status for debugging
-    this.checkoutForm.statusChanges.subscribe(status => {
-      console.log('Form Status:', status);
+    this.checkoutForm.statusChanges.subscribe((status) => {
+      console.log("Form Status:", status);
     });
 
-    this.checkoutForm.valueChanges.subscribe(value => {
-      console.log('Form Values:', value);
+    this.checkoutForm.valueChanges.subscribe((value) => {
+      console.log("Form Values:", value);
     });
   }
 
@@ -90,11 +95,12 @@ export class CheckoutComponent implements OnInit {
     this.accomodationTax = (this.price * 1.6) / 100;
     this.vat = (this.price * 8.2) / 100;
     this.serviceCharge = (this.price * 8.2) / 100;
-    this.totalPrice = this.price + this.accomodationTax + this.vat + this.serviceCharge;
+    this.totalPrice =
+      this.price + this.accomodationTax + this.vat + this.serviceCharge;
   }
 
   get isFormValid(): boolean {
-    return this.checkoutForm.valid && this.paymentMethod === 'creditCard';
+    return this.checkoutForm.valid && this.paymentMethod === "creditCard";
   }
 
   handleCheckout(): void {
@@ -129,7 +135,8 @@ export class CheckoutComponent implements OnInit {
     // Send POST request to backend
     this.bookingService.createBooking(bookingData).subscribe(
       (response) => {
-        console.log("Booking success:", response);
+        console.log("Booking created!", response);
+        this.router.navigate(["/confirmation"], { replaceUrl: true });
       },
       (error) => {
         console.error("Booking failed:", error);

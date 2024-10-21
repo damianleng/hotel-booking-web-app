@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PaymentComponent } from './components/payment/payment.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 
 
 
@@ -28,6 +29,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     RoomSelectComponent,
     CheckoutComponent,
     PaymentComponent,
+    ConfirmationComponent,
   ],
   imports: [
     BrowserModule,
