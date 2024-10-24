@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
   isRegisterVisible = false;
   isAuthenticated = false;
   user: any = null;
+  userName: string = '';
   
   openLogin() {
     this.isLoginVisible = true;
@@ -31,6 +32,7 @@ export class HeaderComponent implements OnInit {
     this.isAuthenticated = !!token;
     if (this.isAuthenticated) {
       this.user = JSON.parse(localStorage.getItem('user') || '{}');
+      this.userName = this.user.name;
     }
   }
 

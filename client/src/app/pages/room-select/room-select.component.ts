@@ -161,9 +161,15 @@ export class RoomSelectComponent implements OnInit {
   // Book selected room
   bookNow() {
     if (this.selectedRoom) {
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      if (!user || !user.id) {
+        console.error("User not logged in or user ID not found");
+        return;
+      }
+    console.log("User ID:", user.id);
       this.router.navigate(["/checkout"], {
         queryParams: {
-          UserID: "U01",
+          UserID: user.id, // Use the logged-in user's ID
           RoomID: this.selectedRoom._id,
           roomType: this.selectedRoom.RoomType,
           guests: this.guests,

@@ -7,6 +7,7 @@
       <i class="material-icons">menu</i>
     </a>
     <ul class="right hide-on-med-and-down">
+      <li *ngIf="isAuthenticated"><span class="white-text">{{ userName }}</span></li>
       <li><a routerLink="home">Home</a></li>
       <li *ngIf="!isAuthenticated"><a (click)="openLogin()">Login</a></li>
       <li *ngIf="!isAuthenticated" style="font-weight: bold;"><a (click)="openRegister()">Sign Up</a></li>
@@ -15,6 +16,7 @@
   </div>
 </nav>
 <ul class="sidenav blue-grey" id="mobile-links">
+  <li *ngIf="isAuthenticated"><span class="white-text">{{ userName }}</span></li>
   <li><a class="white-text" routerLink="home">Home</a></li>
   <li *ngIf="!isAuthenticated"><a class="white-text" (click)="openLogin()">Login</a></li>
   <li *ngIf="!isAuthenticated"><a class="white-text" (click)="openRegister()">Sign Up</a></li>
