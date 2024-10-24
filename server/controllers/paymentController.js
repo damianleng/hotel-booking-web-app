@@ -7,7 +7,6 @@ exports.createPaymentIntent = async (req, res) => {
 
         // Ensure Amount is provided and is a number
         if (!Amount || isNaN(Amount)) {
-          console.log('Invalid amount:', Amount);
           return res.status(400).json({
             error: 'Invalid amount provided.',
           });

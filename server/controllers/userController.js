@@ -62,6 +62,7 @@ exports.registerUser = async (req, res) => {
       Name: name,
       PhoneNumber: phoneNumber,
       Role: role,
+      LastLoginAttempt: new Date(),
     };
 
     const result = await userService.registerUser(newUser);
