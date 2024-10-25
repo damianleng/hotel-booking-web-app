@@ -1,0 +1,21 @@
+<!-- Check-in Modal Background -->
+<div class="modal-background" (click)="closeCheckIn($event)">
+    <!-- Modal container (clicking here should NOT close the modal) -->
+    <div class="modal-container blue-grey white-text" (click)="$event.stopPropagation()">
+      <div class="container">
+        <div class="center">
+          <h6>Check-In</h6>
+        </div>
+        <div class="input-field">
+          <input id="checkin-time" type="time" class="validate white-text">
+          <label for="checkin-time">Check-In Time</label>
+        </div>
+        <div class="modal-footer">
+          <button class="btn wave-effect waves-light">Confirm</button>
+          <!-- Close button inside the modal -->
+          <button class="btn-flat modal-close white-text" (click)="closeCheckIn()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

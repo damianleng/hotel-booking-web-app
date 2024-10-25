@@ -1,0 +1,21 @@
+<!-- Check-out Modal Background -->
+<div class="modal-background" (click)="closeCheckOut($event)">
+    <!-- Modal container (clicking here should NOT close the modal) -->
+    <div class="modal-container blue-grey white-text" (click)="$event.stopPropagation()">
+      <div class="container">
+        <div class="center">
+          <h6>Check-Out</h6>
+        </div>
+        <div class="input-field">
+          <input id="checkout-time" type="time" class="validate white-text">
+          <label for="checkout-time">Check-Out Time</label>
+        </div>
+        <div class="modal-footer">
+          <button class="btn wave-effect waves-light">Confirm</button>
+          <!-- Close button inside the modal -->
+          <button class="btn-flat modal-close white-text" (click)="closeCheckOut()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

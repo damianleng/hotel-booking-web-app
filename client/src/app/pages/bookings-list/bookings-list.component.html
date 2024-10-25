@@ -1,0 +1,18 @@
+<div class="container">
+    <h3>My Stays</h3>
+    <div class="bookings-list">
+      <div class="booking-card" *ngFor="let booking of bookings" (click)="viewBookingDetails(booking.bookingId)">
+        <div class="booking-image">
+          <img [src]="booking.imageUrl" alt="Booking Image" class="responsive-img">
+        </div>
+        <div class="booking-info">
+          <p><strong>{{ booking.guests }} Guests | {{ booking.roomType }}</strong></p>
+          <h3>{{ booking.roomName }}</h3>
+          <p>{{ booking.address }}</p>
+          <p><strong>Check In:</strong> {{ booking.checkInDate }} at {{ booking.checkInTime }}</p>
+          <p><strong>Check Out:</strong> {{ booking.checkOutDate }} at {{ booking.checkOutTime }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  

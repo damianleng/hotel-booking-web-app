@@ -1,0 +1,51 @@
+<div class="container">
+    <!-- Main Room Details Section -->
+    <div class="room-details-card">
+      <div class="room-image">
+        <img [src]="roomImage" alt="{{ roomName }} {{ roomType }}" class="responsive-img">
+      </div>
+      <div class="room-info">
+        <p><strong>{{ guests }} Guests | {{ roomType }}</strong></p>
+        <h2>{{ roomName }} </h2>
+        <p>{{ address }}</p>
+        <div class="confirmation-info">
+          <p><strong>Confirmation Code</strong>: {{ confirmationCode }}</p>
+          <p><strong>Check In:</strong> {{ checkInDate }} at {{ checkInTime }}</p>
+          <p><strong>Check Out:</strong> {{ checkOutDate }} at {{ checkOutTime }}</p>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Sidebar: Reservation and Neighborhood Info -->
+    <div class="sidebar-section">
+      <div class="reservation-status">
+        <h4>Reservation confirmed. You're all set!</h4>
+        <p>Access information will be sent 3 days prior to check-in.</p>
+        <button class="btn" (click)="openCheckInTime()">Edit check-in time</button>
+        <button class="btn" (click)="openCheckOutTime()">Edit check-out time</button>
+      </div>
+  
+      <div class="upgrade-section">
+        <h4>Upgrade your stay</h4>
+        <p>Enhance your experience using our additional services.</p>
+        <button class="add-btn">Additional Services</button>
+      </div>
+  
+      <div class="neighborhood-section">
+        <h4>Your Neighborhood</h4>
+        <p>Explore the local area with curated information about the best restaurants, shopping, and more.</p>
+        <button class="explore-btn">Explore more</button>
+      </div>
+    </div>
+</div>
+
+
+<!-- Conditional display of the checkin modal -->
+<div *ngIf="isCheckInModalVisible">
+  <app-check-in (closeModalEvent)="closeModal()"></app-check-in>
+</div>
+
+<!-- Conditional display of the checkout modal -->
+<div *ngIf="isCheckOutModalVisible">
+  <app-check-out (closeModalEvent)="closeModal()"></app-check-out>
+</div>
