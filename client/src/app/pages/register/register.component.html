@@ -19,6 +19,16 @@
           <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error">
             <small *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</small>
             <small *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters long.</small>
+            <small *ngIf="registerForm.get('password')?.errors?.['complexPassword']">
+              Password must:
+              <ul>
+                <li>Be at least 8 characters long</li>
+                <li>Contain at least one uppercase letter</li>
+                <li>Contain at least one lowercase letter</li>
+                <li>Contain at least one digit</li>
+                <li>Contain at least one special character</li>
+              </ul>
+            </small>
           </div>
         </div>
         <div class="input-field">
