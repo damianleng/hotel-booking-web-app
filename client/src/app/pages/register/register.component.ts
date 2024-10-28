@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class RegisterComponent implements OnInit {
   @Output() closeModalEvent = new EventEmitter<void>();
   registerForm!: FormGroup;
+  errorMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -57,6 +58,11 @@ export class RegisterComponent implements OnInit {
       },
       error => {
         console.error('Registration failed', error);
+        if (error.status === 400 && error.error.message === 'Email already in use') {
+          this.errorMessage = 'Email already in use'; // Set the error message
+        } else {
+          this.errorMessage = 'Registration failed. Please try again.'; // Set a generic error message
+        }
       }
     );
   }

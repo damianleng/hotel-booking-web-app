@@ -51,6 +51,8 @@
           <!-- Close button inside the modal -->
           <button class="btn-flat white-text modal-close" (click)="closeRegister()">Cancel</button>
         </div>
+        <!-- Display error message -->
+        <div *ngIf="errorMessage" class="red-text">{{ errorMessage }}</div>
       </form>
     </div>
   </div>
