@@ -97,10 +97,7 @@ exports.deleteRoom = async (req, res) => {
         message: "No room found with that ID",
       });
     }
-    res.status(204).json({
-      status: "success",
-      data: null,
-    });
+    res.status(204).send();
   } catch (error) {
     res.status(500).json({
       status: "fail",

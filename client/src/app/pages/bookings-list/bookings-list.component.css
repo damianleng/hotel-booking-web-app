@@ -1,0 +1,74 @@
+/* Container styling */
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+  
+  /* Bookings list layout */
+.bookings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+  
+  /* Booking card styling */
+.booking-card {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the content horizontally */
+    gap: 20px;
+    padding: 30px; /* Add padding to increase card size */
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+  
+.booking-card:hover {
+    transform: scale(1.04);
+}
+  
+  /* Increase Booking image size */
+.booking-image img {
+    width: 400px; /* Make the image bigger */
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+  
+  /* Center Booking info */
+.booking-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center; /* Center the text */
+    flex: 1;
+    font-size: 16px;
+}
+  
+  /* Adjust for mobile view */
+@media (max-width: 768px) {
+    .booking-card {
+      flex-direction: column;
+      text-align: center;
+      gap: 10px;
+    }
+  
+    .booking-image img {
+      width: 100%;
+      height: auto;
+    }
+  
+    .booking-info {
+      align-items: center;
+      margin-top: 10px;
+    }
+  
+    .container {
+      padding: 10px;
+    }
+}
+  

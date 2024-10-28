@@ -50,7 +50,6 @@ export class PaymentComponent implements OnInit {
           this.errorMessage = error.message!;
         } else if (paymentIntent?.status === "succeeded") {
           console.log("Payment successful!");
-          alert("Payment successful!");
         }
 
         this.paymentSuccess.emit();

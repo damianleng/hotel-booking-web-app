@@ -14,6 +14,11 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PaymentComponent } from './components/payment/payment.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ConfirmationComponent } from './components/confirmation/confirmation.component';
+import { MyStayComponent } from './pages/my-stay/my-stay.component';
+import { CheckInComponent } from './pages/check-in/check-in.component';
+import { CheckOutComponent } from './pages/check-out/check-out.component';
+import { BookingsListComponent } from './pages/bookings-list/bookings-list.component';
 
 
 
@@ -28,6 +33,11 @@ import { ReactiveFormsModule } from '@angular/forms';
     RoomSelectComponent,
     CheckoutComponent,
     PaymentComponent,
+    ConfirmationComponent,
+    MyStayComponent,
+    CheckInComponent,
+    CheckOutComponent,
+    BookingsListComponent,
   ],
   imports: [
     BrowserModule,

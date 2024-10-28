@@ -1,0 +1,126 @@
+/* General container adjustments for responsiveness */
+.container {
+    display: flex;
+    flex-direction: column; /* Stacks elements vertically on mobile */
+    gap: 20px;
+    padding: 20px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row; /* Side-by-side on larger screens */
+  }
+}
+
+/* Room Details Section */
+.room-details-card {
+    width: 100%; /* Full width on mobile */
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+  .room-details-card {
+    width: 55%; /* Adjusts to 55% on larger screens */
+  }
+}
+
+/* Full-width image on top */
+.room-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px 8px 0 0;
+}
+
+/* Room info section */
+.room-info {
+    padding: 15px;
+    text-align: left;
+}
+
+.room-info h2 {
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.room-info p {
+    font-size: 14px;
+}
+
+.confirmation-info p {
+    font-size: 13px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+/* Sidebar Section */
+.sidebar-section {
+    width: 100%; /* Full width on mobile */
+}
+
+@media (min-width: 768px) {
+  .sidebar-section {
+    width: 35%; /* Adjusts to 35% on larger screens */
+    margin-left: 20px;
+  }
+}
+
+.reservation-status, .upgrade-section, .neighborhood-section {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.reservation-status h4, .upgrade-section h4, .neighborhood-section h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.reservation-status p, .upgrade-section p, .neighborhood-section p {
+    font-size: 14px;
+}
+
+/* Buttons */
+.add-btn, .explore-btn {
+    background-color: #6E9FC1;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    display: block;
+    text-align: center;
+}
+
+.btn {
+    background-color: #6E9FC1;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    display: block;
+    text-align: center;
+}
+
+.btn:hover, .add-btn:hover, .explore-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Specific styling for mobile */
+@media (max-width: 767px) {
+  .room-info h2 {
+    font-size: 18px; /* Smaller font for mobile */
+  }
+
+  .room-info p, .confirmation-info p {
+    font-size: 12px; /* Smaller font for mobile */
+  }
+}
