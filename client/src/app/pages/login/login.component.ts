@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   @Output() closeModalEvent = new EventEmitter<void>();
   @Output() loginSuccessEvent = new EventEmitter<void>();
   loginForm!: FormGroup;
+  errorMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -48,6 +49,11 @@ export class LoginComponent implements OnInit {
       },
       error => {
         console.error('Login failed', error);
+        if (error.status === 403) {
+          this.errorMessage = 'Account locked. Try again later.'; // Set the error message
+        } else {
+          this.errorMessage = 'Invalid email or password.'; // Set a generic error message
+        }
       }
     );
   }

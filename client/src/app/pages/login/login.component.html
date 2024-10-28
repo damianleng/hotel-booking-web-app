@@ -14,6 +14,8 @@
           <input id="password" type="password" formControlName="password" class="validate white-text">
           <label for="password">Password</label>
         </div>
+        <!-- Display error message -->
+        <div *ngIf="errorMessage" class="red-text">{{ errorMessage }}</div>
         <div class="modal-footer">
           <button type="submit" class="btn wave-effect waves-light">Login</button>
           <button type="button" class="btn-flat modal-close white-text" (click)="closeLogin()">Cancel</button>
