@@ -1,6 +1,7 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY); // initialize test secret key
 const PaymentDetail = require("../data_schema/paymentSchema");
 
+// method to create a payment intent from stripe
 exports.createPaymentIntent = async (req, res) => {
   try {
     const { BookingID, Amount, PaymentStatus, PaymentMethod, Currency } = req.body;
@@ -30,8 +31,10 @@ exports.createPaymentIntent = async (req, res) => {
         Currency: Currency || 'USD',
       });
 
+    // save to database
     await payment.save();
 
+    // send a response
     res.status(201).json({
       success: true,
       clientSecret: paymentIntent.client_secret,

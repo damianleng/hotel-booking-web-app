@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// Create the room model object
 const roomSchema = new mongoose.Schema(
   {
     RoomNumber: { type: Number, required: true },

@@ -58,6 +58,7 @@ exports.createRoom = async (req, res) => {
   }
 };
 
+// Patch method to update a room
 exports.updateRoom = async (req, res) => {
   try {
     const roomID = req.params.id; // Get bookingID from the URL params
@@ -86,6 +87,7 @@ exports.updateRoom = async (req, res) => {
   }
 };
 
+// Delete method to delete a room
 exports.deleteRoom = async (req, res) => {
   try {
     const roomID = req.params.id;

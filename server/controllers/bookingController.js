@@ -42,6 +42,7 @@ exports.getAllBookings = async (req, res) => {
   }
 };
 
+// Post method to create a booking
 exports.createBooking = async (req, res) => {
   try {
     const bookingData = req.body;
@@ -67,6 +68,7 @@ exports.createBooking = async (req, res) => {
   }
 };
 
+// Patch method to update a booking
 exports.updateBooking = async (req, res) => {
   try {
     const bookingID = req.params.id; // Get bookingID from the URL params
@@ -98,6 +100,7 @@ exports.updateBooking = async (req, res) => {
   }
 };
 
+// Delete method to delete a booking
 exports.deleteBooking = async (req, res) => {
   try {
     const bookingID = req.params.id;
