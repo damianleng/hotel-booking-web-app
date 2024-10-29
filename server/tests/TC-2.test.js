@@ -168,4 +168,83 @@ describe("Auth Controller - Register and Login", () => {
       expect(res._getJSONData()).toEqual({ message: "Account locked. Try again later." });
     });
   });
+  describe("Integration Test - Register and Login", () => {
+    let req, res;
+  
+    beforeEach(() => {
+      req = httpMocks.createRequest();
+      res = httpMocks.createResponse();
+    });
+  
+    afterEach(() => {
+      jest.clearAllMocks(); // Clear all mocks to avoid interference
+    });
+  
+    it("should register a user and log in successfully", async () => {
+      // 1. Register the User
+      req.body = {
+        email: "integration@example.com",
+        password: "Integration123!",
+        name: "Integration Test User",
+        phoneNumber: "0987654321",
+        role: "user",
+      };
+  
+      userService.fetchUserByEmail.mockResolvedValue(null); // No existing user
+      bcrypt.hash.mockResolvedValue("hashedPassword");
+      userService.registerUser.mockResolvedValue({
+        message: "User created successfully.",
+        data: { id: "integrationUserId", ...req.body, Password: "hashedPassword" },
+      });
+  
+      await userController.registerUser(req, res);
+  
+      // Check if registration was successful
+      expect(res.statusCode).toBe(201);
+      const registerResponse = res._getJSONData();
+      expect(registerResponse.status).toBe("success");
+      expect(registerResponse.message).toBe("User created successfully.");
+  
+      // 2. Use the registered user data to log in
+      req = httpMocks.createRequest({
+        body: {
+          email: "integration@example.com",
+          password: "Integration123!",
+        },
+      });
+      res = httpMocks.createResponse();
+  
+      const user = {
+        _id: "integrationUserId",
+        Email: req.body.email,
+        Password: "hashedPassword",
+        Name: "Integration Test User",
+        PhoneNumber: "0987654321",
+        Role: "user",
+        LoginAttempt: 0,
+        LastLoginAttempt: null,
+        save: jest.fn().mockResolvedValue(true), // Mock the save method
+      };
+  
+      userService.fetchUserByEmail.mockResolvedValue(user);
+      bcrypt.compare.mockResolvedValue(true);
+      jwt.sign.mockReturnValue("jwtToken");
+  
+      await authController.loginUser(req, res);
+  
+      // Check if login was successful and token is returned
+      expect(res.statusCode).toBe(200);
+      const loginResponse = res._getJSONData();
+      expect(loginResponse.token).toBe("jwtToken");
+      expect(loginResponse.user).toEqual({
+        id: user._id,
+        email: user.Email,
+        name: user.Name,
+        phoneNumber: user.PhoneNumber,
+        role: user.Role,
+        loginAttempts: user.LoginAttempt,
+        lastLoggedIn: user.LastLoginAttempt,
+      });
+    });
+  });
 });

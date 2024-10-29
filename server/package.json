@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
-    "start": "node server.js"
+    "start": "node server.js",
+    "test:integration": "jest --testPathPattern=integration.test.js"
   },
   "author": "",
   "license": "ISC",
