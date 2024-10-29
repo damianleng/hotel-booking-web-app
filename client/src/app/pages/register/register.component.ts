@@ -58,7 +58,7 @@ export class RegisterComponent implements OnInit {
     const { email, password, rePassword, firstName, lastName, phoneNumber } = this.registerForm.value;
 
     if (password !== rePassword) {
-      alert('Passwords do not match');
+      this.errorMessage = 'Passwords do not match';
       return;
     }
 
@@ -71,8 +71,7 @@ export class RegisterComponent implements OnInit {
     };
 
     this.authService.register(user).subscribe(
-      response => {
-        console.log('Registration successful', response);
+      () => {
         this.closeRegister(); // Close the registration form
         this.router.navigate(['/home']);
       },

@@ -16,9 +16,9 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'room-select', component: RoomSelectComponent, canActivate: [AuthGuard] },
   { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] },
-  { path: "my-stay/:bookingId", component: MyStayComponent },  
-  { path: "bookings-list", component: BookingsListComponent },
-  {path: "confirmation", component: ConfirmationComponent},
+  { path: "my-stay/:bookingId", component: MyStayComponent, canActivate: [AuthGuard] },  
+  { path: "bookings-list", component: BookingsListComponent, canActivate: [AuthGuard] },
+  {path: "confirmation", component: ConfirmationComponent, canActivate: [AuthGuard]},
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 
