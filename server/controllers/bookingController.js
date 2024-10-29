@@ -2,8 +2,9 @@
 const RoomDetail = require("../data_schema/roomSchema");
 const BookingDetail = require("../data_schema/bookingSchema");
 
-// Initialize the booking service
+// Initialize the services
 const bookingService = require("../fetch_service/bookingService");
+const emailService = require("../fetch_service/notificationService");
 
 // Get method to get a booking by ID
 exports.getBooking = async (req, res) => {
@@ -53,6 +54,19 @@ exports.createBooking = async (req, res) => {
     // update the room status to the database
     room.Status = "Reserved";
     await room.save();
+
+    // Send a confirmation email after booking is successfully created
+    await emailService.sendEmailNotification(
+      bookingData.Email, // receptient's email
+      `Booking Success! Confirmation Booking: ${booking._id}`,
+      `Here are your summary details for Aurora:\n
+      Confirmation Code: ${booking._id}\n
+      Check-in: ${booking.CheckInDate}\n
+      Check-out: ${booking.CheckOutDate}\n
+      Room Type: ${booking.RoomType}\n
+      Guests: ${booking.Guests}\n
+      `
+    );
 
     res.status(201).json({
       status: "success",
