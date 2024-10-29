@@ -156,6 +156,10 @@ export class RoomSelectComponent implements OnInit {
     if (modalElem) {
       const modalInstance = M.Modal.getInstance(modalElem);
       modalInstance.open();
+      // Set a slight delay to ensure overflow is reset after modal opens
+      setTimeout(() => {
+        document.body.style.overflow = "visible"; // Override overflow set by Materialize
+      }, 100);
     }
   }
   // Book selected room
