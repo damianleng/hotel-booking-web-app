@@ -89,6 +89,7 @@ describe("createBooking", () => {
   let req, res;
 
   beforeEach(() => {
+    // Create a sample request
     req = {
       body: {
         RoomID: "someRoomId",
@@ -98,6 +99,7 @@ describe("createBooking", () => {
       },
     };
 
+    // Mock a response
     res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn(),
