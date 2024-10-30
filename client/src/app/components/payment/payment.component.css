@@ -1,0 +1,9 @@
+@media (max-width: 600px) {
+    
+    /* Make the card field larger */
+    .card-field {
+      width: 120%;               /* Full width on mobile */
+      min-height: 10px;           /* Increase the minimum height */
+      box-sizing: border-box;
+    }
+}
