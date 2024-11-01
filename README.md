@@ -59,10 +59,8 @@ Make sure the `config.env` file is located in the server folder. `config.env` fi
    node server
 ### Connect to MongoDB Atlas
 1. **Configure the Connection String**
-   In the `config.env` file, the MongoDB connection string should look like this:
-   ```bash
-    DATABASE_URL='mongodb+srv://admin:<PASSWORD>@hotelkeeping.9aykv.mongodb.net/hotelkeeping?  retryWrites=true&w=majority&appName=hotelkeeping'
- 2. **Verfiy Access**
+   Ensure that you have the latest `config.env` files.
+2. **Verfiy Access**
     - Ensure that your IP address is whitelisted in MongoDB Atlas under Network Access in the Atlas dashboard.
     - Confirm the connection by running the server and checking for a successful connection message in the console.
     
