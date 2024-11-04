@@ -70,7 +70,7 @@
             <div class="col s12">
               <h5>Payment Details</h5>
               <br>
-              <app-payment [totalPrice]="totalPrice" (paymentSuccess)="onPaymentSuccess()"></app-payment>
+              <app-payment [totalPrice]="totalPrice" (paymentSuccess)="onPaymentSuccess()" (cardComplete)="updateCardStatus($event)"></app-payment>
             </div>
           </div>
       

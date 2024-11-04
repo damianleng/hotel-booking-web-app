@@ -7,3 +7,7 @@
       box-sizing: border-box;
     }
 }
+
+#card-errors{
+  padding-top: 10px;
+}

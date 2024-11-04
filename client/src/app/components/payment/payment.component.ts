@@ -12,12 +12,14 @@ import { EventEmitter } from "@angular/core";
 export class PaymentComponent implements OnInit {
   @Input() totalPrice: number = 0;
   @Output() paymentSuccess: EventEmitter<void> = new EventEmitter(); 
+  @Output() cardComplete: EventEmitter<boolean> = new EventEmitter();
 
   stripe: Stripe | null = null;
   cardElement: any;
   paymentIntentClientSecret: string | null = null;
   isPaymentLoading = false;
   errorMessage: string = "";
+  isCardComplete = false;
 
   constructor(private paymentService: PaymentService) {}
 
@@ -28,6 +30,13 @@ export class PaymentComponent implements OnInit {
 
     this.cardElement = elements.create("card");
     this.cardElement.mount("#card-element");
+
+    // Listen for card input completion status
+    this.cardElement.on("change", (event: any) => {
+      this.isCardComplete = event.complete;
+      this.errorMessage = event.error ? event.error.message: "";
+      this.cardComplete.emit(this.isCardComplete);
+    })
   }
 
   async handlePayment() {

@@ -45,6 +45,7 @@ export class CheckoutComponent implements OnInit {
   cardElement: any;
 
   isLoading = false; // Default to not loading
+  isCardComplete = false; // track card completion status from child component
 
   constructor(
     private route: ActivatedRoute,
@@ -100,7 +101,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   get isFormValid(): boolean {
-    return this.checkoutForm.valid && this.paymentMethod === "creditCard";
+    return this.checkoutForm.valid && this.isCardComplete && !this.isLoading;
   }
 
   handleCheckout(): void {
@@ -116,6 +117,11 @@ export class CheckoutComponent implements OnInit {
   onPaymentSuccess(): void {
     this.createBooking();
     this.isLoading = false; // Stop loading after successful payment
+  }
+
+  // Update card completion status
+  updateCardStatus(status: boolean) {
+    this.isCardComplete = status;
   }
 
   createBooking() {
