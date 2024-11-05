@@ -9,6 +9,9 @@ const router = express.Router();
 // Initialize booking controller
 const bookingController = require("../controllers/bookingController");
 
+// Initialize the middleware
+const authenticateUser = require("../middleware/authMiddleware");
+
 // Define availability route first
 router.get('/availability', bookingController.getAvailableRooms);
 
@@ -16,7 +19,7 @@ router.get('/availability', bookingController.getAvailableRooms);
 router
   .route("/")
   .get(bookingController.getAllBookings)
-  .post(bookingController.createBooking);
+  .post(authenticateUser, bookingController.createBooking);
 
 router
   .route("/:id")

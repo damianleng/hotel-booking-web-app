@@ -45,7 +45,12 @@ exports.getAllBookings = async (req, res) => {
 // Post method to create a booking
 exports.createBooking = async (req, res) => {
   try {
-    const bookingData = req.body;
+    // const bookingData = req.body;
+    const bookingData = {
+      ...req.body,
+      UserID: req.userId
+    }
+    
     const booking = await bookingService.createBooking(bookingData);
 
     const room = await RoomDetail.findById(bookingData.RoomID);
