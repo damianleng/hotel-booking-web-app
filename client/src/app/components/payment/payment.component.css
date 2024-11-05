@@ -2,7 +2,7 @@
     
     /* Make the card field larger */
     .card-field {
-      width: 120%;               /* Full width on mobile */
+      width: 150%;               /* Full width on mobile */
       min-height: 10px;           /* Increase the minimum height */
       box-sizing: border-box;
     }
