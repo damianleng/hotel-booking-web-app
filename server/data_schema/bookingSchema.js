@@ -3,11 +3,15 @@ const mongoose = require("mongoose");
 
 // Create a booking Schema
 const bookingSchema = new mongoose.Schema({
-  UserID: { type: String, required: false },
+  UserID: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "users",
+    required: true,
+   },
   RoomID: {
     type: mongoose.Schema.Types.ObjectId, // Reference to Room _id
     ref: "rooms", // Reference the 'rooms' collection
-    require: true,
+    required: true,
   },
   CheckInDate: { type: Date, required: true },
   CheckOutDate: { type: Date, required: true },

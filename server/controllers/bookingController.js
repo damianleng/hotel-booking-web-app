@@ -46,9 +46,12 @@ exports.getAllBookings = async (req, res) => {
 // Post method to create a booking
 exports.createBooking = async (req, res) => {
   try {
-    const bookingData = req.body;
-
-    // Check if the email exists in the booking data
+    // const bookingData = req.body;
+    const bookingData = {
+      ...req.body,
+      UserID: req.userId
+    }
+    
     if (!bookingData.Email) {
       return res.status(400).json({ status: "fail", message: "No recipient email provided in booking data" });
     }

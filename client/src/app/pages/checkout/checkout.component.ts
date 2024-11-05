@@ -15,6 +15,7 @@ export class CheckoutComponent implements OnInit {
 
   checkoutForm!: FormGroup;
 
+  // UserID: string = "";
   RoomID: string = "";
   roomType: string = "";
   guests: number = 0;
@@ -45,6 +46,7 @@ export class CheckoutComponent implements OnInit {
   cardElement: any;
 
   isLoading = false; // Default to not loading
+  isCardComplete = false; // track card completion status from child component
 
   constructor(
     private route: ActivatedRoute,
@@ -64,6 +66,7 @@ export class CheckoutComponent implements OnInit {
     });
 
     this.route.queryParams.subscribe((params) => {
+      // this.UserID = params["UserID"];
       this.RoomID = params["RoomID"];
       this.roomType = params["roomType"] || "";
       this.guests = +params["guests"] || 0;
@@ -100,7 +103,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   get isFormValid(): boolean {
-    return this.checkoutForm.valid && this.paymentMethod === "creditCard";
+    return this.checkoutForm.valid && this.isCardComplete && !this.isLoading;
   }
 
   handleCheckout(): void {
@@ -118,8 +121,14 @@ export class CheckoutComponent implements OnInit {
     this.isLoading = false; // Stop loading after successful payment
   }
 
+  // Update card completion status
+  updateCardStatus(status: boolean) {
+    this.isCardComplete = status;
+  }
+
   createBooking() {
     const bookingData = {
+      // UserID: this.UserID,
       RoomID: this.RoomID,
       RoomType: this.roomType,
       Guests: this.guests,
