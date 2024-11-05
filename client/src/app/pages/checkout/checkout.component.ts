@@ -15,6 +15,7 @@ export class CheckoutComponent implements OnInit {
 
   checkoutForm!: FormGroup;
 
+  // UserID: string = "";
   RoomID: string = "";
   roomType: string = "";
   guests: number = 0;
@@ -65,6 +66,7 @@ export class CheckoutComponent implements OnInit {
     });
 
     this.route.queryParams.subscribe((params) => {
+      // this.UserID = params["UserID"];
       this.RoomID = params["RoomID"];
       this.roomType = params["roomType"] || "";
       this.guests = +params["guests"] || 0;
@@ -126,6 +128,7 @@ export class CheckoutComponent implements OnInit {
 
   createBooking() {
     const bookingData = {
+      // UserID: this.UserID,
       RoomID: this.RoomID,
       RoomType: this.roomType,
       Guests: this.guests,
