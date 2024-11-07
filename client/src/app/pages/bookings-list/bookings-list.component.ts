@@ -1,45 +1,53 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from "@angular/core";
+import { Router } from "@angular/router";
+import { UserBookingService } from "src/app/services/user-booking.service";
 
 @Component({
-  selector: 'app-bookings-list',
-  templateUrl: './bookings-list.component.html',
-  styleUrls: ['./bookings-list.component.css']
+  selector: "app-bookings-list",
+  templateUrl: "./bookings-list.component.html",
+  styleUrls: ["./bookings-list.component.css"],
 })
 export class BookingsListComponent {
-
   // Mock data for bookings
-  bookings = [
-    {
-      roomName: 'Aurora | Studio',
-      roomType: 'Studio',
-      guests: 2,
-      address: '401 Custer Drive, Hays, KS, USA',
-      checkInDate: 'Dec 11, 2024',
-      checkInTime: '4:00 PM',
-      checkOutDate: 'Dec 12, 2024',
-      checkOutTime: '11:00 AM',
-      imageUrl: 'assets/images/premium-room.jpg',
-      bookingId: 1
-    },
-    {
-      roomName: 'Aurora | 1BR',
-      roomType: '1 Bedroom',
-      guests: 4,
-      address: '401 Custer Drive, Hays, KS, USA',
-      checkInDate: 'Aug 17, 2024',
-      checkInTime: '4:00 PM',
-      checkOutDate: 'Aug 22, 2024',
-      checkOutTime: '11:00 AM',
-      imageUrl: 'assets/images/twin-bed.jpg',
-      bookingId: 2
-    }
-  ];
+  bookings: any[] = [];
+  noRooms: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private userBookingService: UserBookingService
+  ) {}
+
+  ngOnInit(): void {
+    this.fetchUserBookings();
+  }
+
+  fetchUserBookings() {
+    this.userBookingService.getUserBookings().subscribe(
+      (response) => {
+        this.bookings = response.data.bookings.map((booking: any) => {
+          return {
+            roomName: `Aurora | ${booking.RoomType}`,
+            roomType: booking.RoomType,
+            guests: booking.Guests,
+            address: "401 Custer Drive, Hays, KS, USA",
+            checkInDate: new Date(booking.CheckInDate).toLocaleDateString(),
+            checkInTime: "4:00 PM",
+            checkOutDate: new Date(booking.CheckOutDate).toLocaleDateString(),
+            checkOutTime: "11:00 AM",
+            imageUrl: booking.Image,
+            bookingId: booking._id,
+          };
+        });
+        console.log(response.data.bookings);
+      },
+      (error) => {
+        console.error("Error fetching bookings: ", error);
+      }
+    );
+  }
 
   // Navigate to My Stay page with the booking ID
   viewBookingDetails(bookingId: number): void {
-    this.router.navigate(['/my-stay', bookingId]);
+    this.router.navigate(["/my-stay", bookingId]);
   }
 }

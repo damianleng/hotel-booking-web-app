@@ -18,6 +18,7 @@ import { MyStayComponent } from './pages/my-stay/my-stay.component';
 import { CheckInComponent } from './pages/check-in/check-in.component';
 import { CheckOutComponent } from './pages/check-out/check-out.component';
 import { BookingsListComponent } from './pages/bookings-list/bookings-list.component';
+import { TimeFormatPipe } from './pipe/time-format.pipe';
 import { AdminDashComponent } from './pages/admin-dash/admin-dash.component';
 
 
@@ -39,7 +40,8 @@ import { AdminDashComponent } from './pages/admin-dash/admin-dash.component';
     CheckInComponent,
     CheckOutComponent,
     BookingsListComponent,
-    AdminDashComponent
+    AdminDashComponent,
+    TimeFormatPipe
   ],
   imports: [
     BrowserModule,

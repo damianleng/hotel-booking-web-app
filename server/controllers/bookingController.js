@@ -48,9 +48,9 @@ exports.createBooking = async (req, res) => {
     // const bookingData = req.body;
     const bookingData = {
       ...req.body,
-      UserID: req.userId
-    }
-    
+      UserID: req.userId,
+    };
+
     const booking = await bookingService.createBooking(bookingData);
 
     const room = await RoomDetail.findById(bookingData.RoomID);
@@ -171,6 +171,39 @@ exports.getAvailableRooms = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: error.message,
+    });
+  }
+};
+
+// this function will get user bookings by their booking
+// Method to get bookings by UserID
+exports.getBookingsByUserID = async (req, res) => {
+  try {
+    const userID = req.userId; // Get UserID from the URL params
+
+    // Query the BookingDetail model to find all bookings for the given UserID
+    const bookings = await BookingDetail.find({ UserID: userID }).populate(
+      "RoomID"
+    );
+
+    if (!bookings || bookings.length === 0) {
+      return res.status(404).json({
+        status: "fail",
+        message: "No bookings found for this user",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      total: bookings.length,
+      data: {
+        bookings,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "fail",
+      message: error.message,
     });
   }
 };

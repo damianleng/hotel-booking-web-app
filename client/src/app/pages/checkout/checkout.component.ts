@@ -139,6 +139,7 @@ export class CheckoutComponent implements OnInit {
       Email: this.checkoutForm.value.email,
       Phone: this.checkoutForm.value.phone,
       Address: this.checkoutForm.value.address,
+      Image: this.image
     };
 
     // Send POST request to backend
