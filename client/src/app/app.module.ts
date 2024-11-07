@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -19,6 +18,8 @@ import { MyStayComponent } from './pages/my-stay/my-stay.component';
 import { CheckInComponent } from './pages/check-in/check-in.component';
 import { CheckOutComponent } from './pages/check-out/check-out.component';
 import { BookingsListComponent } from './pages/bookings-list/bookings-list.component';
+import { AdminDashComponent } from './pages/admin-dash/admin-dash.component';
+
 
 
 
@@ -38,6 +39,7 @@ import { BookingsListComponent } from './pages/bookings-list/bookings-list.compo
     CheckInComponent,
     CheckOutComponent,
     BookingsListComponent,
+    AdminDashComponent
   ],
   imports: [
     BrowserModule,
