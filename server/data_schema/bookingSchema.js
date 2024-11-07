@@ -15,6 +15,8 @@ const bookingSchema = new mongoose.Schema({
   },
   CheckInDate: { type: Date, required: true },
   CheckOutDate: { type: Date, required: true },
+  CheckInTime: {type: String, required: true, default: "12:00"},
+  CheckOutTime: {type: String, required: true, default: "12:00"},
   RoomType: { type: String, required: true },
   BookingStatus: { type: String, required: true, default: "Pending" },
   Guests: { type: Number, required: true },
@@ -23,6 +25,7 @@ const bookingSchema = new mongoose.Schema({
   Email: { type: String, required: true },
   Phone: { type: String, required: true },
   Address: { type: String, required: true },
+  Image: {type: String}
 });
 
 // Build the model and export
