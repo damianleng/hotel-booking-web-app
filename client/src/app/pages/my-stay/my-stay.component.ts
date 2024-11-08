@@ -1,8 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { UserBookingService } from "src/app/services/user-booking.service";
-import { UpdateBookingService } from "src/app/services/update-booking.service";
-import { error } from "console";
+import { BookingService } from "src/app/services/booking.service";
 
 @Component({
   selector: "app-my-stay",
@@ -38,8 +36,7 @@ export class MyStayComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private userBookingService: UserBookingService,
-    private updateBookingService: UpdateBookingService
+    private bookingService: BookingService,
   ) {}
 
   ngOnInit(): void {
@@ -49,8 +46,9 @@ export class MyStayComponent implements OnInit {
     this.fetchUserBookings(bookingId);
   }
 
+  // Subscriber to retrieve user bookings from server-side
   fetchUserBookings(bookingId: string | null) {
-    this.userBookingService.getUserBookings().subscribe(
+    this.bookingService.getUserBookings().subscribe(
       (response) => {
         this.bookings = response.data.bookings.map((booking: any) => {
           return {
@@ -131,7 +129,8 @@ export class MyStayComponent implements OnInit {
       CheckOutTime: this.newCheckOutTime || this.checkOutTime,
     };
 
-    this.updateBookingService.updateBooking(updatedBooking).subscribe(
+    // Subscriber to update bookings
+    this.bookingService.updateBooking(updatedBooking).subscribe(
       (response) => {
         console.log("Booking updated successfully", response);
         this.isUpdateSuccessful = true;

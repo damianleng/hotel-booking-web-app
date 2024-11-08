@@ -11,12 +11,17 @@ export class BookingService {
   constructor(private http: HttpClient) {}
 
   createBooking(bookingData: any): Observable<any> {
-    // get the token from local storage
-    const token = localStorage.getItem("token");
+    return this.http.post(this.apiUrl, bookingData);
+  }
 
-    // create a header with the token
-    const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
+  updateBooking(updatedBooking: any): Observable<any> {
+    return this.http.patch(
+      `${this.apiUrl}/${updatedBooking.bookingId}`,
+      updatedBooking
+    );
+  }
 
-    return this.http.post(this.apiUrl, bookingData, { headers });
+  getUserBookings(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/user-bookings`);
   }
 }
