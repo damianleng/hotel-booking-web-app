@@ -1,0 +1,294 @@
+
+/* Background image*/
+
+/* Container styling for the room status summary */
+.container .row.center-align {
+    background-color: #b3b3b3;
+    padding: 20px;
+    color: #333;
+  }
+  
+  .container .row.center-align p {
+    margin: 0;
+    font-weight: bold;
+  }
+  
+  .container .row.center-align h4 {
+    margin-top: 5px;
+  }
+  
+  .container .row.center-align .col:nth-child(1) h4 {
+    color: rgb(0, 136, 215); /* Room Available */
+  }
+  
+  .container .row.center-align .col:nth-child(2) h4 {
+    color: rgb(255, 98, 0); /* Room Booked */
+  }
+  
+  .container .row.center-align .col:nth-child(3) h4 {
+    color: red; /* Room Need Cleaning */
+  }
+  
+/* Filter button styling */
+.container .row .btn.grey {
+  margin-right: 20px;
+  position: relative;
+  width: 180px;
+  height: 55px;
+  font-size: 19px;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 1px;
+  background-color: #ff0000;
+  color: white;
+  border: 5px solid #ffffff;
+  border-radius: 5px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  text-align: center;
+  cursor: pointer;
+  perspective: 1000px;  /* Ensure the 3D effect */
+  box-sizing: border-box;
+  transition: transform .25s, background-color .3s;
+}
+
+/* Hover effect for 3D flip animation */
+.container .row .btn.green:hover {
+  transform: rotateX(360deg); /* Flip the button on hover */
+  background-color: white;    /* Change background color */
+  color: #4C00EE;             /* Change text color */
+}
+
+.container .row .btn.green span {
+  display: inline-block;
+  transform: translateZ(25px);
+}
+
+  
+  /* Table styling */
+  .container .row table {
+    background-color: #e0e0e02d;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .container table th {
+    background-color: #d1c9c9;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+  }
+  
+  .container table td {
+    vertical-align: middle;
+  }
+  
+  .container table .circle {
+    margin-right: 10px;
+  }
+  
+  .container table .btn-flat i.material-icons {
+    color: #333;
+  }
+
+  
+
+
+
+/* Pop up container */
+/* Pop up container (background) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);  /* More opaque background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; /* Ensure it's above the rest of the content */
+  transition: background-color 0.3s ease-in-out; /* Smooth background opacity transition */
+}
+
+/* Modal Card */
+.edit-card {
+  background-color: rgba(255, 252, 252, 0.9);  /* Slight transparency for the card */
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+  max-width: 100%;  /* Responsive width */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: flex;
+  z-index: 1000;  /* Ensure it is on top of the overlay */
+  transform: scale(0.9);  /* Initial scaling to make it look smaller */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;  /* Smooth transition for scaling and box-shadow */
+}
+
+/* When the modal is active (open) */
+.edit-card.open {
+  transform: scale(1);  /* Card will pop out to full size */
+}
+
+/* Hover Effect on the Edit Card */
+.edit-card:hover {
+  transform: scale(1.05);  /* Slightly enlarge the card */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);  /* Stronger shadow on hover */
+}
+
+/* Header of the Edit Form */
+.edit-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.edit-card-header h4 {
+  margin: 0;
+  font-size: 20px;
+}
+
+/* Close button for the modal */
+.btn-close {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Form Styling */
+.edit-form div {
+  margin-bottom: 10px;
+}
+
+.edit-form label {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.edit-form input {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Save Button */
+.save {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Prevent event propagation */
+.edit-card {
+  position: relative;
+  z-index: 1001; /* Ensure the card is above the overlay */
+}
+
+/* Card and User Information Styling */
+.stat-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.stat-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+}
+.user-info {
+  position: relative;
+  text-align: center;
+}
+.user-details {
+  display: none;
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 200px;
+  z-index: 2;
+}
+.user-info:hover .user-details {
+  display: block;
+}
+.income-bar {
+  width: 80px;
+  height: 8px;
+  background: linear-gradient(90deg, #ffffff, #2196F3);
+  border-radius: 4px;
+  margin-top: 5px;
+}
+/*Style for display date filter */
+.date-input-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+  margin-left: 10px;
+}
+
+.small-date-input {
+  width: 120px;  /* Smaller width */
+  padding: 4px;  /* Reduce padding */
+  font-size: 0.85rem; /* Adjust font size */
+}
+
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Container Styling */
+.modal-container {
+  background: #ffffff;
+  padding: 20px 30px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90vw;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+  
+
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .container .row.center-align h4 {
+      font-size: 1.5rem;
+    }
+  
+    .container .row .btn.green {
+      margin-top: 10px;
+      width: 100%;
+    }
+  
+    .container table td, .container table th {
+      font-size: 0.9rem;
+    }
+  
+    .container table .circle {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  
+  
+
+
+
+  

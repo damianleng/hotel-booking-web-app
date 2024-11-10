@@ -1,1 +1,129 @@
-<p>ho</p>
+<div class="container">
+  <!-- Greeting Section -->
+  <div class="row greeting-section">
+    <div class="col s12 m6">
+      <h2>Hi, Welcome back!</h2>
+      <p>Aurora Dashboard</p>
+    </div>
+  </div>
+
+  <!-- Room Status Summary -->
+  <div class="row stats-cards">
+    <div class="col s12 m4">
+      <div class="card blue-grey darken-1 stat-card">
+        <div class="card-content white-text">
+          <span class="card-title">Rooms Available</span>
+          <i class="material-icons medium">local_hotel</i>
+          <h4 class="stat-value">{{ roomAvailable }}</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col s12 m4">
+      <div class="card blue-grey darken-1 stat-card">
+        <div class="card-content white-text">
+          <span class="card-title">Rooms Booked</span>
+          <i class="material-icons medium">assignment_ind</i>
+          <h4 class="stat-value">{{ roomBooked }}</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col s12 m4">
+      <div class="card blue-grey darken-1 stat-card">
+        <div class="card-content white-text">
+          <span class="card-title">Attention</span>
+          <i class="material-icons medium">warning</i>
+          <h4 class="stat-value">{{ roomNeedCleaning }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Button -->
+  <div class="row">
+    <div class="col s12 right-align">
+      <button class="btn blue-grey" (click)="toggleDateInput()">Filter by Date</button>
+      <div *ngIf="showDateInput" class="date-input-container">
+        <input type="date" [(ngModel)]="selectedDate" placeholder="Select Date" class="small-date-input" />
+        <button class="btn blue-grey" (click)="applyDateFilter()">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search -->
+  <div class="row">
+    <div class="col s12">
+      <input type="text" [(ngModel)]="searchQuery" (input)="applyDateFilter()" placeholder="Search Users" class="search-input" />
+    </div>
+  </div>
+
+  <!-- User Table -->
+  <div class="row" style="background-color: #ffffff7c; padding: 20px; border-radius: 8px;">
+    <table class="highlight centered responsive-table">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Phone Number</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of filteredUsers; let i = index">
+          <td>
+            <div class="user-info">
+              <span class="user-name">{{ user.name }}</span>
+              <div class="user-details">
+                <p>Email: {{ user.email }}</p>
+                <p>Phone: {{ user.phone }}</p>
+                <p>Booked Room: {{ user.room }}</p>
+              </div>
+            </div>
+          </td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone }}</td>
+          <td>{{ user.date }}</td>
+          <td>
+            <button class="btn-flat" (click)="toggleEditForm(i)">
+              <i class="material-icons">edit</i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Edit Form Card -->
+<!-- Edit Form Modal -->
+<div *ngIf="showEditForm" class="modal-background" (click)="toggleEditForm(-1)">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="card-content">
+      <span class="card-title">Edit User Information</span>
+      <button class="btn-flat right close-btn" (click)="toggleEditForm(-1)">
+        <i class="material-icons red-text">cancel</i>
+      </button>
+      <div class="edit-form">
+        <div class="input-field">
+          <label for="name">Username</label>
+          <input type="text" [(ngModel)]="selectedUser.name" id="name" />
+        </div>
+        <div class="input-field">
+          <label for="email">Email</label>
+          <input type="email" [(ngModel)]="selectedUser.email" id="email" />
+        </div>
+        <div class="input-field">
+          <label for="phone">Phone</label>
+          <input type="text" [(ngModel)]="selectedUser.phone" id="phone" />
+        </div>
+        <div class="input-field">
+          <label for="room">Room</label>
+          <input type="text" [(ngModel)]="selectedUser.room" id="room" />
+        </div>
+        <button class="btn blue-grey save-btn" (click)="saveUser()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
