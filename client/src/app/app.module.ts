@@ -21,6 +21,7 @@ import { CheckOutComponent } from "./pages/check-out/check-out.component";
 import { BookingsListComponent } from "./pages/bookings-list/bookings-list.component";
 import { TimeFormatPipe } from "./pipe/time-format.pipe";
 import { AuthInterceptor } from "./services/interceptors/auth.interceptor";
+import { AdminDashComponent } from "./pages/admin-dash/admin-dash.component";
 
 @NgModule({
   declarations: [
