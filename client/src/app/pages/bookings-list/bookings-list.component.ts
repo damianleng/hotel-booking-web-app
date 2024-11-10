@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-import { UserBookingService } from "src/app/services/user-booking.service";
+import { BookingService } from "src/app/services/booking.service";
 
 @Component({
   selector: "app-bookings-list",
@@ -14,7 +14,7 @@ export class BookingsListComponent {
 
   constructor(
     private router: Router,
-    private userBookingService: UserBookingService
+    private bookingService: BookingService,
   ) {}
 
   ngOnInit(): void {
@@ -22,7 +22,7 @@ export class BookingsListComponent {
   }
 
   fetchUserBookings() {
-    this.userBookingService.getUserBookings().subscribe(
+    this.bookingService.getUserBookings().subscribe(
       (response) => {
         this.bookings = response.data.bookings.map((booking: any) => {
           return {

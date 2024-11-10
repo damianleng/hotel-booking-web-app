@@ -2,6 +2,7 @@ const bookingController = require("../controllers/bookingController");
 const RoomDetail = require("../data_schema/roomSchema");
 const BookingDetail = require("../data_schema/bookingSchema");
 const bookingService = require("../fetch_service/bookingService");
+const emailService = require("../fetch_service/notificationService");
 const httpMocks = require("node-mocks-http");
 
 // Mock the bookingService
@@ -10,6 +11,14 @@ jest.mock("../fetch_service/bookingService");
 // Mock the RoomDetail and BookingDetail
 jest.mock("../data_schema/roomSchema");
 jest.mock("../data_schema/bookingSchema");
+
+// Mock the authMiddleware
+jest.mock("../middleware/authMiddleware", () => {
+  return jest.fn((req, res, next) => {
+    req.userId = "mockUserId"; // Mock a userId for the request
+    next(); // Call next to proceed to the controller
+  });
+});
 
 // Unit Test for getAvailableRooms
 describe("Booking Controller - getAvailableRooms", () => {
@@ -84,39 +93,49 @@ describe("Booking Controller - getAvailableRooms", () => {
   });
 });
 
-// Unit Test for create bookings
 describe("createBooking", () => {
   let req, res;
 
   beforeEach(() => {
     // Create a sample request
-    req = {
+    req = httpMocks.createRequest({
       body: {
         RoomID: "someRoomId",
-        userId: "someUserId",
         checkInDate: "2024-10-25",
         checkOutDate: "2024-10-30",
+        RoomType: "Single",
+        Guests: 2,
+        FirstName: "John",
+        LastName: "Doe",
+        Email: "john.doe@example.com",
+        Phone: "1234567890",
+        Address: "123 Main St",
       },
-    };
+      userId: "someUserId", // Simulating userId from auth middleware
+    });
 
     // Mock a response
-    res = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn(),
-    };
+    res = httpMocks.createResponse();
   });
 
   it("should create a booking and update room status successfully", async () => {
     // Mock the createBooking function to return a booking object
     bookingService.createBooking.mockResolvedValue({
-      id: "someBookingId",
+      _id: "someBookingId",
       RoomID: req.body.RoomID,
-      userId: req.body.userId,
-      checkInDate: req.body.checkInDate,
-      checkOutDate: req.body.checkOutDate,
+      UserID: req.userId,
+      CheckInDate: req.body.checkInDate,
+      CheckOutDate: req.body.checkOutDate,
+      RoomType: req.body.RoomType,
+      Guests: req.body.Guests,
+      FirstName: req.body.FirstName,
+      LastName: req.body.LastName,
+      Email: req.body.Email,
+      Phone: req.body.Phone,
+      Address: req.body.Address,
     });
 
-    // Mock RoomDetail.findById to return a room object
+    // Mock RoomDetail.findById to return a room object with an Image
     RoomDetail.findById.mockResolvedValue({
       id: req.body.RoomID,
       Status: "Available",
@@ -126,7 +145,10 @@ describe("createBooking", () => {
     await bookingController.createBooking(req, res);
 
     // Verify that bookingService.createBooking was called with the correct data
-    expect(bookingService.createBooking).toHaveBeenCalledWith(req.body);
+    expect(bookingService.createBooking).toHaveBeenCalledWith({
+      ...req.body,
+      UserID: req.userId,
+    });
 
     // Verify that RoomDetail.findById was called with the correct RoomID
     expect(RoomDetail.findById).toHaveBeenCalledWith(req.body.RoomID);
@@ -137,10 +159,25 @@ describe("createBooking", () => {
     expect(room.save).toHaveBeenCalled();
 
     // Verify response status and json structure
-    expect(res.status).toHaveBeenCalledWith(201);
-    expect(res.json).toHaveBeenCalledWith({
+    expect(res.statusCode).toBe(201);
+    const data = JSON.parse(res._getData());
+    expect(data).toEqual({
       status: "success",
       data: { booking: expect.any(Object) }, // ensure booking object is returned
+    });
+  });
+
+  it("should return 400 if email is not provided", async () => {
+    req.body.Email = ""; // Set Email to an empty string
+
+    await bookingController.createBooking(req, res);
+
+    // Verify response status and error message
+    expect(res.statusCode).toBe(400);
+    const data = JSON.parse(res._getData());
+    expect(data).toEqual({
+      status: "fail",
+      message: "No recipient email provided in booking data",
     });
   });
 
@@ -151,11 +188,15 @@ describe("createBooking", () => {
     await bookingController.createBooking(req, res);
 
     // Verify that bookingService.createBooking was called
-    expect(bookingService.createBooking).toHaveBeenCalledWith(req.body);
+    expect(bookingService.createBooking).toHaveBeenCalledWith({
+      ...req.body,
+      UserID: req.userId,
+    });
 
     // Verify that error handling is working
-    expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.json).toHaveBeenCalledWith({
+    expect(res.statusCode).toBe(500);
+    const data = JSON.parse(res._getData());
+    expect(data).toEqual({
       status: "fail",
       message: "Booking failed",
     });
