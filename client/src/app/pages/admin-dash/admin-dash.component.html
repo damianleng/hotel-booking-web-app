@@ -84,7 +84,7 @@
           </td>
           <td>{{ user.email }}</td>
           <td>{{ user.phone }}</td>
-          <td>{{ user.date }}</td>
+          <td>{{ user.date}}</td>
           <td>
             <button class="btn-flat" (click)="toggleEditForm(i)">
               <i class="material-icons">edit</i>
@@ -107,7 +107,7 @@
       <div class="edit-form">
         <div class="input-field">
           <label for="name">Username</label>
-          <input type="text" [(ngModel)]="selectedUser.name" id="name" />
+          <input type="text" [(ngModel)]="selectedUser.name" id="name" readonly />
         </div>
         <div class="input-field">
           <label for="email">Email</label>
@@ -121,9 +121,29 @@
           <label for="room">Room</label>
           <input type="text" [(ngModel)]="selectedUser.room" id="room" />
         </div>
+        <div class="input-field">
+          <label for="date">Check-In</label>
+          <input type="text" [(ngModel)]="selectedUser.date" id="date" />
+        </div>
+        <div class="input-field">
+          <label for="datecheckout">Check-Out</label>
+          <input type="text" [(ngModel)]="selectedUser.datecheckout" id="Check-Out" />
+        </div>
         <button class="btn blue-grey save-btn" (click)="saveUser()">Save</button>
       </div>
     </div>
   </div>
 </div>
 </div>
+
+
+
+<style>
+
+
+.model-container {
+  opacity: 0.1;
+}
+
+
+</style>

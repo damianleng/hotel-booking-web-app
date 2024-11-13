@@ -163,13 +163,14 @@
 
 .edit-form label {
   font-size: 14px;
-  display: block;
-  margin-bottom: 5px;
+  display: flex;
+  margin-top: -30px;
 }
 
 .edit-form input {
   width: 100%;
   padding: 8px;
+  /* margin-top: 5px; */
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -190,6 +191,11 @@
 .edit-card {
   position: relative;
   z-index: 1001; /* Ensure the card is above the overlay */
+}
+
+.input-field>label:not(.label-icon).active {
+  transform: translateY(10px) scale(0.8);
+  transform-origin: 0 0;
 }
 
 /* Card and User Information Styling */
@@ -287,6 +293,7 @@
   }
 
   
+
   
 
 
