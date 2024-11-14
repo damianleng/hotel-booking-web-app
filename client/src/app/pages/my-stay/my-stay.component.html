@@ -14,6 +14,18 @@
         <p><strong>Check In:</strong> {{ checkInDate | date: 'MMM d, y' }} at {{ checkInTime | timeFormat}}</p>
         <p><strong>Check Out:</strong> {{ checkOutDate | date: 'MMM d, y' }} at {{ checkOutTime | timeFormat}}</p>
       </div>
+
+      <!-- Preview changes -->
+      <div *ngIf="checkInChanged || checkOutChanged" class="preview-section">
+        <h2 class="red-text">Preview Your Changes:</h2>
+        <p class="red-text" *ngIf="checkInChanged">
+          <strong>New Check-In Time:</strong> {{ newCheckInTime | timeFormat }}
+        </p>
+        <p class="red-text" *ngIf="checkOutChanged">
+          <strong>New Check-Out Time:</strong> {{ newCheckOutTime | timeFormat }}
+        </p>
+      </div>
+
       <div class="right" *ngIf="areTimesChanged() && !isUpdateSuccessful">
         <button class="btn" type="submit" name="action" (click)="updateBooking()" [disabled]="loading">
           <span *ngIf="!loading">Update</span>  
@@ -49,12 +61,40 @@
 </div>
 
 
-<!-- Conditional display of the checkin modal -->
-<div *ngIf="isCheckInModalVisible">
-  <app-check-in (closeModalEvent)="closeModal()" [checkInTime]="newCheckInTime || checkInTime" (updateCheckInTimeEvent)="updateCheckInTime($event)"></app-check-in>
+<!-- Modal for Check-In -->
+<div *ngIf="isCheckInModalVisible" class="modal-container">
+  <div class="modal-content">
+    <h4>Check-In</h4>
+    <p>Select your preferred check-in time:</p>
+    <input
+      type="time"
+      [(ngModel)]="newCheckInTime"
+      (change)="updateCheckInTime(newCheckInTime)"
+    />
+    <!-- Validation Message -->
+    <p *ngIf="validationMessage" class="validation-message">
+      {{ validationMessage }}
+    </p>
+    <button class="btn confirm-btn" (click)="confirmCheckInTime()">Confirm</button>
+    <button class="btn cancel-btn" (click)="closeModal()">Cancel</button>
+  </div>
 </div>
 
-<!-- Conditional display of the checkout modal -->
-<div *ngIf="isCheckOutModalVisible">
-  <app-check-out (closeModalEvent)="closeModal()" [checkOutTime]="newCheckOutTime || checkOutTime" (updateCheckOutTimeEvent)="updateCheckOutTime($event)"></app-check-out>
+<!-- Modal for Check-Out -->
+<div *ngIf="isCheckOutModalVisible" class="modal-container">
+  <div class="modal-content">
+    <h4>Check-Out</h4>
+    <p>Select your preferred check-out time:</p>
+    <input
+      type="time"
+      [(ngModel)]="newCheckOutTime"
+      (change)="updateCheckOutTime(newCheckOutTime)"
+    />
+    <!-- Validation Message -->
+    <p *ngIf="validationMessage" class="validation-message">
+      {{ validationMessage }}
+    </p>
+    <button class="btn confirm-btn" (click)="confirmCheckOutTime()">Confirm</button>
+    <button class="btn cancel-btn" (click)="closeModal()">Cancel</button>
+  </div>
 </div>
