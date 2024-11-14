@@ -37,6 +37,9 @@
         <div class="col s12 m8">
             <div class="room-selection">
                 <h4>Select a Room</h4>
+                <div *ngIf="noRooms" class="card-panel red lighten-4 red-text text-darken-4">
+                    <p><i class="material-icons left">error</i>All rooms are booked. Come back later.</p>
+                </div>
                 <div class="room-card" *ngFor="let room of availableRooms">
                     <div class="room-details">
                         <!-- Room Image -->

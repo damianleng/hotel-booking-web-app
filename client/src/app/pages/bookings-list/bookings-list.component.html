@@ -1,7 +1,7 @@
 <div class="container">
     <h3>My Stays</h3>
     <div class="bookings-list">
-      <div *ngIf="bookings.length === 0" class="card-panel red lighten-4 red-text text-darken-4">
+      <div *ngIf="noRooms" class="card-panel red lighten-4 red-text text-darken-4">
         <p><i class="material-icons left">error</i>No rooms booked yet. Start planning your stay!</p>
       </div>
       <div class="booking-card" *ngFor="let booking of bookings" (click)="viewBookingDetails(booking.bookingId)">
@@ -12,6 +12,7 @@
           <p><strong>{{ booking.guests }} Guests | {{ booking.roomType }}</strong></p>
           <h3>{{ booking.roomName }}</h3>
           <p>{{ booking.address }}</p>
+          <p><strong>Room Code:</strong> {{ booking.digitalKey}}</p>
           <p><strong>Check In:</strong> {{ booking.checkInDate | date: 'MMM d, y' }} at {{ booking.checkInTime | timeFormat }}</p>
           <p><strong>Check Out:</strong> {{ booking.checkOutDate | date: 'MMM d, y' }} at {{ booking.checkOutTime | timeFormat }}</p>
         </div>

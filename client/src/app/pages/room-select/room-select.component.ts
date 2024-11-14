@@ -18,6 +18,7 @@ export class RoomSelectComponent implements OnInit {
   adults: number | null = null;
   children: number | null = null;
   isFormValid: boolean = false;
+  noRooms: boolean = false;
   today: string = "";
 
   // Initialize variables
@@ -100,6 +101,10 @@ export class RoomSelectComponent implements OnInit {
         (response: any) => {
           this.availableRooms = response.availableRooms;
           console.log("Available rooms: ", this.availableRooms);
+
+          if(this.availableRooms.length === 0) {
+            this.noRooms = true;
+          }
         },
         (error) => {
           console.error("Error fetching rooms", error);
@@ -165,12 +170,12 @@ export class RoomSelectComponent implements OnInit {
   // Book selected room
   bookNow() {
     if (this.selectedRoom) {
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
       if (!user || !user.id) {
         console.error("User not logged in or user ID not found");
         return;
       }
-    console.log("User ID:", user.id);
+      console.log("User ID:", user.id);
       this.router.navigate(["/checkout"], {
         queryParams: {
           UserID: user.id, // Use the logged-in user's ID
