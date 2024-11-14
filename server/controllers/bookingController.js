@@ -53,16 +53,15 @@ exports.createBooking = async (req, res) => {
     };
 
     if (!bookingData.Email) {
-      return res
-        .status(400)
-        .json({
-          status: "fail",
-          message: "No recipient email provided in booking data",
-        });
+      return res.status(400).json({
+        status: "fail",
+        message: "No recipient email provided in booking data",
+      });
     }
 
     const booking = await bookingService.createBooking(bookingData);
     const room = await RoomDetail.findById(bookingData.RoomID);
+    const status = "Booking Success! Confirmation Booking:";
 
     // Update the room status to the database
     room.Status = "Reserved";
@@ -72,59 +71,7 @@ exports.createBooking = async (req, res) => {
     console.log("Sending email to:", bookingData.Email);
 
     // Send a confirmation email after booking is successfully created
-    await emailService.sendEmailNotification(
-      bookingData.Email, // Recipient's email
-      `Booking Success! Confirmation Booking: ${booking._id}`, // Subject
-      `<!DOCTYPE html>
-        <html>
-          <body style="font-family: Arial, sans-serif; color: #333; background-color: #f9f9f9; padding: 20px;">
-            <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-              <h2 style="color: #4CAF50; text-align: center;">Booking Confirmation</h2>
-              <p>Here are your stay details for Aurora:</p>
-              
-              <div style="text-align: center; margin: 20px 0;">
-                <img src="${
-                  room.Image
-                }" alt="Room Image" style="max-width: 100%; border-radius: 8px;">
-              </div>
-              
-              <table style="width: 100%; font-size: 16px; line-height: 1.6;">
-                <tr>
-                  <td><strong>Confirmation Code:</strong></td>
-                  <td>${booking._id}</td>
-                </tr>
-                <tr>
-                  <td><strong>Check-in:</strong></td>
-                  <td>${new Date(booking.CheckInDate).toDateString()} ${formatTime(booking.CheckInTime)}</td>
-                </tr>
-                <tr>
-                  <td><strong>Check-out:</strong></td>
-                  <td>${new Date(booking.CheckOutDate).toDateString()} ${formatTime(booking.CheckOutTime)}</td>
-                </tr>
-                <tr>
-                  <td><strong>Room Type:</strong></td>
-                  <td>${booking.RoomType}</td>
-                </tr>
-                <tr>
-                  <td><strong>Room Code:</strong></td>
-                  <td>${booking.DigitalKey}</td>
-                </tr>
-                <tr>
-                  <td><strong>Guests:</strong></td>
-                  <td>${booking.Guests}</td>
-                </tr>
-              </table>
-              
-              <div style="margin-top: 20px; padding: 10px; background-color: #e0f7fa; border-left: 4px solid #00796b;">
-                <p style="margin: 0;">We will send you an email with building and unit access instructions three days before your arrival.</p>
-              </div>
-              
-              <p style="margin-top: 20px;">Thank you for booking with us! We look forward to your stay.</p>
-              <p style="margin-top: 20px;">This is automation email, please don't reply to this email.</p>
-            </div>
-          </body>
-        </html>`
-    );
+    await emailService.sendEmailNotificationSuccess(booking, room, status);
 
     res.status(201).json({
       status: "success",
@@ -140,13 +87,6 @@ exports.createBooking = async (req, res) => {
     });
   }
 };
-
-function formatTime(time) {
-  const [hours, minutes] = time.split(":").map(Number);
-  const amPm = hours >= 12 ? "PM" : "AM";
-  const convertedHours = hours % 12 || 12;
-  return `${convertedHours}:${minutes.toString().padStart(2, "0")} ${amPm}`;
-}
 
 // Patch method to update a booking
 exports.updateBooking = async (req, res) => {
@@ -169,57 +109,10 @@ exports.updateBooking = async (req, res) => {
     // get the latest bookings and room
     const booking = await BookingDetail.findById(bookingID);
     const room = await RoomDetail.findById(booking.RoomID);
+    const status = "Booking Update! Updated Confirmation Booking:";
 
-    // Send a confirmation email after booking is successfully created
-    await emailService.sendEmailNotification(
-      updateBooking.Email, // Recipient's email
-      `Booking Update! Updated Confirmation Booking: ${booking._id}`, // Subject
-      `<!DOCTYPE html>
-            <html>
-              <body style="font-family: Arial, sans-serif; color: #333; background-color: #f9f9f9; padding: 20px;">
-                <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                  <h2 style="color: #4CAF50; text-align: center;">Booking Confirmation</h2>
-                  <p>Here are your stay details for Aurora:</p>
-                  
-                  <div style="text-align: center; margin: 20px 0;">
-                    <img src="${
-                      room.Image
-                    }" alt="Room Image" style="max-width: 100%; border-radius: 8px;">
-                  </div>
-                  
-                  <table style="width: 100%; font-size: 16px; line-height: 1.6;">
-                    <tr>
-                      <td><strong>Confirmation Code:</strong></td>
-                      <td>${booking._id}</td>
-                    </tr>
-                    <tr>
-                      <td><strong>Check-in:</strong></td>
-                      <td>${new Date(booking.CheckInDate).toDateString()} ${formatTime(booking.CheckInTime)}</td>
-                    </tr>
-                    <tr>
-                      <td><strong>Check-out:</strong></td>
-                      <td>${new Date(booking.CheckOutDate).toDateString()} ${formatTime(booking.CheckOutTime)}</td>
-                    </tr>
-                    <tr>
-                      <td><strong>Room Type:</strong></td>
-                      <td>${booking.RoomType}</td>
-                    </tr>
-                    <tr>
-                      <td><strong>Guests:</strong></td>
-                      <td>${booking.Guests}</td>
-                    </tr>
-                  </table>
-                  
-                  <div style="margin-top: 20px; padding: 10px; background-color: #e0f7fa; border-left: 4px solid #00796b;">
-                    <p style="margin: 0;">We will send you an email with building and unit access instructions three days before your arrival.</p>
-                  </div>
-                  
-                  <p style="margin-top: 20px;">Thank you for booking with us! We look forward to your stay.</p>
-                  <p style="margin-top: 20px;">This is automation email, please don't reply to this email.</p>
-                </div>
-              </body>
-            </html>`
-    );
+    // Send a confirmation email after booking is successfully updated
+    await emailService.sendEmailNotificationSuccess(booking, room, status);
 
     res.status(200).json({
       status: "success",
