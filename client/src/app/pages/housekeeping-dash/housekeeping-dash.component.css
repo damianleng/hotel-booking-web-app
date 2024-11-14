@@ -1,0 +1,190 @@
+.dashboard-container {
+    padding: 30px;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #4a4a4a;
+  }
+  
+  .filters {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .filters label {
+    font-size: 1.2em;
+    margin-right: 10px;
+    color: #555;
+  }
+  
+  .filters select {
+    padding: 8px 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    max-width: 1200px;
+  }
+  
+  .card h2 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+  }
+  
+  .dashboard-table-wrapper {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    margin-top: 10px;
+  }
+  
+  .dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1em;
+    min-width: 600px; /* Ensure table doesn't shrink below a usable size */
+  }
+  
+  .dashboard-table td {
+    vertical-align: middle; /* Aligns content vertically in the middle */
+    padding: 12px 15px;
+    text-align: left;
+  }
+  
+  .dashboard-table th {
+    text-align: left;
+    vertical-align: middle; /* Ensures headers are aligned too */
+  }
+  
+  .dashboard-table thead {
+    background-color: #f4f4f4;
+  }
+  
+  .dashboard-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .dashboard-table th {
+    border-bottom: 2px solid #ddd;
+    font-weight: bold;
+  }
+  
+  .status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .badge-needs-cleaning {
+    background-color: #ffcccc;
+    color: #ff0000;
+  }
+  
+  .badge-clean {
+    background-color: #ccffcc;
+    color: #009900;
+  }
+  
+  .btn {
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .btn-clean {
+    background-color: #007bff;
+    color: #fff;
+    padding: 6px 12px;
+    font-size: 0.9em;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: inline-block; 
+    text-align: center; 
+    line-height: 1.5; 
+  }
+  
+  .btn-clean:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .dashboard-table th,
+    .dashboard-table td {
+      padding: 8px 10px;
+    }
+  
+    .dashboard-table {
+      font-size: 0.9em;
+    }
+  
+    .status-badge {
+      padding: 4px 8px;
+      font-size: 0.8em;
+    }
+  
+    .btn-clean {
+      font-size: 0.8em;
+      padding: 6px 12px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .dashboard-table {
+      display: block; /* Stack rows */
+    }
+  
+    .dashboard-table thead {
+      display: none; /* Hide headers */
+    }
+  
+    .dashboard-table tbody tr {
+      display: block;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      background: #fff;
+    }
+  
+    .dashboard-table tbody td {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+    }
+  
+    .dashboard-table tbody td::before {
+      content: attr(data-label); /* Use data-label to show the header name */
+      font-weight: bold;
+      color: #333;
+      flex-basis: 40%;
+      text-align: left;
+    }
+  
+    .dashboard-table td {
+      text-align: right;
+    }
+  }
+  
