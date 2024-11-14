@@ -33,6 +33,8 @@ export class MyStayComponent implements OnInit {
   isCheckInModalVisible: boolean = false;
   isCheckOutModalVisible: boolean = false;
 
+  loading: boolean = false;
+
   bookings: any[] = [];
 
   constructor(
@@ -126,6 +128,7 @@ export class MyStayComponent implements OnInit {
 
   // Method to update the checkIn and checkOut times
   updateBooking() {
+    this.loading = true;
     const updatedBooking = {
       bookingId: this.bookingId,
       CheckInTime: this.newCheckInTime || this.checkInTime,
@@ -138,10 +141,12 @@ export class MyStayComponent implements OnInit {
       (response) => {
         console.log("Booking updated successfully", response);
         this.isUpdateSuccessful = true;
+        this.loading = false;
         window.location.reload();
       },
       (error) => {
         console.error("Error updating booking: ", error);
+        this.loading = false;
       }
     );
   }

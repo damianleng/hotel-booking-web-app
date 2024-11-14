@@ -15,8 +15,10 @@
         <p><strong>Check Out:</strong> {{ checkOutDate | date: 'MMM d, y' }} at {{ checkOutTime | timeFormat}}</p>
       </div>
       <div class="right" *ngIf="areTimesChanged() && !isUpdateSuccessful">
-        <button class="btn" type="submit" name="action" (click)="updateBooking()">Update
-          <i class="material-icons right">update</i>
+        <button class="btn" type="submit" name="action" (click)="updateBooking()" [disabled]="loading">
+          <span *ngIf="!loading">Update</span>  
+          <i *ngIf="loading" class="material-icons center">sync</i>
+          <i *ngIf="!loading" class="material-icons right">update</i>
         </button>
       </div>
 
