@@ -162,7 +162,7 @@
 }
 
 .edit-form label {
-  font-size: 14px;
+  font-size: 12px;
   display: flex;
   margin-top: -30px;
 }
@@ -170,7 +170,7 @@
 .edit-form input {
   width: 100%;
   padding: 8px;
-  /* margin-top: 5px; */
+
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -194,7 +194,7 @@
 }
 
 .input-field>label:not(.label-icon).active {
-  transform: translateY(10px) scale(0.8);
+  transform: translateY(12px) scale(1);
   transform-origin: 0 0;
 }
 
