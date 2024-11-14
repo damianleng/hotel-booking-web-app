@@ -95,23 +95,19 @@ exports.createBooking = async (req, res) => {
                 </tr>
                 <tr>
                   <td><strong>Check-in:</strong></td>
-                  <td>${new Date(booking.CheckInDate).toDateString()}</td>
-                </tr>
-                <tr>
-                  <td><strong>Check-in Time:</strong></td>
-                  <td>${booking.CheckInTime}</td>
+                  <td>${new Date(booking.CheckInDate).toDateString()} ${formatTime(booking.CheckInTime)}</td>
                 </tr>
                 <tr>
                   <td><strong>Check-out:</strong></td>
-                  <td>${new Date(booking.CheckOutDate).toDateString()}</td>
-                </tr>
-                <tr>
-                  <td><strong>Check-out Time:</strong></td>
-                  <td>${booking.CheckOutTime}</td>
+                  <td>${new Date(booking.CheckOutDate).toDateString()} ${formatTime(booking.CheckOutTime)}</td>
                 </tr>
                 <tr>
                   <td><strong>Room Type:</strong></td>
                   <td>${booking.RoomType}</td>
+                </tr>
+                <tr>
+                  <td><strong>Room Code:</strong></td>
+                  <td>${booking.DigitalKey}</td>
                 </tr>
                 <tr>
                   <td><strong>Guests:</strong></td>
@@ -144,6 +140,13 @@ exports.createBooking = async (req, res) => {
     });
   }
 };
+
+function formatTime(time) {
+  const [hours, minutes] = time.split(":").map(Number);
+  const amPm = hours >= 12 ? "PM" : "AM";
+  const convertedHours = hours % 12 || 12;
+  return `${convertedHours}:${minutes.toString().padStart(2, "0")} ${amPm}`;
+}
 
 // Patch method to update a booking
 exports.updateBooking = async (req, res) => {
@@ -191,19 +194,11 @@ exports.updateBooking = async (req, res) => {
                     </tr>
                     <tr>
                       <td><strong>Check-in:</strong></td>
-                      <td>${new Date(booking.CheckInDate).toDateString()}</td>
-                    </tr>
-                    <tr>
-                      <td><strong>Check-in Time:</strong></td>
-                      <td>${booking.CheckInTime}</td>
+                      <td>${new Date(booking.CheckInDate).toDateString()} ${formatTime(booking.CheckInTime)}</td>
                     </tr>
                     <tr>
                       <td><strong>Check-out:</strong></td>
-                      <td>${new Date(booking.CheckOutDate).toDateString()}</td>
-                    </tr>
-                    <tr>
-                      <td><strong>Check-out Time:</strong></td>
-                      <td>${booking.CheckOutTime}</td>
+                      <td>${new Date(booking.CheckOutDate).toDateString()} ${formatTime(booking.CheckOutTime)}</td>
                     </tr>
                     <tr>
                       <td><strong>Room Type:</strong></td>

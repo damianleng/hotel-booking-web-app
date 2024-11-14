@@ -36,6 +36,7 @@ export class BookingsListComponent {
             checkOutTime: booking.CheckOutTime,
             imageUrl: booking.Image,
             bookingId: booking._id,
+            digitalKey: booking.DigitalKey
           };
         });
         console.log(response.data.bookings);

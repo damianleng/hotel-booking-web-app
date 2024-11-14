@@ -20,6 +20,7 @@ export class MyStayComponent implements OnInit {
   checkOutDate: string = "";
   checkOutTime: string = "";
   bookingId: string = "";
+  digitalKey: number = 0;
 
   newCheckInTime: string = "";
   newCheckOutTime: string = "";
@@ -62,6 +63,7 @@ export class MyStayComponent implements OnInit {
             checkOutTime: booking.CheckOutTime,
             imageUrl: booking.Image,
             bookingId: booking._id,
+            digitalKey: booking.DigitalKey
           };
         });
 
@@ -82,6 +84,7 @@ export class MyStayComponent implements OnInit {
           this.checkOutDate = selectedBooking.checkOutDate;
           this.checkOutTime = selectedBooking.checkOutTime;
           this.bookingId = selectedBooking.bookingId;
+          this.digitalKey = selectedBooking.digitalKey;
         }
       },
       (error) => {
@@ -127,6 +130,7 @@ export class MyStayComponent implements OnInit {
       bookingId: this.bookingId,
       CheckInTime: this.newCheckInTime || this.checkInTime,
       CheckOutTime: this.newCheckOutTime || this.checkOutTime,
+      DigitalKey: Math.floor(1000 + Math.random() * 9000) // Generate 4-digit random number
     };
 
     // Subscriber to update bookings
