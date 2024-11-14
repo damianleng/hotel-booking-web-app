@@ -63,11 +63,15 @@
     <table class="highlight centered responsive-table">
       <thead>
         <tr>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Phone Number</th>
-          <th>Date</th>
-          <th>Actions</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Booked Room</th>
+        <th>Check-In Date</th>
+        <th>Check-In Time</th>
+        <th>Check-Out Date</th>
+        <th>Check-Out Time</th>
+        <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -82,9 +86,13 @@
               </div>
             </div>
           </td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.phone }}</td>
-          <td>{{ user.date}}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.phone }}</td>
+        <td>{{ user.room }}</td>
+        <td>{{ user.checkinDate }}</td>
+        <td>{{ user.checkinTime }}</td>
+        <td>{{ user.checkoutDate }}</td>
+        <td>{{ user.checkoutTime }}</td>
           <td>
             <button class="btn-flat" (click)="toggleEditForm(i)">
               <i class="material-icons">edit</i>
@@ -101,9 +109,6 @@
   <div class="modal-container" (click)="$event.stopPropagation()">
     <div class="card-content">
       <span class="card-title">Edit User Information</span>
-      <button class="btn-flat right close-btn" (click)="toggleEditForm(-1)">
-        <i class="material-icons red-text">cancel</i>
-      </button>
       <div class="edit-form">
         <div class="input-field">
           <label for="name">Username</label>
@@ -123,27 +128,29 @@
         </div>
         <div class="input-field">
           <label for="date">Check-In</label>
-          <input type="text" [(ngModel)]="selectedUser.date" id="date" />
+          <input type="date" [(ngModel)]="selectedUser.date" id="date" />
         </div>
         <div class="input-field">
           <label for="datecheckout">Check-Out</label>
-          <input type="text" [(ngModel)]="selectedUser.datecheckout" id="Check-Out" />
+          <input type="date" [(ngModel)]="selectedUser.datecheckout" id="Check-Out" />
         </div>
+
+        <!-- Check-in and Check-out time --> 
+
+
+        <div class="input-field">
+          <label for="checkinTime">Check-In Time</label>
+          <input type="time" [(ngModel)]="selectedUser.checkinTime" id="checkinTime" />
+        </div>
+        <div class="input-field">
+          <label for="checkoutTime">Check-Out Time</label>
+          <input type="time" [(ngModel)]="selectedUser.checkoutTime" id="checkoutTime" />
+        </div>
+        
+
         <button class="btn blue-grey save-btn" (click)="saveUser()">Save</button>
       </div>
     </div>
   </div>
 </div>
 </div>
-
-
-
-<style>
-
-
-.model-container {
-  opacity: 0.1;
-}
-
-
-</style>
