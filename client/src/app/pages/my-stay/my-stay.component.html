@@ -9,9 +9,10 @@
       <h2>{{ roomName }} </h2>
       <p>{{ address }}</p>
       <div class="confirmation-info">
-        <p><strong>Confirmation Code</strong>: {{ bookingId }}</p>
-        <p><strong>Check In:</strong> {{ checkInDate | date: 'MMM d, y' }} at {{ checkInTime | timeFormat }}</p>
-        <p><strong>Check Out:</strong> {{ checkOutDate | date: 'MMM d, y' }} at {{ checkOutTime | timeFormat }}</p>
+        <p><strong>Confirmation Code:</strong> {{ bookingId }}</p>
+        <p><strong>Room Code:</strong> {{digitalKey}}</p>
+        <p><strong>Check In:</strong> {{ checkInDate | date: 'MMM d, y' }} at {{ checkInTime | timeFormat}}</p>
+        <p><strong>Check Out:</strong> {{ checkOutDate | date: 'MMM d, y' }} at {{ checkOutTime | timeFormat}}</p>
       </div>
       <div class="right" *ngIf="areTimesChanged() && !isUpdateSuccessful">
         <button class="btn" type="submit" name="action" (click)="updateBooking()">Update
