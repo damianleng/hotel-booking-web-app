@@ -12,10 +12,7 @@ export class BookingsListComponent {
   bookings: any[] = [];
   noRooms: boolean = false;
 
-  constructor(
-    private router: Router,
-    private bookingService: BookingService,
-  ) {}
+  constructor(private router: Router, private bookingService: BookingService) {}
 
   ngOnInit(): void {
     this.fetchUserBookings();
@@ -31,17 +28,28 @@ export class BookingsListComponent {
             guests: booking.Guests,
             address: "401 Custer Drive, Hays, KS, USA",
             checkInDate: new Date(booking.CheckInDate).toLocaleDateString(),
-            checkInTime: "4:00 PM",
+            checkInTime: booking.CheckInTime,
             checkOutDate: new Date(booking.CheckOutDate).toLocaleDateString(),
-            checkOutTime: "11:00 AM",
+            checkOutTime: booking.CheckOutTime,
             imageUrl: booking.Image,
             bookingId: booking._id,
+            digitalKey: booking.DigitalKey,
           };
         });
-        console.log(response.data.bookings);
+        console.log(this.bookings.length);
+        if (this.bookings.length === 0) {
+          this.noRooms = true;
+        }
       },
       (error) => {
         console.error("Error fetching bookings: ", error);
+
+        if (
+          error.error &&
+          error.error.message === "No bookings found for this user"
+        ) {
+          this.noRooms = true;
+        }
       }
     );
   }

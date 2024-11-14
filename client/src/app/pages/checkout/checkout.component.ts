@@ -139,7 +139,8 @@ export class CheckoutComponent implements OnInit {
       Email: this.checkoutForm.value.email,
       Phone: this.checkoutForm.value.phone,
       Address: this.checkoutForm.value.address,
-      Image: this.image
+      Image: this.image,
+      DigitalKey: Math.floor(1000 + Math.random() * 9000) // Generate 4-digit random number
     };
 
     // Send POST request to backend
