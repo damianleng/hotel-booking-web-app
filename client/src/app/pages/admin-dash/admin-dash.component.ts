@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { BookingService } from "src/app/services/booking.service";
+import { RoomService } from "src/app/services/room.service";
 
 @Component({
   selector: "app-admin-dash",
@@ -10,6 +11,12 @@ export class AdminDashComponent implements OnInit {
   roomAvailable: number = 3;
   roomBooked: number = 6;
   roomNeedCleaning: number = 6;
+
+  // Will hold data from the API calls
+  availableRooms: any[] = [];
+  bookedRooms: any[] = [];
+  cleaningRooms: any[] = [];
+  maintanenceRooms: any[] = [];
 
   users: Array<{
     id: number;
@@ -37,10 +44,71 @@ export class AdminDashComponent implements OnInit {
   showFilter: boolean = true;
   loading: boolean = false;
 
-  constructor(private bookingService: BookingService) {}
+  bookingToDelete: string | null = null;
+
+  constructor(
+    private bookingService: BookingService,
+    private roomService: RoomService
+  ) {}
 
   ngOnInit(): void {
     this.fetchAllBookings();
+    this.getAvailableRooms();
+    this.getAttentionRooms();
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const elems = document.querySelectorAll(".modal");
+      M.Modal.init(elems);
+    });
+  }
+
+  openAvailableRoomsModal(): void {
+    const modal = document.getElementById("availableRoomsModal");
+    if (modal) {
+      const instance = M.Modal.getInstance(modal);
+      instance.open();
+    }
+  }
+
+  openCleaningRoomsModal(): void {
+    const modal = document.getElementById("cleaningRoomsModal");
+    if (modal) {
+      const instance = M.Modal.getInstance(modal);
+      instance.open();
+    }
+  }
+
+  // Function to open the delete confirmation modal
+  openDeleteModal(bookingID: string): void {
+    this.bookingToDelete = bookingID;
+    const modal = document.getElementById("deleteConfirmationModal");
+    if (modal) {
+      const instance = M.Modal.getInstance(modal);
+      instance.open();
+    }
+  }
+
+  // Function to handle deletion confirmation
+  confirmDelete(): void {
+    if (this.bookingToDelete) {
+      // Call your delete method with the booking ID
+      this.deleteBooking(this.bookingToDelete);
+
+      // Close the modal
+      const modal = document.getElementById("deleteConfirmationModal");
+      if (modal) {
+        const instance = M.Modal.getInstance(modal);
+        instance.close();
+      }
+
+      // Reset the booking ID
+      this.bookingToDelete = null;
+    }
+  }
+
+  // Function to cancel deletion
+  cancelDelete(): void {
+    this.bookingToDelete = null; // Reset booking ID
   }
 
   toggleDateInput() {
@@ -57,11 +125,15 @@ export class AdminDashComponent implements OnInit {
     const date = new Date(dateString);
 
     // Extract the month, day, and year
-    const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Months are 0-based
-    const day = (date.getUTCDate() - 1).toString().padStart(2, "0"); // Adjust day for formatting
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Months are 0-based, so add 1
+    const day = date.getUTCDate().toString().padStart(2, "0"); // No need to subtract 1 from the day
     const year = date.getUTCFullYear().toString().slice(2); // Get the last two digits of the year
 
     return `${month}-${day}-${year}`;
+  }
+
+  refreshTable(): void {
+    this.fetchAllBookings();
   }
 
   applyDateFilter() {
@@ -100,6 +172,18 @@ export class AdminDashComponent implements OnInit {
     }
   }
 
+  deleteBooking(bookingID: string): void {
+    // use the bookingService
+    this.bookingService.deleteBooking(bookingID).subscribe(
+      (response) => {
+        this.fetchAllBookings();
+      },
+      (error) => {
+        console.error("Unable to delete booking: ", error);
+      }
+    );
+  }
+
   saveUser(): void {
     this.loading = true;
     const bookingID = this.selectedUser.id;
@@ -112,9 +196,6 @@ export class AdminDashComponent implements OnInit {
       CheckOutDate: this.selectedUser.checkOutDate,
       CheckOutTime: this.selectedUser.checkOutTime,
     };
-
-    console.log(this.selectedUser.checkInDate);
-    console.log(this.selectedUser.checkOutDate);
 
     // use the bookingService
     this.bookingService.updateBookingAdmin(bookingID, updatedData).subscribe(
@@ -135,6 +216,7 @@ export class AdminDashComponent implements OnInit {
     this.bookingService.getAllBookings().subscribe(
       (response) => {
         this.bookings = response.data;
+        this.roomBooked = this.bookings.length;
 
         // Map the bookings to match the structure of the users
         this.users = this.bookings.map((booking: any) => ({
@@ -149,9 +231,38 @@ export class AdminDashComponent implements OnInit {
           checkOutTime: booking.CheckOutTime,
         }));
         this.filteredUsers = [...this.users];
+        this.bookedRooms = this.bookings;
       },
       (error) => {
         console.error("Error fetching all bookings: ", error);
+      }
+    );
+  }
+
+  getAvailableRooms(): void {
+    this.roomService.getCurrentRooms().subscribe(
+      (response) => {
+        this.availableRooms = response.data.availableRooms;
+        this.roomAvailable = response.total;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
+  getAttentionRooms(): void {
+    this.roomService.getAttentionRooms().subscribe(
+      (response) => {
+        this.roomNeedCleaning = response.total;
+        this.cleaningRooms = response.data.cleanRooms;
+        this.maintanenceRooms = response.data.maintenanceRooms;
+
+        // Combine the cleaning and maintenance rooms
+        this.cleaningRooms = [...this.cleaningRooms, ...this.maintanenceRooms];
+      },
+      (error) => {
+        console.error(error);
       }
     );
   }

@@ -63,10 +63,6 @@ exports.createBooking = async (req, res) => {
     const room = await RoomDetail.findById(bookingData.RoomID);
     const status = "Booking Success! Confirmation Booking:";
 
-    // Update the room status to the database
-    room.Status = "Reserved";
-    await room.save();
-
     // Log the email to ensure it's not undefined
     console.log("Sending email to:", bookingData.Email);
 
@@ -230,6 +226,3 @@ exports.getBookingsByUserID = async (req, res) => {
     });
   }
 };
-
-// function to update booking for admin
-exports
