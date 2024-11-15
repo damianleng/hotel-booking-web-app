@@ -132,11 +132,11 @@
         </div>
         <div class="input-field">
           <label for="email">Email</label>
-          <input type="email" [(ngModel)]="selectedUser.email" id="email" />
+          <input type="email" [(ngModel)]="selectedUser.email" id="email" [disabled]="true"/>
         </div>
         <div class="input-field">
           <label for="phone">Phone</label>
-          <input type="text" [(ngModel)]="selectedUser.phone" id="phone" />
+          <input type="text" [(ngModel)]="selectedUser.phone" id="phone" [disabled]="true"/>
         </div>
         <div class="input-field">
           <label for="room">Room</label>
