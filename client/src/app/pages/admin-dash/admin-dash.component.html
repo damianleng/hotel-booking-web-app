@@ -128,7 +128,7 @@
       <div class="edit-form">
         <div class="input-field">
           <label for="name">Username</label>
-          <input type="text" [(ngModel)]="selectedUser.name" id="name" readonly />
+          <input type="text" [(ngModel)]="selectedUser.name" id="name" [disabled]="true"/>
         </div>
         <div class="input-field">
           <label for="email">Email</label>
@@ -140,7 +140,7 @@
         </div>
         <div class="input-field">
           <label for="room">Room</label>
-          <input type="text" [(ngModel)]="selectedUser.room" id="room" />
+          <input type="text" [(ngModel)]="selectedUser.room" id="room" [disabled]="true" />
         </div>
         <div class="input-field">
           <label for="date">Check-In</label>

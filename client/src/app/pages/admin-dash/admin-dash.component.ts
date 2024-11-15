@@ -8,9 +8,9 @@ import { RoomService } from "src/app/services/room.service";
   styleUrls: ["./admin-dash.component.css"],
 })
 export class AdminDashComponent implements OnInit {
-  roomAvailable: number = 3;
-  roomBooked: number = 6;
-  roomNeedCleaning: number = 6;
+  roomAvailable: number = 0;
+  roomBooked: number = 0;
+  roomNeedCleaning: number = 0;
 
   // Will hold data from the API calls
   availableRooms: any[] = [];
