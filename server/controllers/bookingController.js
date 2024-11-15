@@ -230,3 +230,6 @@ exports.getBookingsByUserID = async (req, res) => {
     });
   }
 };
+
+// function to update booking for admin
+exports

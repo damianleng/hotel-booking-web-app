@@ -2,8 +2,7 @@
   <!-- Greeting Section -->
   <div class="row greeting-section">
     <div class="col s12 m6">
-      <h2>Hi, Welcome back!</h2>
-      <p>Aurora Dashboard</p>
+      <h2 class="blue-grey-text">Hi, Welcome back!</h2>
     </div>
   </div>
 
@@ -43,7 +42,7 @@
   <!-- Filter Button -->
   <div class="row">
     <div class="col s12 right-align">
-      <button class="btn blue-grey" (click)="toggleDateInput()">Filter by Date</button>
+      <button class="btn blue-grey" (click)="toggleDateInput()" *ngIf="showFilter">Filter by Date</button>
       <div *ngIf="showDateInput" class="date-input-container">
         <input type="date" [(ngModel)]="selectedDate" placeholder="Select Date" class="small-date-input" />
         <button class="btn blue-grey" (click)="applyDateFilter()">Apply</button>
@@ -54,45 +53,44 @@
   <!-- Search -->
   <div class="row">
     <div class="col s12">
-      <input type="text" [(ngModel)]="searchQuery" (input)="applyDateFilter()" placeholder="Search Users" class="search-input" />
+      <div class="input-field col s4 right">
+        <input type="text" [(ngModel)]="searchQuery" (input)="applyDateFilter()" placeholder="Search Users"/>
+        <i class="material-icons prefix">search</i>
+      </div>
     </div>
   </div>
 
   <!-- User Table -->
-  <div class="row" style="background-color: #ffffff7c; padding: 20px; border-radius: 8px;">
-    <table class="highlight centered responsive-table">
+<div class="row">
+  <div class="col s12">
+    <table class="centered responsive-table">
       <thead>
-        <tr>
-        <th>Username</th>
-        <th>Email</th>
-        <th>Phone Number</th>
-        <th>Booked Room</th>
-        <th>Check-In Date</th>
-        <th>Check-In Time</th>
-        <th>Check-Out Date</th>
-        <th>Check-Out Time</th>
-        <th>Actions</th>
+        <tr class="blue-grey-text">
+          <th>Username</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Room</th>
+          <th>Check-In Date</th>
+          <th>Check-In Time</th>
+          <th>Check-Out Date</th>
+          <th>Check-Out Time</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let user of filteredUsers; let i = index">
           <td>
             <div class="user-info">
-              <span class="user-name">{{ user.name }}</span>
-              <div class="user-details">
-                <p>Email: {{ user.email }}</p>
-                <p>Phone: {{ user.phone }}</p>
-                <p>Booked Room: {{ user.room }}</p>
-              </div>
+              <span class="user-name" style="font-weight: 500;">{{ user.name }}</span>
             </div>
           </td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.phone }}</td>
-        <td>{{ user.room }}</td>
-        <td>{{ user.checkinDate }}</td>
-        <td>{{ user.checkinTime }}</td>
-        <td>{{ user.checkoutDate }}</td>
-        <td>{{ user.checkoutTime }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone }}</td>
+          <td>{{ user.room }}</td>
+          <td>{{ user.checkInDate | date: 'MMM d, y' : 'UTC' }}</td>
+          <td>{{ user.checkInTime | timeFormat }}</td>
+          <td>{{ user.checkOutDate | date: 'MMM d, y' : 'UTC' }}</td>
+          <td>{{ user.checkOutTime | timeFormat }}</td>
           <td>
             <button class="btn-flat" (click)="toggleEditForm(i)">
               <i class="material-icons">edit</i>
@@ -102,6 +100,8 @@
       </tbody>
     </table>
   </div>
+</div>
+
 
   <!-- Edit Form Card -->
 <!-- Edit Form Modal -->
@@ -128,27 +128,27 @@
         </div>
         <div class="input-field">
           <label for="date">Check-In</label>
-          <input type="date" [(ngModel)]="selectedUser.date" id="date" />
+          <input type="date" [(ngModel)]="selectedUser.checkInDate"/>
         </div>
         <div class="input-field">
           <label for="datecheckout">Check-Out</label>
-          <input type="date" [(ngModel)]="selectedUser.datecheckout" id="Check-Out" />
+          <input type="date" [(ngModel)]="selectedUser.checkOutDate"/>
         </div>
-
-        <!-- Check-in and Check-out time --> 
-
-
+        
         <div class="input-field">
           <label for="checkinTime">Check-In Time</label>
-          <input type="time" [(ngModel)]="selectedUser.checkinTime" id="checkinTime" />
+          <input type="time" [(ngModel)]="selectedUser.checkInTime" id="checkinTime" />
         </div>
         <div class="input-field">
           <label for="checkoutTime">Check-Out Time</label>
-          <input type="time" [(ngModel)]="selectedUser.checkoutTime" id="checkoutTime" />
+          <input type="time" [(ngModel)]="selectedUser.checkOutTime" id="checkoutTime" />
         </div>
         
-
-        <button class="btn blue-grey save-btn" (click)="saveUser()">Save</button>
+        <button class="btn blue-grey save-btn" (click)="saveUser()" [disabled]="loading">
+          <span *ngIf="!loading">Save</span>
+          <i *ngIf="loading" class="material-icons center">sync</i>
+          <i *ngIf="!loading" class="material-icons right">update</i>
+        </button>
       </div>
     </div>
   </div>

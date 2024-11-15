@@ -9,7 +9,15 @@ exports.fetchBookingById = async (bookingId) => {
 // Fetch all bookings
 exports.fetchBookings = async () => {
   try {
-    const bookings = await BookingDetail.find({});
+    const bookings = await BookingDetail.find()
+      .populate({
+        path: "RoomID",
+        select: "RoomNumber",
+      })
+      .populate({
+        path: "UserID",
+        select: "Name",
+      });
     if (bookings.length === 0) {
       return { message: "No bookings found in the collection.", data: [] };
     } else {

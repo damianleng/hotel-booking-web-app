@@ -29,6 +29,26 @@ const bookingSchema = new mongoose.Schema({
   DigitalKey: {type: Number, required: true}
 });
 
+// Add a virtual field `UserName` to populate from the `rooms` collection
+bookingSchema.virtual("UserName", {
+  ref: "users", // Reference the Room model
+  localField: "UserID", // Field in bookingSchema to match
+  foreignField: "_id", // Field in RoomDetail to match
+  justOne: true, // Return a single user
+});
+
+// Add a virtual field `roomNumber` to populate from the `rooms` collection
+bookingSchema.virtual("roomNumber", {
+  ref: "rooms", // Reference the Room model
+  localField: "RoomID", // Field in bookingSchema to match
+  foreignField: "_id", // Field in RoomDetail to match
+  justOne: true, // Return a single room
+});
+
+// Set the schema to include virtuals when converting to JSON or Object
+bookingSchema.set("toObject", { virtuals: true });
+bookingSchema.set("toJSON", { virtuals: true });
+
 // Build the model and export
 const BookingDetail = mongoose.model("bookings", bookingSchema);
 module.exports = BookingDetail;
