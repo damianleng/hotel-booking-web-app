@@ -11,6 +11,7 @@ export class HousekeepingDashComponent implements OnInit {
     {
       roomName: 'Aurora | Single',
       guestName: 'John Doe',
+      guestRoom: '101',
       checkInTime: '2:00 PM',
       checkOutTime: '11:00 AM',
       needsCleaning: true
@@ -18,6 +19,7 @@ export class HousekeepingDashComponent implements OnInit {
     {
       roomName: 'Aurora | Double',
       guestName: 'Jane Smith',
+      guestRoom: '102',
       checkInTime: '3:00 PM',
       checkOutTime: '12:00 PM',
       needsCleaning: false
@@ -25,6 +27,7 @@ export class HousekeepingDashComponent implements OnInit {
     {
       roomName: 'Aurora | Suite',
       guestName: 'Alice Brown',
+      guestRoom: '103',
       checkInTime: '4:00 PM',
       checkOutTime: '10:00 AM',
       needsCleaning: true
@@ -52,7 +55,7 @@ export class HousekeepingDashComponent implements OnInit {
 
   markAsClean(room: any): void {
     room.needsCleaning = false;
-    this.filterRooms(); // Update the filter to reflect changes
+    this.filterRooms(); // Refresh table if needed
   }
-
+  
 }

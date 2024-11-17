@@ -1,60 +1,66 @@
 <div class="dashboard-container">
-    <h1>Housekeeping Dashboard</h1>
+    <h1 class="center-align">Housekeeping Dashboard</h1>
   
     <!-- Filters Section -->
-    <div class="filters">
-      <label for="filter-status">Filter by Status:</label>
-      <select id="filter-status" [(ngModel)]="selectedStatus" (change)="filterRooms()">
-        <option value="all">All</option>
-        <option value="needs-cleaning">Needs Cleaning</option>
-        <option value="clean">Clean</option>
-      </select>
+    <div class="row">
+      <div class="col s12 m6">
+        <label for="filter-status">Filter by Status:</label>
+        <select id="filter-status" [(ngModel)]="selectedStatus" (change)="filterRooms()" class="browser-default">
+          <option value="all">All</option>
+          <option value="needs-cleaning">Needs Cleaning</option>
+          <option value="clean">Clean</option>
+        </select>
+      </div>
     </div>
   
-    <!-- Room Activity Table -->
+    <!-- Table Section -->
     <div class="card">
-      <h2>Today's Activity</h2>
-      <div class="dashboard-table-wrapper">
-        <table class="dashboard-table">
-          <thead>
-            <tr>
-              <th>Room</th>
-              <th>Guest Name</th>
-              <th>Check-In Time</th>
-              <th>Check-Out Time</th>
-              <th>Cleaning Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let room of filteredRooms">
-              <td data-label="Room">{{ room.roomName }}</td>
-              <td data-label="Guest Name">{{ room.guestName }}</td>
-              <td data-label="Check-In Time">{{ room.checkInTime }}</td>
-              <td data-label="Check-Out Time">{{ room.checkOutTime }}</td>
-              <td data-label="Cleaning Status">
-                <span
-                  class="status-badge"
-                  [ngClass]="{
-                    'badge-needs-cleaning': room.needsCleaning,
-                    'badge-clean': !room.needsCleaning
-                  }"
-                >
-                  {{ room.needsCleaning ? 'Needs Cleaning' : 'Clean' }}
-                </span>
-              </td>
-              <td data-label="Action">
-                <button
-                  *ngIf="room.needsCleaning"
-                  (click)="markAsClean(room)"
-                  class="btn btn-clean"
-                >
-                  Mark as Clean
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="card-content">
+        <h2 class="card-title">Today's Activity</h2>
+        <div class="responsive-table">
+          <table class="highlight centered">
+            <thead>
+              <tr>
+                <th>Room</th>
+                <th>Guest Name</th>
+                <th>Guest Rooms</th>
+                <th>Check-In Time</th>
+                <th>Check-Out Time</th>
+                <th>Cleaning Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let room of filteredRooms">
+                <td data-label="Room">{{ room.roomName }}</td>
+                <td data-label="Guest Name"> {{ room.guestName }}</td>
+                <td data-label="Guest Rooms">{{ room.guestRoom }}</td>
+                <td data-label="Check-In Time">{{ room.checkInTime }}</td>
+                <td data-label="Check-Out Time">{{ room.checkOutTime }}</td>
+                <td data-label="Cleaning Status">
+                  <span
+                    class="status-badge"
+                    [ngClass]="{
+                      'needs-cleaning': room.needsCleaning,
+                      'clean': !room.needsCleaning
+                    }"
+                  >
+                    {{ room.needsCleaning ? 'Needs Cleaning' : 'Clean' }}
+                  </span>
+                </td>
+                <td>
+                  <button
+                    *ngIf="room.needsCleaning"
+                    (click)="markAsClean(room)"
+                    class="btn waves-effect waves-light blue lighten-1"
+                  >
+                    Mark as Clean
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

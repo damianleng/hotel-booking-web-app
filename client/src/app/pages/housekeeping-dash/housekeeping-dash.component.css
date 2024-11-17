@@ -1,190 +1,131 @@
+/* General Styles */
 .dashboard-container {
-    padding: 30px;
-    font-family: 'Arial', sans-serif;
-    color: #333;
-    background-color: #f9f9f9;
-  }
-  
-  h1 {
-    text-align: center;
-    font-size: 2.5em;
-    margin-bottom: 20px;
-    color: #4a4a4a;
-  }
-  
-  .filters {
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-  }
-  
-  .filters label {
-    font-size: 1.2em;
-    margin-right: 10px;
-    color: #555;
-  }
-  
-  .filters select {
-    padding: 8px 10px;
-    font-size: 1em;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .card {
-    background: #fff;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 0 auto;
-    max-width: 1200px;
   }
   
-  .card h2 {
+  .card-title {
     font-size: 1.8em;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
   }
   
-  .dashboard-table-wrapper {
-    overflow-x: auto; /* Enable horizontal scrolling */
-    margin-top: 10px;
-  }
-  
-  .dashboard-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 1em;
-    min-width: 600px; /* Ensure table doesn't shrink below a usable size */
-  }
-  
-  .dashboard-table td {
-    vertical-align: middle; /* Aligns content vertically in the middle */
-    padding: 12px 15px;
-    text-align: left;
-  }
-  
-  .dashboard-table th {
-    text-align: left;
-    vertical-align: middle; /* Ensures headers are aligned too */
-  }
-  
-  .dashboard-table thead {
-    background-color: #f4f4f4;
-  }
-  
-  .dashboard-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .dashboard-table th {
-    border-bottom: 2px solid #ddd;
-    font-weight: bold;
-  }
-  
+  /* Badge Styles */
   .status-badge {
     display: inline-block;
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 0.9em;
+    padding: 8px 12px;
+    font-size: 0.85em;
     font-weight: bold;
     text-align: center;
+    border-radius: 12px;
+    color: white;
+    text-transform: uppercase;
   }
   
-  .badge-needs-cleaning {
-    background-color: #ffcccc;
-    color: #ff0000;
+  /* Badge Colors */
+  .status-badge.needs-cleaning {
+    background-color: #ff6b6b; /* Bright red */
   }
   
-  .badge-clean {
-    background-color: #ccffcc;
-    color: #009900;
+  .status-badge.clean {
+    background-color: #55d195; /* Bright green */
   }
   
-  .btn {
-    border: none;
-    outline: none;
-    border-radius: 10px;
+  /* Hover Effects */
+  .status-badge.needs-cleaning:hover {
+    background-color: #c0392b; /* Dark red */
+  }
+  
+  .status-badge.clean:hover {
+    background-color: #229954; /* Dark green */
+  }
+  
+  /* Table Styles */
+  .responsive-table {
+    overflow-x: auto; /* Enable horizontal scrolling on small screens */
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 12px 15px;
     text-align: center;
-    cursor: pointer;
-    font-size: 0.9em;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .btn-clean {
-    background-color: #007bff;
-    color: #fff;
-    padding: 6px 12px;
-    font-size: 0.9em;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    display: inline-block; 
-    text-align: center; 
-    line-height: 1.5; 
-  }
-  
-  .btn-clean:hover {
-    background-color: #0056b3;
+    vertical-align: middle;
   }
   
   /* Responsive Styles */
   @media (max-width: 768px) {
-    .dashboard-table th,
-    .dashboard-table td {
+    /* Adjust the table for smaller screens */
+    th, td {
       padding: 8px 10px;
-    }
-  
-    .dashboard-table {
       font-size: 0.9em;
     }
   
     .status-badge {
-      padding: 4px 8px;
-      font-size: 0.8em;
+      font-size: 0.75em; /* Smaller badges for smaller screens */
+      padding: 6px 10px;
     }
   
-    .btn-clean {
-      font-size: 0.8em;
+    .btn {
+      font-size: 0.8em; /* Smaller button text */
       padding: 6px 12px;
     }
   }
   
   @media (max-width: 576px) {
-    .dashboard-table {
+    /* Make table rows into cards */
+    table {
       display: block; /* Stack rows */
     }
   
-    .dashboard-table thead {
+    thead {
       display: none; /* Hide headers */
     }
   
-    .dashboard-table tbody tr {
-      display: block;
-      margin-bottom: 10px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 10px;
-      background: #fff;
-    }
-  
-    .dashboard-table tbody td {
+    tbody tr {
       display: flex;
-      justify-content: space-between;
-      padding: 6px 0;
+      flex-direction: column;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      margin-bottom: 20px; /* Add more space between cards */
+      padding: 100px 80px; /* Keep padding at 100px for vertical space */
+      background: #fff;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+      min-height: auto; /* Automatically adjust height based on content */
     }
   
-    .dashboard-table tbody td::before {
-      content: attr(data-label); /* Use data-label to show the header name */
+    tbody td {
+      display: flex;
+      flex-direction: column; /* Stack content vertically */
+      justify-content: flex-start; /* Align items to the top */
+      align-items: flex-start; /* Align content to the left */
+      text-align: left; /* Left-align text */
+      padding: 15px 0; /* Add vertical spacing between items */
+      font-size: 1em; /* Adjust font size for readability */
+    }
+  
+    tbody td::before {
+      content: attr(data-label); /* Add header labels dynamically */
       font-weight: bold;
-      color: #333;
-      flex-basis: 40%;
-      text-align: left;
+      color: #555;
+      margin-bottom: 5px; /* Add spacing between label and content */
+      font-size: 0.9em; /* Adjust label size */
     }
   
-    .dashboard-table td {
-      text-align: right;
+    .status-badge {
+      align-self: center; /* Center-align badge */
+      margin: 15px 0; /* Add spacing above and below the badge */
+      padding: 15px 25px; /* Larger padding for a more prominent badge */
+      border-radius: 25px; /* Make the badge more rounded */
     }
+  
+    .btn {
+        align-self: center; /* Center-align the button */
+        font-size: 1em; /* Adjust button size */
+        max-width: 200px; /* Restrict the button width */
+        text-align: center; /* Center-align the text inside the button */
+        border-radius: 8px; /* Rounded corners */
+      }
   }
   
