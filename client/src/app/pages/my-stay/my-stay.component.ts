@@ -12,6 +12,7 @@ export class MyStayComponent implements OnInit {
   roomImage: string = "";
   roomName: string = "";
   roomType: string = "";
+  roomNumber: string = "";
   guests: number = 0;
   address: string = "";
   confirmationCode: string = "";
@@ -57,6 +58,7 @@ export class MyStayComponent implements OnInit {
         this.bookings = response.data.bookings.map((booking: any) => {
           return {
             roomName: `Aurora | ${booking.RoomType}`,
+            roomNumber: booking.RoomID.RoomNumber,
             roomType: booking.RoomType,
             guests: booking.Guests,
             address: "401 Custer Drive, Hays, KS, USA",
@@ -79,6 +81,7 @@ export class MyStayComponent implements OnInit {
           this.roomImage = selectedBooking.imageUrl;
           this.roomName = selectedBooking.roomName;
           this.roomType = selectedBooking.roomType;
+          this.roomNumber = selectedBooking.roomNumber;
           this.guests = selectedBooking.guests;
           this.address = selectedBooking.address;
           this.confirmationCode = selectedBooking.bookingId;
