@@ -8,6 +8,7 @@ import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { MyStayComponent } from './pages/my-stay/my-stay.component';
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 import { BookingsListComponent } from './pages/bookings-list/bookings-list.component';
+import { HousekeepingDashComponent } from './pages/housekeeping-dash/housekeeping-dash.component';
 import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: "my-stay/:bookingId", component: MyStayComponent, canActivate: [AuthGuard] },  
   { path: "bookings-list", component: BookingsListComponent, canActivate: [AuthGuard] },
   {path: "confirmation", component: ConfirmationComponent, canActivate: [AuthGuard]},
+  {path: "housekeeping-dash", component: HousekeepingDashComponent, canActivate: [AuthGuard]},
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 
