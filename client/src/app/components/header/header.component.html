@@ -8,6 +8,7 @@
     <ul class="right hide-on-med-and-down">
       <li><a routerLink="home">Home</a></li>
       <li *ngIf="isAuthenticated"><a routerLink="bookings-list">My Stay</a></li>
+      <li *ngIf="isAuthenticated && user.role === 'admin'"><a routerLink="admin">Dashboard</a></li>
       <li *ngIf="!isAuthenticated"><a (click)="openLogin()">Login</a></li>
       <li *ngIf="!isAuthenticated" style="font-weight: bold;"><a (click)="openRegister()">Sign Up</a></li>
       <li *ngIf="isAuthenticated"><a (click)="logout()">Logout</a></li>
@@ -19,6 +20,7 @@
   <li *ngIf="isAuthenticated"><a class="white-text">{{userName}}</a></li>
   <li><a class="white-text" routerLink="home">Home</a></li>
   <li *ngIf="isAuthenticated"><a class="white-text" routerLink="bookings-list">My Stay</a></li>
+  <li *ngIf="isAuthenticated && user.role === 'admin'"><a class="white-text" routerLink="admin">Dashboard</a></li>
   <li *ngIf="!isAuthenticated"><a class="white-text" (click)="openLogin()">Login</a></li>
   <li *ngIf="!isAuthenticated"><a class="white-text" (click)="openRegister()">Sign Up</a></li>
   <li *ngIf="isAuthenticated"><a class="white-text" (click)="logout()">Logout</a></li>
