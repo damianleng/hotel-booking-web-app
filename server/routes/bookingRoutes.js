@@ -10,6 +10,9 @@ const bookingController = require("../controllers/bookingController");
 // Initialize the middleware
 const authenticateUser = require("../middleware/authMiddleware");
 
+// Initialize the role middleware
+const authorizeRoles = require("../middleware/roleMiddleware");
+
 // Define availability route first
 router.get("/availability", bookingController.getAvailableRooms);
 
@@ -19,13 +22,13 @@ router.get("/user-bookings", authenticateUser, bookingController.getBookingsByUs
 // Booking Routes
 router
   .route("/")
-  .get(bookingController.getAllBookings)
+  .get(authenticateUser, authorizeRoles("admin"), bookingController.getAllBookings)
   .post(authenticateUser, bookingController.createBooking);
 
 router
   .route("/:id")
-  .get(bookingController.getBooking)
-  .patch(bookingController.updateBooking)
-  .delete(bookingController.deleteBooking);
+  .get(authenticateUser, bookingController.getBooking)
+  .patch(authenticateUser, authorizeRoles("admin"), bookingController.updateBooking)
+  .delete(authenticateUser, authorizeRoles("admin"), bookingController.deleteBooking);
 
 module.exports = router;

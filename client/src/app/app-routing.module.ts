@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: "my-stay/:bookingId", component: MyStayComponent, canActivate: [AuthGuard] },
   { path: "bookings-list", component: BookingsListComponent, canActivate: [AuthGuard] },
   { path: "confirmation", component: ConfirmationComponent, canActivate: [AuthGuard] },
-  { path: "admin", component: AdminDashComponent, canActivate: [AuthGuard] },
+  { path: "admin", component: AdminDashComponent, canActivate: [AuthGuard], data: { expectedRole: 'admin' } },
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 
