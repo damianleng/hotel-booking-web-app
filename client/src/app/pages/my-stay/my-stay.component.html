@@ -10,9 +10,10 @@
       <p>{{ address }}</p>
       <div class="confirmation-info">
         <p><strong>Confirmation Code:</strong> {{ bookingId }}</p>
+        <p><strong>Room Number:</strong> {{roomNumber}}</p>
         <p><strong>Room Code:</strong> {{digitalKey}}</p>
-        <p><strong>Check In:</strong> {{ checkInDate | date: 'MMM d, y' }} at {{ checkInTime | timeFormat}}</p>
-        <p><strong>Check Out:</strong> {{ checkOutDate | date: 'MMM d, y' }} at {{ checkOutTime | timeFormat}}</p>
+        <p><strong>Check In:</strong> {{ checkInDate | date: 'MMM d, y' : 'UTC' }} at {{ checkInTime | timeFormat }}</p>
+        <p><strong>Check Out:</strong> {{ checkOutDate | date: 'MMM d, y' : 'UTC' }} at {{ checkOutTime | timeFormat }}</p>        
       </div>
 
       <!-- Preview changes -->
