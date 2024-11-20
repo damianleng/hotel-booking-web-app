@@ -115,31 +115,29 @@
 
 /* Buttons */
 .add-btn, .explore-btn {
-  background-color: #6E9FC1;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-  display: inline-block; 
-  text-align: center;
-  width: auto; 
+    background-color: #6E9FC1;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    display: block;
+    text-align: center;
 }
 
 .btn {
-  background-color: #6E9FC1;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-  display: inline-block; 
-  text-align: center;
-  width: auto;
+    background-color: #6E9FC1;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    display: block;
+    text-align: center;
 }
 
 .btn:hover, .add-btn:hover, .explore-btn:hover {
-  background-color: #0056b3;
+    background-color: #0056b3;
 }
 
 .add-btn:disabled {
