@@ -47,11 +47,18 @@
       <button class="btn" (click)="openCheckOutTime()">Edit check-out time</button>
     </div>
 
-    <div class="upgrade-section">
-      <h4>Upgrade your stay</h4>
-      <p>Enhance your experience using our additional services.</p>
-      <button class="add-btn">Additional Services</button>
+    <div class="checkin-section">
+      <h4>Check in your stay with us</h4>
+      <p>Check in your room by clicking on the check-in buttons to check in your stay</p>
+      <button
+        class="add-btn"
+        [disabled]="isCheckedOut"
+        (click)="handleCheckInOut()"
+      >
+        {{ buttonText }}
+      </button>
     </div>
+    
 
     <div class="neighborhood-section">
       <h4>Your Neighborhood</h4>
