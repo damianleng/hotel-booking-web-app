@@ -10,9 +10,10 @@
       <p>{{ address }}</p>
       <div class="confirmation-info">
         <p><strong>Confirmation Code:</strong> {{ bookingId }}</p>
+        <p><strong>Room Number:</strong> {{roomNumber}}</p>
         <p><strong>Room Code:</strong> {{digitalKey}}</p>
-        <p><strong>Check In:</strong> {{ checkInDate | date: 'MMM d, y' }} at {{ checkInTime | timeFormat}}</p>
-        <p><strong>Check Out:</strong> {{ checkOutDate | date: 'MMM d, y' }} at {{ checkOutTime | timeFormat}}</p>
+        <p><strong>Check In:</strong> {{ checkInDate | date: 'MMM d, y' : 'UTC' }} at {{ checkInTime | timeFormat }}</p>
+        <p><strong>Check Out:</strong> {{ checkOutDate | date: 'MMM d, y' : 'UTC' }} at {{ checkOutTime | timeFormat }}</p>        
       </div>
 
       <!-- Preview changes -->
@@ -46,11 +47,18 @@
       <button class="btn" (click)="openCheckOutTime()">Edit check-out time</button>
     </div>
 
-    <div class="upgrade-section">
-      <h4>Upgrade your stay</h4>
-      <p>Enhance your experience using our additional services.</p>
-      <button class="add-btn">Additional Services</button>
+    <div class="checkin-section">
+      <h4>Check in your stay with us</h4>
+      <p>Check in your room by clicking on the check-in buttons to check in your stay</p>
+      <button
+        class="add-btn"
+        [disabled]="isCheckedOut"
+        (click)="handleCheckInOut()"
+      >
+        {{ buttonText }}
+      </button>
     </div>
+    
 
     <div class="neighborhood-section">
       <h4>Your Neighborhood</h4>

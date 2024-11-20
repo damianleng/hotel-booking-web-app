@@ -27,19 +27,19 @@ export class BookingsListComponent {
             roomType: booking.RoomType,
             guests: booking.Guests,
             address: "401 Custer Drive, Hays, KS, USA",
-            checkInDate: new Date(booking.CheckInDate).toLocaleDateString(),
+            checkInDate: booking.CheckInDate,
             checkInTime: booking.CheckInTime,
-            checkOutDate: new Date(booking.CheckOutDate).toLocaleDateString(),
+            checkOutDate: booking.CheckOutDate,
             checkOutTime: booking.CheckOutTime,
             imageUrl: booking.Image,
             bookingId: booking._id,
             digitalKey: booking.DigitalKey,
           };
         });
-        console.log(this.bookings.length);
         if (this.bookings.length === 0) {
           this.noRooms = true;
         }
+        console.log(this.bookings);
       },
       (error) => {
         console.error("Error fetching bookings: ", error);

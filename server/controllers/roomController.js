@@ -1,5 +1,7 @@
 // Initialize the room service
 const roomService = require("../fetch_service/roomService");
+const RoomDetail = require("../data_schema/roomSchema");
+const BookingDetail = require("../data_schema/bookingSchema");
 
 // Get method to get a room by ID
 exports.getRoom = async (req, res) => {
@@ -100,6 +102,68 @@ exports.deleteRoom = async (req, res) => {
       });
     }
     res.status(204).send();
+  } catch (error) {
+    res.status(500).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
+
+// Function to get currently available rooms
+exports.getCurrentlyAvailableRooms = async (req, res) => {
+  try {
+    // Get the current date
+    const currentDate = new Date();
+
+    // Fetch bookings that overlap with the current date
+    const bookedRooms = await BookingDetail.find({
+      CheckInDate: { $lte: currentDate },
+      CheckOutDate: { $gte: currentDate },
+    }).select("RoomID");
+
+    // Extract the RoomIDs of booked rooms
+    const bookedRoomIds = bookedRooms.map((booking) => booking.RoomID);
+
+    // Find rooms that are not in the list of booked room IDs and have a status of "Available"
+    const availableRooms = await RoomDetail.find({
+      _id: { $nin: bookedRoomIds },
+      Status: "Available",
+    });
+
+    res.status(200).json({
+      status: "success",
+      total: availableRooms.length,
+      data: {
+        availableRooms,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
+
+// Function to check the status of all rooms
+exports.checkAllRoomsStatus = async (req, res) => {
+  try {
+    // Fetch all rooms from the RoomDetail schema
+    const rooms = await RoomDetail.find();
+
+    // Filter rooms that are either Occupied or in Maintenance
+    const cleanRooms = rooms.filter(room => room.Status === "Cleaning");
+    const maintenanceRooms = rooms.filter(room => room.Status === "Maintenance");
+
+    res.status(200).json({
+      status: "success",
+      total: cleanRooms.length + maintenanceRooms.length,
+      data: {
+        cleanRooms,
+        maintenanceRooms,
+      },
+    });
   } catch (error) {
     res.status(500).json({
       status: "fail",

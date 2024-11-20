@@ -12,6 +12,7 @@ export class MyStayComponent implements OnInit {
   roomImage: string = "";
   roomName: string = "";
   roomType: string = "";
+  roomNumber: string = "";
   guests: number = 0;
   address: string = "";
   confirmationCode: string = "";
@@ -33,6 +34,9 @@ export class MyStayComponent implements OnInit {
   isCheckOutModalVisible: boolean = false;
   validationMessage: string = "";
   isValid: boolean = false;
+
+  buttonText: string = 'Check-in Your Stay'; // Initial button text
+  isCheckedOut: boolean = false; // Track whether the user has checked out
 
   loading: boolean = false;
 
@@ -57,12 +61,13 @@ export class MyStayComponent implements OnInit {
         this.bookings = response.data.bookings.map((booking: any) => {
           return {
             roomName: `Aurora | ${booking.RoomType}`,
+            roomNumber: booking.RoomID.RoomNumber,
             roomType: booking.RoomType,
             guests: booking.Guests,
             address: "401 Custer Drive, Hays, KS, USA",
-            checkInDate: new Date(booking.CheckInDate).toLocaleDateString(),
+            checkInDate: new Date(booking.CheckInDate),
             checkInTime: booking.CheckInTime,
-            checkOutDate: new Date(booking.CheckOutDate).toLocaleDateString(),
+            checkOutDate: new Date(booking.CheckOutDate),
             checkOutTime: booking.CheckOutTime,
             imageUrl: booking.Image,
             bookingId: booking._id,
@@ -79,6 +84,7 @@ export class MyStayComponent implements OnInit {
           this.roomImage = selectedBooking.imageUrl;
           this.roomName = selectedBooking.roomName;
           this.roomType = selectedBooking.roomType;
+          this.roomNumber = selectedBooking.roomNumber;
           this.guests = selectedBooking.guests;
           this.address = selectedBooking.address;
           this.confirmationCode = selectedBooking.bookingId;
@@ -188,5 +194,16 @@ export class MyStayComponent implements OnInit {
     this.validationMessage = "";
     this.isCheckInModalVisible = false;
     this.isCheckOutModalVisible = false;
+  }
+
+  handleCheckInOut(): void {
+    if (this.buttonText === 'Check-in Your Stay') {
+      // User is checking in
+      this.buttonText = 'Check-out Your Stay';
+    } else if (this.buttonText === 'Check-out Your Stay') {
+      // User is checking out
+      this.isCheckedOut = true; // Disable button after checkout
+      this.buttonText = 'Checked Out'; // Change button text to indicate completion
+    }
   }
 }

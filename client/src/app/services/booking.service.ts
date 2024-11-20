@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -21,7 +21,19 @@ export class BookingService {
     );
   }
 
+  updateBookingAdmin(bookingID: string, updatedData: any) {
+    return this.http.patch(`${this.apiUrl}/${bookingID}`, updatedData);
+  }
+
   getUserBookings(): Observable<any> {
     return this.http.get(`${this.apiUrl}/user-bookings`);
+  }
+
+  getAllBookings(): Observable<any> {
+    return this.http.get(`${this.apiUrl}`);
+  }
+
+  deleteBooking(bookingID: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${bookingID}`);
   }
 }

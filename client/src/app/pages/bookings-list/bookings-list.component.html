@@ -13,8 +13,8 @@
           <h3>{{ booking.roomName }}</h3>
           <p>{{ booking.address }}</p>
           <p><strong>Room Code:</strong> {{ booking.digitalKey}}</p>
-          <p><strong>Check In:</strong> {{ booking.checkInDate | date: 'MMM d, y' }} at {{ booking.checkInTime | timeFormat }}</p>
-          <p><strong>Check Out:</strong> {{ booking.checkOutDate | date: 'MMM d, y' }} at {{ booking.checkOutTime | timeFormat }}</p>
+          <p><strong>Check In:</strong> {{ booking.checkInDate | date: 'MMM d, y' : 'UTC' }} at {{ booking.checkInTime | timeFormat }}</p>
+          <p><strong>Check Out:</strong> {{ booking.checkOutDate | date: 'MMM d, y': 'UTC' }} at {{ booking.checkOutTime | timeFormat }}</p>
         </div>
       </div>
     </div>

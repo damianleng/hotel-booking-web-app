@@ -70,6 +70,10 @@ exports.sendEmailNotificationSuccess = async (booking, room, status) => {
                   <td>${booking.RoomType}</td>
                 </tr>
                 <tr>
+                  <td><strong>Room Number:</strong></td>
+                  <td>${room.RoomNumber}</td>
+                </tr>
+                <tr>
                   <td><strong>Room Code:</strong></td>
                   <td>${booking.DigitalKey}</td>
                 </tr>
