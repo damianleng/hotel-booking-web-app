@@ -24,6 +24,7 @@ export class AdminDashComponent implements OnInit {
     email: string;
     phone: string;
     room: string;
+    roomStatus: string;
     checkInDate: string;
     checkInTime: string;
     checkOutDate: string;
@@ -229,6 +230,7 @@ export class AdminDashComponent implements OnInit {
           checkInTime: booking.CheckInTime,
           checkOutDate: booking.CheckOutDate,
           checkOutTime: booking.CheckOutTime,
+          roomStatus: booking.RoomStatus,
         }));
         this.filteredUsers = [...this.users];
         this.bookedRooms = this.bookings;
