@@ -21,6 +21,8 @@ const routes: Routes = [
   { path: "my-stay/:bookingId", component: MyStayComponent, canActivate: [AuthGuard] },
   { path: "bookings-list", component: BookingsListComponent, canActivate: [AuthGuard] },
   {path: "confirmation", component: ConfirmationComponent, canActivate: [AuthGuard]},
+  { path: "admin", component: AdminDashComponent, canActivate: [AuthGuard] },
+  {path: "housekeeping-dash", component: HousekeepingDashComponent, canActivate: [AuthGuard]},
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 

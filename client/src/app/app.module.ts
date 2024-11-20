@@ -40,6 +40,8 @@ import { HousekeepingDashComponent } from './pages/housekeeping-dash/housekeepin
     CheckInComponent,
     CheckOutComponent,
     BookingsListComponent,
+    AdminDashComponent,
+    HousekeepingDashComponent,
     TimeFormatPipe,
   ],
   imports: [
