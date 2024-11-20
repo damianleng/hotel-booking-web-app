@@ -32,6 +32,7 @@ export class AdminDashComponent implements OnInit {
   }> = [];
 
   bookings: any[] = [];
+  attentionRooms: any[] = [];
 
   searchQuery: string = "";
 
@@ -216,7 +217,12 @@ export class AdminDashComponent implements OnInit {
   fetchAllBookings() {
     this.bookingService.getAllBookings().subscribe(
       (response) => {
-        this.bookings = response.data;
+      // Filter bookings for "Occupied" or "Reserved" status
+      const filteredBookings = response.data.filter((booking: any) => 
+        booking.RoomStatus === "Occupied" || booking.RoomStatus === "Reserved"
+      );
+
+      this.bookings = filteredBookings;
         this.roomBooked = this.bookings.length;
 
         // Map the bookings to match the structure of the users
