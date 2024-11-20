@@ -19,6 +19,7 @@ const bookingSchema = new mongoose.Schema({
   CheckOutTime: {type: String, required: true, default: "12:00"},
   RoomType: { type: String, required: true },
   BookingStatus: { type: String, required: true, default: "Pending" },
+  RoomStatus: {type: String, required: true, default: "Reserved"},
   Guests: { type: Number, required: true },
   FirstName: { type: String, required: true },
   LastName: { type: String, required: true },
