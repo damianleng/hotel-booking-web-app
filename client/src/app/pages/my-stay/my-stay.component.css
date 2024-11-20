@@ -96,7 +96,7 @@
   }
 }
 
-.reservation-status, .checkin-section, .neighborhood-section {
+.reservation-status, .upgrade-section, .neighborhood-section {
     background-color: #f7f7f7;
     padding: 20px;
     border-radius: 10px;
@@ -104,12 +104,12 @@
     margin-bottom: 20px;
 }
 
-.reservation-status h4, .checkin-section h4, .neighborhood-section h4 {
+.reservation-status h4, .upgrade-section h4, .neighborhood-section h4 {
     font-size: 18px;
     margin-bottom: 10px;
 }
 
-.reservation-status p, .checkin-section p, .neighborhood-section p {
+.reservation-status p, .upgrade-section p, .neighborhood-section p {
     font-size: 14px;
 }
 

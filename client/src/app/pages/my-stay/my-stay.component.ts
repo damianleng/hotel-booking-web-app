@@ -35,9 +35,6 @@ export class MyStayComponent implements OnInit {
   validationMessage: string = "";
   isValid: boolean = false;
 
-  buttonText: string = 'Check-in Your Stay'; // Initial button text
-  isCheckedOut: boolean = false; // Track whether the user has checked out
-
   loading: boolean = false;
 
   bookings: any[] = [];
@@ -194,16 +191,5 @@ export class MyStayComponent implements OnInit {
     this.validationMessage = "";
     this.isCheckInModalVisible = false;
     this.isCheckOutModalVisible = false;
-  }
-
-  handleCheckInOut(): void {
-    if (this.buttonText === 'Check-in Your Stay') {
-      // User is checking in
-      this.buttonText = 'Check-out Your Stay';
-    } else if (this.buttonText === 'Check-out Your Stay') {
-      // User is checking out
-      this.isCheckedOut = true; // Disable button after checkout
-      this.buttonText = 'Checked Out'; // Change button text to indicate completion
-    }
   }
 }
