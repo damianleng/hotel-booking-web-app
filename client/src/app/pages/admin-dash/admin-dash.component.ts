@@ -145,7 +145,10 @@ export class AdminDashComponent implements OnInit {
   }
 
   refreshTable(): void {
+    this.setTodayDate();
     this.fetchAllBookings();
+    this.getAttentionRooms(this.selectedDate);
+    this.getAvailableRooms(this.selectedDate);
   }
 
   applyDateFilter() {
