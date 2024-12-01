@@ -72,6 +72,7 @@
           <th>Email</th>
           <th>Phone</th>
           <th>Room</th>
+          <th>Status</th>
           <th>Check-In Date</th>
           <th>Check-In Time</th>
           <th>Check-Out Date</th>
@@ -89,6 +90,7 @@
           <td>{{ user.email }}</td>
           <td>{{ user.phone }}</td>
           <td>{{ user.room }}</td>
+          <td>{{ user.roomStatus }}</td>
           <td>{{ user.checkInDate | date: 'MMM d, y' : 'UTC' }}</td>
           <td>{{ user.checkInTime | timeFormat }}</td>
           <td>{{ user.checkOutDate | date: 'MMM d, y' : 'UTC' }}</td>
@@ -200,8 +202,6 @@
   </div>
 </div>
 
-
-<!-- Rooms Needing Cleaning Modal -->
 <!-- Rooms Needing Cleaning Modal -->
 <div id="cleaningRoomsModal" class="modal">
   <div class="modal-content">
