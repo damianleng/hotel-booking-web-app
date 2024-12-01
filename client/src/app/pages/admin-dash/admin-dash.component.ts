@@ -179,6 +179,9 @@ export class AdminDashComponent implements OnInit {
     this.roomNeedCleaning = this.bookings.filter(
       (booking) => booking.RoomStatus === "Cleaning" || booking.RoomStatus === "Maintenance"
     ).length;
+
+    // Call getAttentionRooms with the selected date
+    this.getAttentionRooms(this.selectedDate);
   }
 
   toggleEditForm(index: number): void {
@@ -293,13 +296,23 @@ export class AdminDashComponent implements OnInit {
   }
   
 
-  getAttentionRooms(): void {
+  getAttentionRooms(selectedDate?: string): void {
     this.bookingService.getAllBookings().subscribe(
       (response) => {
         // Filter bookings for "Cleaning" or "Maintenance" status
-        const filteredBookings = response.data.filter((booking: any) => 
-          booking.RoomStatus === "Cleaning" || booking.RoomStatus === "Maintenance"
+        let filteredBookings = response.data.filter(
+          (booking: any) =>
+            booking.RoomStatus === "Cleaning" || booking.RoomStatus === "Maintenance"
         );
+  
+        // If a date is selected, filter the bookings by the selected date
+        if (selectedDate) {
+          const formattedSelectedDate = this.formatDate(selectedDate);
+          filteredBookings = filteredBookings.filter((booking: any) => {
+            const formattedCheckOutDate = this.formatDate_2(booking.CheckOutDate);
+            return formattedCheckOutDate === formattedSelectedDate;
+          });
+        }
   
         this.attentionRooms = filteredBookings;
         this.roomNeedCleaning = this.attentionRooms.length;
