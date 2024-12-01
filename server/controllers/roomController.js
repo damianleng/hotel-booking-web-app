@@ -2,6 +2,7 @@
 const roomService = require("../fetch_service/roomService");
 const RoomDetail = require("../data_schema/roomSchema");
 const BookingDetail = require("../data_schema/bookingSchema");
+const cron = require("node-cron");
 
 // Get method to get a room by ID
 exports.getRoom = async (req, res) => {
@@ -153,8 +154,10 @@ exports.checkAllRoomsStatus = async (req, res) => {
     const rooms = await RoomDetail.find();
 
     // Filter rooms that are either Occupied or in Maintenance
-    const cleanRooms = rooms.filter(room => room.Status === "Cleaning");
-    const maintenanceRooms = rooms.filter(room => room.Status === "Maintenance");
+    const cleanRooms = rooms.filter((room) => room.Status === "Cleaning");
+    const maintenanceRooms = rooms.filter(
+      (room) => room.Status === "Maintenance"
+    );
 
     res.status(200).json({
       status: "success",
@@ -171,3 +174,55 @@ exports.checkAllRoomsStatus = async (req, res) => {
     });
   }
 };
+
+exports.updateBookingRoomStatus = async () => {
+  try {
+    // get current time
+    const currentTime = new Date();
+
+    console.log("Cron job running at time:", currentTime); // Log the current time to see when the job runs
+
+    // fetch all bookings
+    const bookings = await BookingDetail.find({});
+    
+    console.log("Number of bookings fetched:", bookings.length); // Log the number of bookings
+
+    // iterate through each booking to check and update room
+    for (const booking of bookings) {
+      const room = await RoomDetail.findById(booking.RoomID);
+
+      const checkInDate = new Date(booking.CheckInDate);
+      const [checkInHour, checkInMinute] =
+        booking.CheckInTime.split(":").map(Number);
+      checkInDate.setUTCHours(checkInHour, checkInMinute, 0, 0); // Set the hours and minutes
+
+      // Parse CheckOutDate and CheckOutTime
+      const checkOutDate = new Date(booking.CheckOutDate);
+      const [checkOutHour, checkOutMinute] =
+        booking.CheckOutTime.split(":").map(Number);
+      checkOutDate.setUTCHours(checkOutHour, checkOutMinute, 0, 0); // Set the hours and minutes
+
+      console.log("Check-In Date: ", checkInDate);
+
+
+      if (currentTime >= checkInDate && currentTime < checkOutDate) {
+        booking.RoomStatus = "Occupied";
+        room.Status = "Occupied"
+      } else if (currentTime >= checkOutDate) {
+        booking.RoomStatus = "Cleaning";
+        room.Status = "Cleaning";
+      } else {
+        booking.RoomStatus = "Reserved";
+      }
+
+      await booking.save();
+      await room.save();
+    }
+    console.log("Room statuses updated successfully.");
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// Schedule the function to run every hour
+cron.schedule("0 * * * *", this.updateBookingRoomStatus); // Runs at the start of every hour

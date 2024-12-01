@@ -3,6 +3,8 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/authRoutes");
 
+const roomController = require("./controllers/roomController");
+
 // initialize config.env
 dotenv.config({ path: "./config.env" });
 
@@ -20,6 +22,9 @@ mongoose
   .connect(DB, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(async () => {
     console.log("Connected to Hotelkeeping Database");
+
+    roomController.updateBookingRoomStatus();
+    
   })
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error);

@@ -24,6 +24,7 @@ export class AdminDashComponent implements OnInit {
     email: string;
     phone: string;
     room: string;
+    roomStatus: string;
     checkInDate: string;
     checkInTime: string;
     checkOutDate: string;
@@ -31,6 +32,7 @@ export class AdminDashComponent implements OnInit {
   }> = [];
 
   bookings: any[] = [];
+  attentionRooms: any[] = [];
 
   searchQuery: string = "";
 
@@ -55,11 +57,21 @@ export class AdminDashComponent implements OnInit {
     this.fetchAllBookings();
     this.getAvailableRooms();
     this.getAttentionRooms();
+    this.setTodayDate();
+    this.applyDateFilter();
 
     document.addEventListener("DOMContentLoaded", () => {
       const elems = document.querySelectorAll(".modal");
       M.Modal.init(elems);
     });
+  }
+
+  setTodayDate(): void {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = ("0" + (now.getMonth() + 1)).slice(-2); // Add leading zero
+    const day = ("0" + now.getDate()).slice(-2); // Add leading zero
+    this.selectedDate = `${year}-${month}-${day}`; // Format YYYY-MM-DD
   }
 
   openAvailableRoomsModal(): void {
@@ -133,11 +145,15 @@ export class AdminDashComponent implements OnInit {
   }
 
   refreshTable(): void {
+    this.setTodayDate();
     this.fetchAllBookings();
+    this.getAttentionRooms(this.selectedDate);
+    this.getAvailableRooms(this.selectedDate);
   }
 
   applyDateFilter() {
     let filtered = this.users;
+    let filteredRooms = this.bookedRooms;
 
     this.showFilter = true;
 
@@ -149,6 +165,12 @@ export class AdminDashComponent implements OnInit {
         const formattedCheckInDate = this.formatDate_2(user.checkInDate); // Format each checkInDate
         return formattedCheckInDate === formattedSelectedDate; // Compare formatted dates
       });
+
+      // Filter rooms based on selected date
+      filteredRooms = filteredRooms.filter((booking) => {
+      const formattedCheckInDate = this.formatDate_2(booking.CheckInDate); // Format each checkInDate
+      return formattedCheckInDate === formattedSelectedDate; // Compare formatted dates
+    });
     }
 
     if (this.searchQuery) {
@@ -160,7 +182,22 @@ export class AdminDashComponent implements OnInit {
     }
 
     this.filteredUsers = filtered;
+    this.bookedRooms = filteredRooms;
     this.showDateInput = false;
+
+    // Update room counts
+    this.roomAvailable = this.bookings.filter(
+      (booking) => booking.RoomStatus === "Available"
+    ).length;
+    this.roomNeedCleaning = this.bookings.filter(
+      (booking) => booking.RoomStatus === "Cleaning" || booking.RoomStatus === "Maintenance"
+    ).length;
+
+    // Call getAttentionRooms with the selected date
+    this.getAttentionRooms(this.selectedDate);
+
+    // Call getAvailableRooms with the selected date
+    this.getAvailableRooms(this.selectedDate);
   }
 
   toggleEditForm(index: number): void {
@@ -215,7 +252,12 @@ export class AdminDashComponent implements OnInit {
   fetchAllBookings() {
     this.bookingService.getAllBookings().subscribe(
       (response) => {
-        this.bookings = response.data;
+      // Filter bookings for "Occupied" or "Reserved" status
+      const filteredBookings = response.data.filter((booking: any) => 
+        booking.RoomStatus === "Occupied" || booking.RoomStatus === "Reserved"
+      );
+
+      this.bookings = filteredBookings;
         this.roomBooked = this.bookings.length;
 
         // Map the bookings to match the structure of the users
@@ -229,6 +271,7 @@ export class AdminDashComponent implements OnInit {
           checkInTime: booking.CheckInTime,
           checkOutDate: booking.CheckOutDate,
           checkOutTime: booking.CheckOutTime,
+          roomStatus: booking.RoomStatus,
         }));
         this.filteredUsers = [...this.users];
         this.bookedRooms = this.bookings;
@@ -239,30 +282,97 @@ export class AdminDashComponent implements OnInit {
     );
   }
 
-  getAvailableRooms(): void {
-    this.roomService.getCurrentRooms().subscribe(
-      (response) => {
-        this.availableRooms = response.data.availableRooms;
-        this.roomAvailable = response.total;
+  getAvailableRooms(selectedDate?: string): void {
+    // Step 1: Fetch all rooms
+    this.roomService.getAllRooms().subscribe(
+      (roomResponse) => {
+        // Store all rooms in the component's state
+        const allRooms = roomResponse.data;
+  
+        // Step 2: Fetch all bookings with status "Occupied" or "Reserved"
+        this.bookingService.getAllBookings().subscribe(
+          (bookingResponse) => {
+            let occupiedOrReservedRooms = bookingResponse.data
+              .filter(
+                (booking: any) =>
+                  booking.RoomStatus === "Occupied" ||
+                  booking.RoomStatus === "Reserved" ||
+                  booking.RoomStatus === "Cleaning" ||
+                  booking.RoomStatus === "Maintenance"
+              )
+              .map((booking: any) => booking.RoomID.RoomNumber);
+  
+            // If a date is selected, filter the bookings by the selected date
+            if (selectedDate) {
+              const formattedSelectedDate = this.formatDate(selectedDate);
+              occupiedOrReservedRooms = bookingResponse.data
+                .filter((booking: any) => {
+                  const formattedCheckInDate = this.formatDate_2(booking.CheckInDate);
+                  return formattedCheckInDate === formattedSelectedDate;
+                })
+                .map((booking: any) => booking.RoomID.RoomNumber);
+            }
+  
+            // Step 3: Filter out the rooms that are occupied or reserved
+            this.availableRooms = allRooms.filter(
+              (room: any) => !occupiedOrReservedRooms.includes(room.RoomNumber)
+            );
+            this.roomAvailable = this.availableRooms.length;
+          },
+          (error) => {
+            console.error("Error fetching bookings: ", error);
+          }
+        );
       },
       (error) => {
-        console.error(error);
+        console.error("Error fetching rooms: ", error);
       }
     );
   }
+  
 
-  getAttentionRooms(): void {
-    this.roomService.getAttentionRooms().subscribe(
+  getAttentionRooms(selectedDate?: string): void {
+    this.bookingService.getAllBookings().subscribe(
       (response) => {
-        this.roomNeedCleaning = response.total;
-        this.cleaningRooms = response.data.cleanRooms;
-        this.maintanenceRooms = response.data.maintenanceRooms;
-
-        // Combine the cleaning and maintenance rooms
-        this.cleaningRooms = [...this.cleaningRooms, ...this.maintanenceRooms];
+        // Filter bookings for "Cleaning" or "Maintenance" status
+        let filteredBookings = response.data.filter(
+          (booking: any) =>
+            booking.RoomStatus === "Cleaning" || booking.RoomStatus === "Maintenance"
+        );
+  
+        // If a date is selected, filter the bookings by the selected date
+        if (selectedDate) {
+          const formattedSelectedDate = this.formatDate(selectedDate);
+          filteredBookings = filteredBookings.filter((booking: any) => {
+            const formattedCheckOutDate = this.formatDate_2(booking.CheckOutDate);
+            return formattedCheckOutDate === formattedSelectedDate;
+          });
+        }
+  
+        this.attentionRooms = filteredBookings;
+        this.roomNeedCleaning = this.attentionRooms.length;
+  
+        // Map the bookings to match the structure of the rooms needing attention
+        this.cleaningRooms = this.attentionRooms
+          .filter((booking: any) => booking.RoomStatus === "Cleaning")
+          .map((booking: any) => ({
+            RoomNumber: booking.RoomID.RoomNumber,
+            RoomType: booking.RoomType,
+            Status: booking.RoomStatus,
+            CheckOutTime: booking.CheckOutTime,
+          }));
+  
+        this.maintanenceRooms = this.attentionRooms
+          .filter((booking: any) => booking.RoomStatus === "Maintenance")
+          .map((booking: any) => ({
+            RoomNumber: booking.RoomID.RoomNumber,
+            RoomType: booking.RoomID.RoomType,
+            Status: booking.RoomStatus,
+            CheckOutTime: booking.CheckOutTime,
+          }));
       },
       (error) => {
-        console.error(error);
+        console.error("Error fetching all bookings: ", error);
       }
     );
   }

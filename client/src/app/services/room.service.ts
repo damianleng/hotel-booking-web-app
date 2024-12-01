@@ -10,6 +10,10 @@ export class RoomService {
 
   constructor(private http: HttpClient) { }
 
+  getAllRooms(): Observable<any> {
+    return this.http.get(`${this.apiUrl}`);
+  }
+
   getAttentionRooms(): Observable <any> {
     return this.http.get(`${this.apiUrl}/attention`)
   }
