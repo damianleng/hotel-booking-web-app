@@ -182,6 +182,9 @@ export class AdminDashComponent implements OnInit {
 
     // Call getAttentionRooms with the selected date
     this.getAttentionRooms(this.selectedDate);
+
+    // Call getAvailableRooms with the selected date
+    this.getAvailableRooms(this.selectedDate);
   }
 
   toggleEditForm(index: number): void {
@@ -266,7 +269,7 @@ export class AdminDashComponent implements OnInit {
     );
   }
 
-  getAvailableRooms(): void {
+  getAvailableRooms(selectedDate?: string): void {
     // Step 1: Fetch all rooms
     this.roomService.getAllRooms().subscribe(
       (roomResponse) => {
@@ -276,12 +279,31 @@ export class AdminDashComponent implements OnInit {
         // Step 2: Fetch all bookings with status "Occupied" or "Reserved"
         this.bookingService.getAllBookings().subscribe(
           (bookingResponse) => {
-            const occupiedOrReservedRooms = bookingResponse.data
-              .filter((booking: any) => booking.RoomStatus === "Occupied" || booking.RoomStatus === "Reserved" || booking.RoomStatus === "Cleaning" || booking.RoomStatus === "Maintenance")
+            let occupiedOrReservedRooms = bookingResponse.data
+              .filter(
+                (booking: any) =>
+                  booking.RoomStatus === "Occupied" ||
+                  booking.RoomStatus === "Reserved" ||
+                  booking.RoomStatus === "Cleaning" ||
+                  booking.RoomStatus === "Maintenance"
+              )
               .map((booking: any) => booking.RoomID.RoomNumber);
   
+            // If a date is selected, filter the bookings by the selected date
+            if (selectedDate) {
+              const formattedSelectedDate = this.formatDate(selectedDate);
+              occupiedOrReservedRooms = bookingResponse.data
+                .filter((booking: any) => {
+                  const formattedCheckOutDate = this.formatDate_2(booking.CheckOutDate);
+                  return formattedCheckOutDate === formattedSelectedDate;
+                })
+                .map((booking: any) => booking.RoomID.RoomNumber);
+            }
+  
             // Step 3: Filter out the rooms that are occupied or reserved
-            this.availableRooms = allRooms.filter((room: any) => !occupiedOrReservedRooms.includes(room.RoomNumber));
+            this.availableRooms = allRooms.filter(
+              (room: any) => !occupiedOrReservedRooms.includes(room.RoomNumber)
+            );
             this.roomAvailable = this.availableRooms.length;
           },
           (error) => {
