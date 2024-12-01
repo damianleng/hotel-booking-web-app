@@ -274,7 +274,7 @@ export class AdminDashComponent implements OnInit {
         this.bookingService.getAllBookings().subscribe(
           (bookingResponse) => {
             const occupiedOrReservedRooms = bookingResponse.data
-              .filter((booking: any) => booking.RoomStatus === "Occupied" || booking.RoomStatus === "Reserved")
+              .filter((booking: any) => booking.RoomStatus === "Occupied" || booking.RoomStatus === "Reserved" || booking.RoomStatus === "Cleaning" || booking.RoomStatus === "Maintenance")
               .map((booking: any) => booking.RoomID.RoomNumber);
   
             // Step 3: Filter out the rooms that are occupied or reserved
@@ -294,17 +294,37 @@ export class AdminDashComponent implements OnInit {
   
 
   getAttentionRooms(): void {
-    this.roomService.getAttentionRooms().subscribe(
+    this.bookingService.getAllBookings().subscribe(
       (response) => {
-        this.roomNeedCleaning = response.total;
-        this.cleaningRooms = response.data.cleanRooms;
-        this.maintanenceRooms = response.data.maintenanceRooms;
-
-        // Combine the cleaning and maintenance rooms
-        this.cleaningRooms = [...this.cleaningRooms, ...this.maintanenceRooms];
+        // Filter bookings for "Cleaning" or "Maintenance" status
+        const filteredBookings = response.data.filter((booking: any) => 
+          booking.RoomStatus === "Cleaning" || booking.RoomStatus === "Maintenance"
+        );
+  
+        this.attentionRooms = filteredBookings;
+        this.roomNeedCleaning = this.attentionRooms.length;
+  
+        // Map the bookings to match the structure of the rooms needing attention
+        this.cleaningRooms = this.attentionRooms
+          .filter((booking: any) => booking.RoomStatus === "Cleaning")
+          .map((booking: any) => ({
+            RoomNumber: booking.RoomID.RoomNumber,
+            RoomType: booking.RoomType,
+            Status: booking.RoomStatus,
+            CheckOutTime: booking.CheckOutTime,
+          }));
+  
+        this.maintanenceRooms = this.attentionRooms
+          .filter((booking: any) => booking.RoomStatus === "Maintenance")
+          .map((booking: any) => ({
+            RoomNumber: booking.RoomID.RoomNumber,
+            RoomType: booking.RoomID.RoomType,
+            Status: booking.RoomStatus,
+            CheckOutTime: booking.CheckOutTime,
+          }));
       },
       (error) => {
-        console.error(error);
+        console.error("Error fetching all bookings: ", error);
       }
     );
   }

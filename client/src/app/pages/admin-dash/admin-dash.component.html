@@ -214,7 +214,7 @@
           <th>Room Number</th>
           <th>Room Type</th>
           <th>Status</th>
-          <th>Max People</th>
+          <th>Check Out Time</th>
         </tr>
       </thead>
       <tbody>
@@ -222,7 +222,13 @@
           <td>{{ room.RoomNumber }}</td>
           <td>{{ room.RoomType }}</td>
           <td>{{ room.Status }}</td>
-          <td>{{ room.MaxPeople }}</td>
+          <td>{{ room.CheckOutTime }}</td>
+        </tr>
+        <tr *ngFor="let room of maintanenceRooms">
+          <td>{{ room.RoomNumber }}</td>
+          <td>{{ room.RoomType }}</td>
+          <td>{{ room.Status }}</td>
+          <td>{{ room.CheckOutTime }}</td>
         </tr>
       </tbody>
     </table>
