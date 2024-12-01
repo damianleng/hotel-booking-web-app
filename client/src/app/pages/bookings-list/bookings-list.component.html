@@ -1,22 +1,43 @@
 <div class="container">
-    <h3>My Stays</h3>
-    <div class="bookings-list">
-      <div *ngIf="noRooms" class="card-panel red lighten-4 red-text text-darken-4">
-        <p><i class="material-icons left">error</i>No rooms booked yet. Start planning your stay!</p>
+  <h3>My Stays</h3>
+  <!-- Upcoming Stays Section -->
+  <div class="bookings-list">
+    <h4>Upcoming Stays</h4>
+    <div *ngIf="noUpcomingRooms" class="card-panel red lighten-4 red-text text-darken-4">
+      <p><i class="material-icons left">error</i>No upcoming stays found.</p>
+    </div>
+    <div class="booking-card" *ngFor="let booking of bookings" (click)="viewBookingDetails(booking.bookingId)">
+      <div class="booking-image">
+        <img [src]="booking.imageUrl" alt="Booking Image" class="responsive-img">
       </div>
-      <div class="booking-card" *ngFor="let booking of bookings" (click)="viewBookingDetails(booking.bookingId)">
-        <div class="booking-image">
-          <img [src]="booking.imageUrl" alt="Booking Image" class="responsive-img">
-        </div>
-        <div class="booking-info">
-          <p><strong>{{ booking.guests }} Guests | {{ booking.roomType }}</strong></p>
-          <h3>{{ booking.roomName }}</h3>
-          <p>{{ booking.address }}</p>
-          <p><strong>Room Code:</strong> {{ booking.digitalKey}}</p>
-          <p><strong>Check In:</strong> {{ booking.checkInDate | date: 'MMM d, y' : 'UTC' }} at {{ booking.checkInTime | timeFormat }}</p>
-          <p><strong>Check Out:</strong> {{ booking.checkOutDate | date: 'MMM d, y': 'UTC' }} at {{ booking.checkOutTime | timeFormat }}</p>
-        </div>
+      <div class="booking-info">
+        <p><strong>{{ booking.guests }} Guests | {{ booking.roomType }}</strong></p>
+        <h3>{{ booking.roomName }}</h3>
+        <p>{{ booking.address }}</p>
+        <p><strong>Room Code:</strong> {{ booking.digitalKey }}</p>
+        <p><strong>Check In:</strong> {{ booking.checkInDate | date: 'MMM d, y' : 'UTC' }} at {{ booking.checkInTime | timeFormat }}</p>
+        <p><strong>Check Out:</strong> {{ booking.checkOutDate | date: 'MMM d, y' : 'UTC' }} at {{ booking.checkOutTime | timeFormat }}</p>
       </div>
     </div>
   </div>
-  
+
+  <!-- Past Stays Section -->
+  <div class="bookings-list">
+    <h4>Past Stays</h4>
+    <div *ngIf="noPastRooms" class="card-panel grey lighten-4 grey-text text-darken-4">
+      <p><i class="material-icons left">history</i>No past stays found.</p>
+    </div>
+    <div class="booking-card" *ngFor="let booking of pastBookings">
+      <div class="booking-image">
+        <img [src]="booking.imageUrl" alt="Booking Image" class="responsive-img">
+      </div>
+      <div class="booking-info">
+        <p><strong>{{ booking.guests }} Guests | {{ booking.roomType }}</strong></p>
+        <h3>{{ booking.roomName }}</h3>
+        <p>{{ booking.address }}</p>
+        <p><strong>Check In:</strong> {{ booking.checkInDate | date: 'MMM d, y' : 'UTC' }} at {{ booking.checkInTime | timeFormat }}</p>
+        <p><strong>Check Out:</strong> {{ booking.checkOutDate | date: 'MMM d, y' : 'UTC' }} at {{ booking.checkOutTime | timeFormat }}</p>
+      </div>
+    </div>
+  </div>
+</div>
