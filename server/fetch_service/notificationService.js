@@ -98,6 +98,59 @@ exports.sendEmailNotificationSuccess = async (booking, room, status) => {
   }
 };
 
+// Function to send an email notification to cleaners when a room is checked-out
+exports.sendCleanerNotification = async (room) => {
+  const email = "aurorahotelinfo@gmail.com"; // cleaner's email
+  const subject = `Room Cleaning Notification: Immediate Attention Needed for Room ${room.RoomNumber}`; // subject email
+
+  const htmlMessage = `<!DOCTYPE html>
+  <html>
+    <body style="font-family: Arial, sans-serif; color: #333; background-color: #f9f9f9; padding: 20px;">
+      <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        <h2 style="color: #FF5722; text-align: center;">Room Cleaning Required</h2>
+        <p>Dear Cleaner,</p>
+        <p>The following room requires immediate cleaning:</p>
+        
+        <table style="width: 100%; font-size: 16px; line-height: 1.6; margin: 20px 0;">
+          <tr>
+            <td><strong>Room Number:</strong></td>
+            <td>${room.RoomNumber}</td>
+          </tr>
+          <tr>
+            <td><strong>Room Type:</strong></td>
+            <td>${room.RoomType}</td>
+          </tr>
+          <tr>
+            <td><strong>Status:</strong></td>
+            <td>Checked-Out</td>
+          </tr>
+          <tr>
+            <td><strong>Cleaning Priority:</strong></td>
+            <td>High</td>
+          </tr>
+        </table>
+        
+        <div style="text-align: center; margin: 20px 0;">
+          <img src="${room.Image}" alt="Room Image" style="max-width: 100%; border-radius: 8px;">
+        </div>
+        
+        <div style="margin-top: 20px; padding: 10px; background-color: #ffe0b2; border-left: 4px solid #ff9800;">
+          <p style="margin: 0;">Please ensure the room is cleaned and prepared for the next guest as soon as possible. Update the status in the system once cleaning is completed.</p>
+        </div>
+        
+        <p style="margin-top: 20px;">Thank you for your prompt attention to this matter.</p>
+        <p style="margin-top: 20px;">This is an automated email, please do not reply to this email.</p>
+      </div>
+    </body>
+  </html>`;
+
+  try {
+    await this.sendEmailNotification(email, subject, htmlMessage);
+  } catch (error) {
+    console.error("Error sending email for cleaner notification: ", error);
+  }
+};
+
 function formatTime(time) {
   const [hours, minutes] = time.split(":").map(Number);
   const amPm = hours >= 12 ? "PM" : "AM";
