@@ -3,7 +3,7 @@
   <!-- Upcoming Stays Section -->
   <div class="bookings-list">
     <h4>Upcoming Stays</h4>
-    <div *ngIf="noUpcomingRooms" class="card-panel red lighten-4 red-text text-darken-4">
+    <div *ngIf="noUpcomingRooms" class="card-panel grey lighten-4 red-text text-darken-4">
       <p><i class="material-icons left">error</i>No upcoming stays found.</p>
     </div>
     <div class="booking-card" *ngFor="let booking of bookings" (click)="viewBookingDetails(booking.bookingId)">
