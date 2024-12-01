@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: "bookings-list", component: BookingsListComponent, canActivate: [AuthGuard], data: { role: 'user' } },
   {path: "confirmation", component: ConfirmationComponent, canActivate: [AuthGuard], data: { role: 'user' }},
   { path: "admin", component: AdminDashComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
-  {path: "housekeeping-dash", component: HousekeepingDashComponent, canActivate: [AuthGuard]},
+  {path: "housekeeping-dash", component: HousekeepingDashComponent, canActivate: [AuthGuard], data: { role: 'cleaner' }},
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 

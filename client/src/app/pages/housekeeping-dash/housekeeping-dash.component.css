@@ -1,13 +1,4 @@
-/* General Styles */
-.dashboard-container {
-    padding: 20px;
-  }
-  
-  .card-title {
-    font-size: 1.8em;
-    margin-bottom: 20px;
-  }
-  
+
   /* Badge Styles */
   .status-badge {
     display: inline-block;
@@ -38,94 +29,27 @@
     background-color: #229954; /* Dark green */
   }
   
-  /* Table Styles */
-  .responsive-table {
-    overflow-x: auto; /* Enable horizontal scrolling on small screens */
+  .action-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  th, td {
-    padding: 12px 15px;
-    text-align: center;
-    vertical-align: middle;
-  }
+
   
   /* Responsive Styles */
   @media (max-width: 768px) {
-    /* Adjust the table for smaller screens */
-    th, td {
-      padding: 8px 10px;
-      font-size: 0.9em;
-    }
-  
     .status-badge {
       font-size: 0.75em; /* Smaller badges for smaller screens */
-      padding: 6px 10px;
+
     }
-  
-    .btn {
-      font-size: 0.8em; /* Smaller button text */
-      padding: 6px 12px;
-    }
+
   }
   
   @media (max-width: 576px) {
-    /* Make table rows into cards */
-    table {
-      display: block; /* Stack rows */
-    }
-  
-    thead {
-      display: none; /* Hide headers */
-    }
-  
-    tbody tr {
-      display: flex;
-      flex-direction: column;
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      margin-bottom: 20px; /* Add more space between cards */
-      padding: 100px 80px; /* Keep padding at 100px for vertical space */
-      background: #fff;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-      min-height: auto; /* Automatically adjust height based on content */
-    }
-  
-    tbody td {
-      display: flex;
-      flex-direction: column; /* Stack content vertically */
-      justify-content: flex-start; /* Align items to the top */
-      align-items: flex-start; /* Align content to the left */
-      text-align: left; /* Left-align text */
-      padding: 15px 0; /* Add vertical spacing between items */
-      font-size: 1em; /* Adjust font size for readability */
-    }
-  
-    tbody td::before {
-      content: attr(data-label); /* Add header labels dynamically */
-      font-weight: bold;
-      color: #555;
-      margin-bottom: 5px; /* Add spacing between label and content */
-      font-size: 0.9em; /* Adjust label size */
-    }
-  
     .status-badge {
       align-self: center; /* Center-align badge */
-      margin: 15px 0; /* Add spacing above and below the badge */
-      padding: 15px 25px; /* Larger padding for a more prominent badge */
       border-radius: 25px; /* Make the badge more rounded */
     }
-  
-    .btn {
-        align-self: center; /* Center-align the button */
-        font-size: 1em; /* Adjust button size */
-        max-width: 200px; /* Restrict the button width */
-        text-align: center; /* Center-align the text inside the button */
-        border-radius: 8px; /* Rounded corners */
-      }
+
   }
   
