@@ -57,11 +57,21 @@ export class AdminDashComponent implements OnInit {
     this.fetchAllBookings();
     this.getAvailableRooms();
     this.getAttentionRooms();
+    this.setTodayDate();
+    this.applyDateFilter();
 
     document.addEventListener("DOMContentLoaded", () => {
       const elems = document.querySelectorAll(".modal");
       M.Modal.init(elems);
     });
+  }
+
+  setTodayDate(): void {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = ("0" + (now.getMonth() + 1)).slice(-2); // Add leading zero
+    const day = ("0" + now.getDate()).slice(-2); // Add leading zero
+    this.selectedDate = `${year}-${month}-${day}`; // Format YYYY-MM-DD
   }
 
   openAvailableRoomsModal(): void {
@@ -294,8 +304,8 @@ export class AdminDashComponent implements OnInit {
               const formattedSelectedDate = this.formatDate(selectedDate);
               occupiedOrReservedRooms = bookingResponse.data
                 .filter((booking: any) => {
-                  const formattedCheckOutDate = this.formatDate_2(booking.CheckOutDate);
-                  return formattedCheckOutDate === formattedSelectedDate;
+                  const formattedCheckInDate = this.formatDate_2(booking.CheckInDate);
+                  return formattedCheckInDate === formattedSelectedDate;
                 })
                 .map((booking: any) => booking.RoomID.RoomNumber);
             }
