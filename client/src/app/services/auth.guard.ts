@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
 
     if (token) {
-      const allowedRoles = route.data['roles'];
+      const allowedRoles = route.data['role'];
       if (allowedRoles && !allowedRoles.includes(user.role)) {
         this.router.navigate(['/home']);
         return false;

@@ -140,6 +140,7 @@ export class AdminDashComponent implements OnInit {
 
   applyDateFilter() {
     let filtered = this.users;
+    let filteredRooms = this.bookedRooms;
 
     this.showFilter = true;
 
@@ -151,6 +152,12 @@ export class AdminDashComponent implements OnInit {
         const formattedCheckInDate = this.formatDate_2(user.checkInDate); // Format each checkInDate
         return formattedCheckInDate === formattedSelectedDate; // Compare formatted dates
       });
+
+      // Filter rooms based on selected date
+      filteredRooms = filteredRooms.filter((booking) => {
+      const formattedCheckInDate = this.formatDate_2(booking.CheckInDate); // Format each checkInDate
+      return formattedCheckInDate === formattedSelectedDate; // Compare formatted dates
+    });
     }
 
     if (this.searchQuery) {
@@ -162,7 +169,16 @@ export class AdminDashComponent implements OnInit {
     }
 
     this.filteredUsers = filtered;
+    this.bookedRooms = filteredRooms;
     this.showDateInput = false;
+
+    // Update room counts
+    this.roomAvailable = this.bookings.filter(
+      (booking) => booking.RoomStatus === "Available"
+    ).length;
+    this.roomNeedCleaning = this.bookings.filter(
+      (booking) => booking.RoomStatus === "Cleaning" || booking.RoomStatus === "Maintenance"
+    ).length;
   }
 
   toggleEditForm(index: number): void {
@@ -248,16 +264,34 @@ export class AdminDashComponent implements OnInit {
   }
 
   getAvailableRooms(): void {
-    this.roomService.getCurrentRooms().subscribe(
-      (response) => {
-        this.availableRooms = response.data.availableRooms;
-        this.roomAvailable = response.total;
+    // Step 1: Fetch all rooms
+    this.roomService.getAllRooms().subscribe(
+      (roomResponse) => {
+        // Store all rooms in the component's state
+        const allRooms = roomResponse.data;
+  
+        // Step 2: Fetch all bookings with status "Occupied" or "Reserved"
+        this.bookingService.getAllBookings().subscribe(
+          (bookingResponse) => {
+            const occupiedOrReservedRooms = bookingResponse.data
+              .filter((booking: any) => booking.RoomStatus === "Occupied" || booking.RoomStatus === "Reserved")
+              .map((booking: any) => booking.RoomID.RoomNumber);
+  
+            // Step 3: Filter out the rooms that are occupied or reserved
+            this.availableRooms = allRooms.filter((room: any) => !occupiedOrReservedRooms.includes(room.RoomNumber));
+            this.roomAvailable = this.availableRooms.length;
+          },
+          (error) => {
+            console.error("Error fetching bookings: ", error);
+          }
+        );
       },
       (error) => {
-        console.error(error);
+        console.error("Error fetching rooms: ", error);
       }
     );
   }
+  
 
   getAttentionRooms(): void {
     this.roomService.getAttentionRooms().subscribe(
