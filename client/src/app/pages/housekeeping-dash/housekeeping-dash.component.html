@@ -38,17 +38,17 @@
                   <span
                     class="status-badge"
                     [ngClass]="{
-                      'needs-cleaning': room.needsCleaning,
-                      'clean': !room.needsCleaning
+                      'needs-cleaning': room.needsCleaning === 'Cleaning',
+                      'clean': room.needsCleaning === 'Cleaned'
                     }"
                   >
-                    {{ room.needsCleaning ? 'Attention' : 'Cleaned' }}
+                  {{ room.needsCleaning === 'Cleaning' ? 'Attention' : 'Cleaned' }}
                   </span>
                 </td>
                 <td data-label="Action">
            
                     <button
-                      *ngIf="room.needsCleaning"
+                      *ngIf="room.needsCleaning === 'Cleaning'"
                       (click)="markAsClean(room)"
                       class="btn-flat waves-effect"
                     >

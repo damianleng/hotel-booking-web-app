@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BookingService } from 'src/app/services/booking.service';
 
 @Component({
   selector: 'app-housekeeping-dash',
@@ -7,47 +8,44 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HousekeepingDashComponent implements OnInit {
 
-  rooms = [
-    {
-      roomName: 'Aurora | Single',
-      guestName: 'John Doe',
-      guestRoom: '101',
-      checkInTime: '2:00 PM',
-      checkOutTime: '11:00 AM',
-      needsCleaning: true
-    },
-    {
-      roomName: 'Aurora | Double',
-      guestName: 'Jane Smith',
-      guestRoom: '102',
-      checkInTime: '3:00 PM',
-      checkOutTime: '12:00 PM',
-      needsCleaning: false
-    },
-    {
-      roomName: 'Aurora | Suite',
-      guestName: 'Alice Brown',
-      guestRoom: '103',
-      checkInTime: '4:00 PM',
-      checkOutTime: '10:00 AM',
-      needsCleaning: true
-    }
-  ];
-
-  filteredRooms = this.rooms;
+  rooms: any[] = [];
+  filteredRooms: any[] = [];
   selectedStatus = 'all';
 
-  constructor() {}
+  constructor(private bookingService: BookingService) {}
 
   ngOnInit(): void {
-    this.filterRooms(); // Initial filter
+    this.getCleaningRooms(); // Initial filter
+  }
+
+  getCleaningRooms(): void {
+    this.bookingService.getAllBookings().subscribe(
+      (response) => {
+        // Filter bookings for "Cleaning" status
+        this.rooms = response.data.filter(
+          (booking: any) => booking.RoomStatus === 'Cleaning' || booking.RoomStatus === 'Cleaned'
+        ).map((booking: any) => ({
+          roomName: `Aurora | ${booking.RoomType}`,
+          guestName: booking.UserID.Name,
+          guestRoom: booking.RoomID.RoomNumber,
+          checkInTime: booking.CheckInTime,
+          checkOutTime: booking.CheckOutTime,
+          needsCleaning: booking.RoomStatus,
+          bookingId: booking._id
+        }));
+        this.filterRooms(); // Apply initial filter
+      },
+      (error) => {
+        console.error('Error fetching bookings: ', error);
+      }
+    );
   }
 
   filterRooms(): void {
     if (this.selectedStatus === 'needs-cleaning') {
-      this.filteredRooms = this.rooms.filter(room => room.needsCleaning);
+      this.filteredRooms = this.rooms.filter(room => room.needsCleaning === 'Cleaning');
     } else if (this.selectedStatus === 'clean') {
-      this.filteredRooms = this.rooms.filter(room => !room.needsCleaning);
+      this.filteredRooms = this.rooms.filter(room => room.needsCleaning === 'Cleaned');
     } else {
       this.filteredRooms = this.rooms;
     }
@@ -55,7 +53,20 @@ export class HousekeepingDashComponent implements OnInit {
 
   markAsClean(room: any): void {
     room.needsCleaning = false;
-    this.filterRooms(); // Refresh table if needed
+    const updatedBooking = {
+      bookingId: room.bookingId,
+      RoomStatus: "Cleaned",
+    };
+  
+    this.bookingService.updateBooking(updatedBooking).subscribe(
+      (response) => {
+        console.log("Room status updated to Cleaned", response);
+        this.filterRooms(); // Refresh table if needed
+      },
+      (error) => {
+        console.error("Error updating room status:", error);
+      }
+    );
   }
   
 }
