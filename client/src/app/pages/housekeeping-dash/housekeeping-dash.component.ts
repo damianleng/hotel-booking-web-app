@@ -61,6 +61,7 @@ export class HousekeepingDashComponent implements OnInit {
     this.bookingService.updateBooking(updatedBooking).subscribe(
       (response) => {
         console.log("Room status updated to Cleaned", response);
+        room.needsCleaning = "Cleaned";
         this.filterRooms(); // Refresh table if needed
       },
       (error) => {
