@@ -3,6 +3,7 @@ const roomService = require("../fetch_service/roomService");
 const RoomDetail = require("../data_schema/roomSchema");
 const BookingDetail = require("../data_schema/bookingSchema");
 const cron = require("node-cron");
+const emailService = require("../fetch_service/notificationService")
 
 // Get method to get a room by ID
 exports.getRoom = async (req, res) => {
@@ -208,7 +209,7 @@ exports.updateBookingRoomStatus = async () => {
         booking.RoomStatus = "Occupied";
       } else if (currentTime >= checkOutDate && !booking.RoomCleaned) {
         booking.RoomStatus = "Cleaning";
-        
+        await emailService.sendCleanerNotification(room);
       } else if (currentTime >= checkOutDate && booking.RoomCleaned) {
         booking.RoomStatus = "Cleaned";
       } else {

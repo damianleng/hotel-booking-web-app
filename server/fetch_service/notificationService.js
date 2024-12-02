@@ -1,14 +1,4 @@
-// use nodemailer
-const nodemailer = require("nodemailer");
-
-// set up the transporter with email provider SMTP settings
-const transporter = nodemailer.createTransport({
-  service: "Gmail", // use Gmail as the mail service
-  auth: {
-    user: process.env.EMAIL, // Gmail address
-    pass: process.env.APP_PASSWORD, // App-specific password
-  },
-});
+const transporter = require('../mailer'); // Import the shared transporter
 
 // Function to send an email notification with HTML support
 exports.sendEmailNotification = async (to, subject, htmlMessage) => {
