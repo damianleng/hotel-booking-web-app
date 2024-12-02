@@ -3,7 +3,7 @@ const roomService = require("../fetch_service/roomService");
 const RoomDetail = require("../data_schema/roomSchema");
 const BookingDetail = require("../data_schema/bookingSchema");
 const cron = require("node-cron");
-const emailService = require("../fetch_service/notificationService")
+const emailService = require("../fetch_service/notificationService");
 
 // Get method to get a room by ID
 exports.getRoom = async (req, res) => {
@@ -181,7 +181,22 @@ exports.updateBookingRoomStatus = async () => {
     // get current time
     const currentTime = new Date();
 
-    console.log("Cron job running at time:", currentTime); // Log the current time to see when the job runs
+    const localISOTime = `${currentTime.getFullYear()}-${String(
+      currentTime.getMonth() + 1
+    ).padStart(2, "0")}-${String(currentTime.getDate()).padStart(
+      2,
+      "0"
+    )}T${String(currentTime.getHours()).padStart(2, "0")}:${String(
+      currentTime.getMinutes()
+    ).padStart(2, "0")}:${String(currentTime.getSeconds()).padStart(
+      2,
+      "0"
+    )}.${String(currentTime.getMilliseconds()).padStart(3, "0")}`;
+
+    // Convert localISOTime to Date object
+    const localDateObject = new Date(localISOTime);
+
+    console.log("Cron job running at time:", typeof localDateObject); // Log the current time to see when the job runs
 
     // fetch all bookings
     const bookings = await BookingDetail.find({});
@@ -203,14 +218,14 @@ exports.updateBookingRoomStatus = async () => {
         booking.CheckOutTime.split(":").map(Number);
       checkOutDate.setUTCHours(checkOutHour, checkOutMinute, 0, 0); // Set the hours and minutes
 
-      console.log("Check-In Date: ", checkInDate);
-
-      if (currentTime >= checkInDate && currentTime < checkOutDate) {
+      if (localDateObject >= checkInDate && localDateObject < checkOutDate) {
         booking.RoomStatus = "Occupied";
-      } else if (currentTime >= checkOutDate && !booking.RoomCleaned) {
+        // console.log("Check-In Date: ", checkInDate);
+        console.log("Current Time: ", localISOTime);
+      } else if (localDateObject >= checkOutDate && !booking.RoomCleaned) {
         booking.RoomStatus = "Cleaning";
         await emailService.sendCleanerNotification(room);
-      } else if (currentTime >= checkOutDate && booking.RoomCleaned) {
+      } else if (localDateObject >= checkOutDate && booking.RoomCleaned) {
         booking.RoomStatus = "Cleaned";
       } else {
         booking.RoomStatus = "Reserved";
