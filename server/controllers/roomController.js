@@ -184,7 +184,7 @@ exports.updateBookingRoomStatus = async () => {
 
     // fetch all bookings
     const bookings = await BookingDetail.find({});
-    
+
     console.log("Number of bookings fetched:", bookings.length); // Log the number of bookings
 
     // iterate through each booking to check and update room
@@ -204,19 +204,17 @@ exports.updateBookingRoomStatus = async () => {
 
       console.log("Check-In Date: ", checkInDate);
 
-
       if (currentTime >= checkInDate && currentTime < checkOutDate) {
         booking.RoomStatus = "Occupied";
-        room.Status = "Occupied"
-      } else if (currentTime >= checkOutDate) {
+      } else if (currentTime >= checkOutDate && !booking.RoomCleaned) {
         booking.RoomStatus = "Cleaning";
-        room.Status = "Cleaning";
+        
+      } else if (currentTime >= checkOutDate && booking.RoomCleaned) {
+        booking.RoomStatus = "Cleaned";
       } else {
         booking.RoomStatus = "Reserved";
       }
-
       await booking.save();
-      await room.save();
     }
     console.log("Room statuses updated successfully.");
   } catch (error) {

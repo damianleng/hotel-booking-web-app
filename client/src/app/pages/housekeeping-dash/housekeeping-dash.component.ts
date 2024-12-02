@@ -56,12 +56,14 @@ export class HousekeepingDashComponent implements OnInit {
     const updatedBooking = {
       bookingId: room.bookingId,
       RoomStatus: "Cleaned",
+      RoomCleaned: true
     };
   
-    this.bookingService.updateBooking(updatedBooking).subscribe(
+    this.bookingService.updateBookingStatus(updatedBooking).subscribe(
       (response) => {
         console.log("Room status updated to Cleaned", response);
         room.needsCleaning = "Cleaned";
+        room.RoomCleaned = true;
         this.filterRooms(); // Refresh table if needed
       },
       (error) => {
