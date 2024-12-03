@@ -43,9 +43,14 @@ export class BookingsListComponent {
           .map((booking: any) => this.formatBooking(booking));
 
         this.pastBookings = response.data.bookings
-          .filter(
-            (booking: any) => new Date(booking.CheckOutDate) < currentDate
-          )
+          .filter((booking: any) => {
+            const checkOutDate = new Date(booking.CheckOutDate);
+
+            // Adjust checkOutDate to include the entire day
+            checkOutDate.setHours(23, 59, 59, 999);
+
+            return checkOutDate < currentDate;
+          })
           .map((booking: any) => this.formatBooking(booking));
 
         this.noCurrentRooms = this.currentBookings.length === 0;
