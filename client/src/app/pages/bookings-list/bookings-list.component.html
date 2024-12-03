@@ -1,5 +1,26 @@
 <div class="container">
   <h3>My Stays</h3>
+  <!-- Current Stays Section -->
+  <div class="bookings-list">
+    <h4>Current Stays</h4>
+    <div *ngIf="noCurrentRooms" class="card-panel grey lighten-4 teal-text text-darken-4">
+      <p><i class="material-icons left">hotel</i>No current stays found.</p>
+    </div>
+    <div class="booking-card" *ngFor="let booking of currentBookings">
+      <div class="booking-image">
+        <img [src]="booking.imageUrl" alt="Booking Image" class="responsive-img">
+      </div>
+      <div class="booking-info">
+        <p><strong>{{ booking.guests }} Guests | {{ booking.roomType }}</strong></p>
+        <h3>{{ booking.roomName }}</h3>
+        <p>{{ booking.address }}</p>
+        <p><strong>Room Code:</strong> {{ booking.digitalKey }}</p>
+        <p><strong>Check In:</strong> {{ booking.checkInDate | date: 'MMM d, y' : 'UTC' }} at {{ booking.checkInTime | timeFormat }}</p>
+        <p><strong>Check Out:</strong> {{ booking.checkOutDate | date: 'MMM d, y' : 'UTC' }} at {{ booking.checkOutTime | timeFormat }}</p>
+      </div>
+    </div>
+  </div>
+
   <!-- Upcoming Stays Section -->
   <div class="bookings-list">
     <h4>Upcoming Stays</h4>
