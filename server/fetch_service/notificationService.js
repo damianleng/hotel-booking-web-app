@@ -1,4 +1,4 @@
-const transporter = require('../mailer'); // Import the shared transporter
+const transporter = require("../mailer"); // Import the shared transporter
 
 // Function to send an email notification with HTML support
 exports.sendEmailNotification = async (to, subject, htmlMessage) => {
@@ -22,6 +22,19 @@ exports.sendEmailNotification = async (to, subject, htmlMessage) => {
 // Function to send an email notification when user successfully booked a room
 exports.sendEmailNotificationSuccess = async (booking, room, status) => {
   try {
+    const checkInDate = new Date(booking.CheckInDate)
+      .toUTCString()
+      .split(" ")
+      .slice(0, 4)
+      .join(" ");
+
+    const checkOutDate = new Date(booking.CheckOutDate)
+      .toUTCString()
+      .split(" ")
+      .slice(0, 4)
+      .join(" ");
+    
+
     await this.sendEmailNotification(
       booking.Email, // Recipient's email
       `${status} ${booking._id}`, // Subject
@@ -45,15 +58,11 @@ exports.sendEmailNotificationSuccess = async (booking, room, status) => {
                 </tr>
                 <tr>
                   <td><strong>Check-in:</strong></td>
-                  <td>${new Date(
-                    booking.CheckInDate
-                  ).toDateString()} at ${formatTime(booking.CheckInTime)}</td>
+                  <td>${checkInDate} at ${formatTime(booking.CheckInTime)}</td>
                 </tr>
                 <tr>
                   <td><strong>Check-out:</strong></td>
-                  <td>${new Date(
-                    booking.CheckOutDate
-                  ).toDateString()} at ${formatTime(booking.CheckOutTime)}</td>
+                  <td>${checkOutDate} at ${formatTime(booking.CheckOutTime)}</td>
                 </tr>
                 <tr>
                   <td><strong>Room Type:</strong></td>
