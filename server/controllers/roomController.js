@@ -179,24 +179,8 @@ exports.checkAllRoomsStatus = async (req, res) => {
 exports.updateBookingRoomStatus = async () => {
   try {
     // get current time
-    const currentTime = new Date();
-
-    const localISOTime = `${currentTime.getFullYear()}-${String(
-      currentTime.getMonth() + 1
-    ).padStart(2, "0")}-${String(currentTime.getDate()).padStart(
-      2,
-      "0"
-    )}T${String(currentTime.getHours()).padStart(2, "0")}:${String(
-      currentTime.getMinutes()
-    ).padStart(2, "0")}:${String(currentTime.getSeconds()).padStart(
-      2,
-      "0"
-    )}.${String(currentTime.getMilliseconds()).padStart(3, "0")}`;
-
-    // Convert localISOTime to Date object
-    const localDateObject = new Date(localISOTime);
-
-    console.log("Cron job running at time:", typeof localDateObject); // Log the current time to see when the job runs
+    let currentTime = new Date();
+    currentTime = new Date(currentTime.getTime() - 6 * 60 * 60 * 1000); // Add 6 hours
 
     // fetch all bookings
     const bookings = await BookingDetail.find({});
@@ -218,14 +202,12 @@ exports.updateBookingRoomStatus = async () => {
         booking.CheckOutTime.split(":").map(Number);
       checkOutDate.setUTCHours(checkOutHour, checkOutMinute, 0, 0); // Set the hours and minutes
 
-      if (localDateObject >= checkInDate && localDateObject < checkOutDate) {
+      if (currentTime >= checkInDate && currentTime < checkOutDate) {
         booking.RoomStatus = "Occupied";
-        // console.log("Check-In Date: ", checkInDate);
-        console.log("Current Time: ", localISOTime);
-      } else if (localDateObject >= checkOutDate && !booking.RoomCleaned) {
+      } else if (currentTime >= checkOutDate && !booking.RoomCleaned) {
         booking.RoomStatus = "Cleaning";
         await emailService.sendCleanerNotification(room);
-      } else if (localDateObject >= checkOutDate && booking.RoomCleaned) {
+      } else if (currentTime >= checkOutDate && booking.RoomCleaned) {
         booking.RoomStatus = "Cleaned";
       } else {
         booking.RoomStatus = "Reserved";
