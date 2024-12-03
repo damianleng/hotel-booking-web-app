@@ -28,9 +28,12 @@ export class BookingsListComponent {
         const currentDate = new Date();
 
         this.bookings = response.data.bookings
-          .filter(
-            (booking: any) => new Date(booking.CheckOutDate) >= currentDate
-          )
+          .filter((booking: any) => {
+            const checkInDate = new Date(booking.CheckInDate);
+
+            // Upcoming bookings are those where CheckInDate is after the current date
+            return checkInDate > currentDate;
+          })
           .map((booking: any) => this.formatBooking(booking));
 
         this.currentBookings = response.data.bookings
