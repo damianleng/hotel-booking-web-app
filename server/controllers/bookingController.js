@@ -124,6 +124,38 @@ exports.updateBooking = async (req, res) => {
   }
 };
 
+// this function will update the booking status of cleaned
+exports.updateBookingStatus = async (req, res) => {
+  try {
+    const bookingID = req.params.id; // Get bookingID from the URL params
+    const updatedData = req.body; // Updated booking data
+
+    const updateBooking = await bookingService.updateBookingById(
+      bookingID,
+      updatedData
+    );
+
+    if (!updateBooking) {
+      return res.status(404).json({
+        status: "fail",
+        message: "No booking found with that ID",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        booking: updateBooking,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
+
 // Delete method to delete a booking
 exports.deleteBooking = async (req, res) => {
   try {

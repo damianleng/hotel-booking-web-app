@@ -16,6 +16,8 @@ router.get("/availability", bookingController.getAvailableRooms);
 // Define route to get bookings by UserID
 router.get("/user-bookings", authenticateUser, bookingController.getBookingsByUserID);
 
+router.patch("/update-status/:id", bookingController.updateBookingStatus);
+
 // Booking Routes
 router
   .route("/")

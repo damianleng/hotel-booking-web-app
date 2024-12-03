@@ -1,0 +1,55 @@
+
+  /* Badge Styles */
+  .status-badge {
+    display: inline-block;
+    padding: 8px 12px;
+    font-size: 0.85em;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 12px;
+    color: white;
+    text-transform: uppercase;
+  }
+  
+  /* Badge Colors */
+  .status-badge.needs-cleaning {
+    background-color: #ff6b6b; /* Bright red */
+  }
+  
+  .status-badge.clean {
+    background-color: #55d195; /* Bright green */
+  }
+  
+  /* Hover Effects */
+  .status-badge.needs-cleaning:hover {
+    background-color: #c0392b; /* Dark red */
+  }
+  
+  .status-badge.clean:hover {
+    background-color: #229954; /* Dark green */
+  }
+  
+  .action-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .status-badge {
+      font-size: 0.75em; /* Smaller badges for smaller screens */
+
+    }
+
+  }
+  
+  @media (max-width: 576px) {
+    .status-badge {
+      align-self: center; /* Center-align badge */
+      border-radius: 25px; /* Make the badge more rounded */
+    }
+
+  }
+  

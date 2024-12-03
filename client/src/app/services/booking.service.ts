@@ -21,6 +21,13 @@ export class BookingService {
     );
   }
 
+  updateBookingStatus(updateBooking: any): Observable<any> {
+    return this.http.patch(
+      `${this.apiUrl}/update-status/${updateBooking.bookingId}`,
+      updateBooking
+    );
+  }
+
   updateBookingAdmin(bookingID: string, updatedData: any) {
     return this.http.patch(`${this.apiUrl}/${bookingID}`, updatedData);
   }

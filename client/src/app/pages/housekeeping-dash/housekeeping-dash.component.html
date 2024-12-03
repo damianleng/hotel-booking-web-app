@@ -1,0 +1,63 @@
+<div class="container">
+    <h1 class="center-align">Housekeeping Dashboard</h1>
+    <!-- Filters Section -->
+    <div class="row">
+      <div class="col s12 m6">
+        <label for="filter-status">Filter by Status:</label>
+        <select id="filter-status" [(ngModel)]="selectedStatus" (change)="filterRooms()" class="browser-default">
+          <option value="all">All</option>
+          <option value="needs-cleaning">Needs Cleaning</option>
+          <option value="clean">Clean</option>
+        </select>
+      </div>
+    </div>
+    <!-- Table Section -->
+    <div class="card">
+      <div class="card-content">
+        <h2 class="card-title">Today's Activity</h2>
+          <table class="responsive-table highlight centered">
+            <thead>
+              <tr>
+                <th>Room</th>
+                <th>Guest Name</th>
+                <th>Guest Rooms</th>
+                <th>Check-In Time</th>
+                <th>Check-Out Time</th>
+                <th>Cleaning Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let room of filteredRooms">
+                <td data-label="Room">{{ room.roomName }}</td>
+                <td data-label="Guest Name"> {{ room.guestName }}</td>
+                <td data-label="Guest Rooms">{{ room.guestRoom }}</td>
+                <td data-label="Check-In Time">{{ room.checkInTime }}</td>
+                <td data-label="Check-Out Time">{{ room.checkOutTime }}</td>
+                <td data-label="Cleaning Status">
+                  <span
+                    class="status-badge"
+                    [ngClass]="{
+                      'needs-cleaning': room.needsCleaning === 'Cleaning',
+                      'clean': room.needsCleaning === 'Cleaned'
+                    }"
+                  >
+                  {{ room.needsCleaning === 'Cleaning' ? 'Attention' : 'Cleaned' }}
+                  </span>
+                </td>
+                <td data-label="Action">
+           
+                    <button
+                      *ngIf="room.needsCleaning === 'Cleaning'"
+                      (click)="markAsClean(room)"
+                      class="btn-flat waves-effect"
+                    >
+                      <i class="material-icons blue-text">check</i>
+                    </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>

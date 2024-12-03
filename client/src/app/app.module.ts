@@ -22,6 +22,7 @@ import { BookingsListComponent } from "./pages/bookings-list/bookings-list.compo
 import { TimeFormatPipe } from "./pipe/time-format.pipe";
 import { AuthInterceptor } from "./services/interceptors/auth.interceptor";
 import { AdminDashComponent } from "./pages/admin-dash/admin-dash.component";
+import { HousekeepingDashComponent } from './pages/housekeeping-dash/housekeeping-dash.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { AdminDashComponent } from "./pages/admin-dash/admin-dash.component";
     CheckOutComponent,
     BookingsListComponent,
     AdminDashComponent,
-    TimeFormatPipe
+    HousekeepingDashComponent,
+    TimeFormatPipe,
   ],
   imports: [
     BrowserModule,
