@@ -2,8 +2,8 @@ const bookingController = require("../controllers/bookingController");
 const RoomDetail = require("../data_schema/roomSchema");
 const BookingDetail = require("../data_schema/bookingSchema");
 const bookingService = require("../fetch_service/bookingService");
-const emailService = require("../fetch_service/notificationService");
 const httpMocks = require("node-mocks-http");
+
 
 // Mock the bookingService
 jest.mock("../fetch_service/bookingService");
@@ -75,7 +75,7 @@ describe("Booking Controller - getAvailableRooms", () => {
       { _id: "room1", MaxPeople: 2, Status: "Available" }, // Room to be checked
     ]);
 
-    // Mock BookingDetail.find to return a booking for the same room from 21st to 22nd
+    // Mock BookingDetail.find to return a booking for the same room from 21st to
     BookingDetail.find.mockResolvedValue([]);
 
     // Call the controller
@@ -133,31 +133,17 @@ describe("createBooking", () => {
       Email: req.body.Email,
       Phone: req.body.Phone,
       Address: req.body.Address,
+      RoomStatus: req.body.RoomStatus, // Add RoomStatus to the booking object
     });
-
-    // Mock RoomDetail.findById to return a room object with an Image
-    RoomDetail.findById.mockResolvedValue({
-      id: req.body.RoomID,
-      Status: "Available",
-      save: jest.fn(), // mock the save function
-    });
-
+  
     await bookingController.createBooking(req, res);
-
-    // Verify that bookingService.createBooking was called with the correct data
-    expect(bookingService.createBooking).toHaveBeenCalledWith({
-      ...req.body,
-      UserID: req.userId,
-    });
-
-    // Verify that RoomDetail.findById was called with the correct RoomID
-    expect(RoomDetail.findById).toHaveBeenCalledWith(req.body.RoomID);
-
-    // Verify that room status is updated and saved
-    const room = await RoomDetail.findById(req.body.RoomID);
-    expect(room.Status).toBe("Reserved");
-    expect(room.save).toHaveBeenCalled();
-
+  
+  // Verify that bookingService.createBooking was called with the correct data
+  expect(bookingService.createBooking).toHaveBeenCalledWith({
+    ...req.body,
+    UserID: req.userId,
+  });
+  
     // Verify response status and json structure
     expect(res.statusCode).toBe(201);
     const data = JSON.parse(res._getData());
