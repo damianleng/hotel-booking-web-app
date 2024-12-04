@@ -9,7 +9,7 @@ import { BookingService } from "src/app/services/booking.service";
 })
 export class BookingsListComponent {
   // Mock data for bookings
-  bookings: any[] = [];
+  upcomingBookings: any[] = [];
   currentBookings: any[] = [];
   pastBookings: any[] = [];
   noCurrentRooms: boolean = false;
@@ -27,10 +27,10 @@ export class BookingsListComponent {
       (response) => {
         const currentDate = new Date();
 
-        this.bookings = response.data.bookings
+        this.upcomingBookings = response.data.bookings
           .filter((booking: any) => {
-            const checkInDate = new Date(booking.CheckInDate);
-
+            let checkInDate = new Date(booking.CheckInDate);
+            checkInDate = new Date(checkInDate.getTime() + 24 * 60 * 60 * 1000);
             // Upcoming bookings are those where CheckInDate is after the current date
             return checkInDate > currentDate;
           })
@@ -38,29 +38,28 @@ export class BookingsListComponent {
 
         this.currentBookings = response.data.bookings
           .filter((booking: any) => {
-            const checkInDate = new Date(booking.CheckInDate);
-            const checkOutDate = new Date(booking.CheckOutDate);
-            checkOutDate.setHours(23, 59, 59, 999);
+            let checkInDate = new Date(booking.CheckInDate);
+            checkInDate = new Date(checkInDate.getTime() + 24 * 60 * 60 * 1000);
+            let checkOutDate = new Date(booking.CheckOutDate);
+            checkOutDate = new Date(checkOutDate.getTime() + 24 * 60 * 60 * 1000);
+
             return checkInDate <= currentDate && checkOutDate >= currentDate;
           })
           .map((booking: any) => this.formatBooking(booking));
 
         this.pastBookings = response.data.bookings
           .filter((booking: any) => {
-            const checkOutDate = new Date(booking.CheckOutDate);
-
-            // Adjust checkOutDate to include the entire day
-            checkOutDate.setHours(23, 59, 59, 999);
-
+            let checkOutDate = new Date(booking.CheckOutDate);
+            checkOutDate = new Date(checkOutDate.getTime() + 24 * 60 * 60 * 1000);
             return checkOutDate < currentDate;
           })
           .map((booking: any) => this.formatBooking(booking));
 
         this.noCurrentRooms = this.currentBookings.length === 0;
-        this.noUpcomingRooms = this.bookings.length === 0;
+        this.noUpcomingRooms = this.upcomingBookings.length === 0;
         this.noPastRooms = this.pastBookings.length === 0;
 
-        console.log("Upcoming Bookings: ", this.bookings);
+        console.log("Upcoming Bookings: ", this.upcomingBookings);
         console.log("Upcoming Bookings: ", this.currentBookings);
         console.log("Past Bookings: ", this.pastBookings);
       },

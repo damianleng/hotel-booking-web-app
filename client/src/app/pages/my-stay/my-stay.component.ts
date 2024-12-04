@@ -112,13 +112,14 @@ export class MyStayComponent implements OnInit {
   updateCheckInTime(newTime: string) {
     const [hours, minutes] = newTime.split(":").map(Number);
     const totalMinutes = hours * 60 + minutes;
-
-    if (totalMinutes >= 14 * 60 && totalMinutes <= 23 * 60 + 59) {
+  
+    // Updated range: 15:00 (900 minutes) to 23:59 (1439 minutes)
+    if (totalMinutes >= 15 * 60 && totalMinutes <= 23 * 60 + 59) {
       this.isValid = true; // Mark input as valid
       this.validationMessage = ""; // Clear any previous validation message
     } else {
       this.isValid = false; // Mark input as invalid
-      this.validationMessage = "Invalid Check-In Time. Must be between 14:00 and 23:59.";
+      this.validationMessage = "Invalid Check-In Time. Must be between 15:00 and 23:59.";
     }
   }
 
@@ -135,16 +136,17 @@ export class MyStayComponent implements OnInit {
   updateCheckOutTime(newTime: string) {
     const [hours, minutes] = newTime.split(":").map(Number);
     const totalMinutes = hours * 60 + minutes;
-
-    if (totalMinutes >= 1 * 60 && totalMinutes <= 10 * 60) {
+  
+    // Updated range: 01:00 (60 minutes) to 12:00 (720 minutes)
+    if (totalMinutes >= 1 * 60 && totalMinutes <= 12 * 60) {
       this.isValid = true; // Mark input as valid
       this.validationMessage = ""; // Clear any previous validation message
     } else {
       this.isValid = false; // Mark input as invalid
-      this.validationMessage = "Invalid Check-Out Time. Must be between 01:00 and 10:00.";
+      this.validationMessage = "Invalid Check-Out Time. Must be between 01:00 and 12:00.";
     }
   }
-
+  
   confirmCheckOutTime() {
     if (this.isValid) {
       this.newCheckOutTime = this.newCheckOutTime || this.checkOutTime;
