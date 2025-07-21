@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: aurora-backend
+    env: node
+    plan: free
+    buildCommand: cd server && npm install
+    startCommand: cd server && node server.js
+    rootDir: server
+    envVars:
+      - key: DATABASE
+        sync: false
+      - key: DATABASE_PASSWORD
+        sync: false
+      - key: PORT
+        value: 10000
