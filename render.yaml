@@ -3,8 +3,8 @@ services:
     name: aurora-backend
     env: node
     plan: free
-    buildCommand: cd server && npm install
-    startCommand: cd server && node server.js
+    buildCommand: npm install
+    startCommand: node server.js
     rootDir: server
     envVars:
       - key: DATABASE
