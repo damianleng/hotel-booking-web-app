@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  stripePublicKey: 'pk_test_51Q7q4BRumJvqTRUCrPwt5z8AWHyT5F2gBiwsmfbAXfVxrFzxdjtI7Jph40TNmFJxOusSAHLxZT2iHXQ1ONUDFDjf002BRQlQmV'
+  stripePublicKey:
+    "pk_test_51Q7q4BRumJvqTRUCrPwt5z8AWHyT5F2gBiwsmfbAXfVxrFzxdjtI7Jph40TNmFJxOusSAHLxZT2iHXQ1ONUDFDjf002BRQlQmV",
+  apiUrl: "http://localhost:3000/api",
 };
 
 /*
