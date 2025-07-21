@@ -221,4 +221,4 @@ exports.updateBookingRoomStatus = async () => {
 };
 
 // Schedule the function to run every hour
-cron.schedule("0 * * * *", this.updateBookingRoomStatus); // Runs at the start of every minute
+// cron.schedule("0 * * * *", this.updateBookingRoomStatus); // Runs at the start of every minute
