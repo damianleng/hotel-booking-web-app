@@ -13,3 +13,11 @@ services:
         sync: false
       - key: PORT
         value: 10000
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: EMAIL
+        sync: false
+      - key: APP_PASSWORD
+        sync: false
