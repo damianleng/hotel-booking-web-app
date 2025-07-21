@@ -3,6 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import * as M from "materialize-css";
+import { environment } from "src/environments/environment.prod";
 
 @Component({
   selector: "app-room-select",
@@ -86,7 +87,7 @@ export class RoomSelectComponent implements OnInit {
     checkOutDate: string,
     maxPeople: number
   ) {
-    const apiUrl = "http://localhost:3000/api/bookings/availability";
+    const apiUrl = `${environment.apiUrl}/bookings/availability`;
 
     // call backend api to fetch rooms
     this.http
@@ -102,7 +103,7 @@ export class RoomSelectComponent implements OnInit {
           this.availableRooms = response.availableRooms;
           console.log("Available rooms: ", this.availableRooms);
 
-          if(this.availableRooms.length === 0) {
+          if (this.availableRooms.length === 0) {
             this.noRooms = true;
           }
         },
