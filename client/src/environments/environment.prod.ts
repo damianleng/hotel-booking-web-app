@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  stripePublicKey: (window as any)["env"]["stripePublicKey"],
 };
