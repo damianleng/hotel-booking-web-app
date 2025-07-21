@@ -78,7 +78,7 @@ export class MyStayComponent implements OnInit {
         );
 
         if (selectedBooking) {
-          this.roomImage = selectedBooking.Image;
+          this.roomImage = selectedBooking.imageUrl;
           this.roomName = selectedBooking.roomName;
           this.roomType = selectedBooking.roomType;
           this.roomNumber = selectedBooking.roomNumber;

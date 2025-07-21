@@ -29,7 +29,7 @@
     </div>
     <div class="booking-card" *ngFor="let booking of upcomingBookings" (click)="viewBookingDetails(booking.bookingId)">
       <div class="booking-image">
-        <img [src]="booking.Image" alt="Booking Image" class="responsive-img">
+        <img [src]="booking.imageUrl" alt="Booking Image" class="responsive-img">
       </div>
       <div class="booking-info">
         <p><strong>{{ booking.guests }} Guests | {{ booking.roomType }}</strong></p>
