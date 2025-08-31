@@ -3,3 +3,6 @@
 
 # Environment variables
 /server/config.env
+
+# ignore secret.yaml
+/k8s/secret.yaml

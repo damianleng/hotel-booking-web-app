@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hotel-api
+  namespace: hotel
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hotel-api
+  template:
+    metadata:
+      labels:
+        app: hotel-api
+    spec:
+      containers:
+        - name: api
+          image: 876594438266.dkr.ecr.us-east-1.amazonaws.com/hotel-api 
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: hotel-env
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 20
