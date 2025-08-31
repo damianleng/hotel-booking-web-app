@@ -15,12 +15,22 @@ spec:
     spec:
       containers:
         - name: api
-          image: 876594438266.dkr.ecr.us-east-1.amazonaws.com/hotel-api 
+          image: 876594438266.dkr.ecr.us-east-1.amazonaws.com/hotel-api:v2   # 👈 add version tag
           ports:
             - containerPort: 3000
           envFrom:
             - secretRef:
                 name: hotel-env
+          env:                          # 👈 new section for Redis
+            - name: REDIS_HOST
+              value: "hotel-redis-master.hotel.svc.cluster.local"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: hotel-redis-auth
+                  key: redis-password
           readinessProbe:
             httpGet:
               path: /health

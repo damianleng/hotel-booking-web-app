@@ -36,6 +36,7 @@ exports.getRoom = async (req, res) => {
 exports.getAllRooms = async (req, res) => {
   try {
     const result = await roomService.fetchRooms();
+    res.locals._payload = result;
     res.status(200).json(result);
   } catch (error) {
     res.status(505).json({ message: error.message });
@@ -133,13 +134,18 @@ exports.getCurrentlyAvailableRooms = async (req, res) => {
       Status: "Available",
     });
 
-    res.status(200).json({
+    const payload = {
       status: "success",
       total: availableRooms.length,
       data: {
         availableRooms,
       },
-    });
+    };
+
+    // stash payload
+    res.locals._payload = payload;
+
+    res.status(200).json(payload);
   } catch (error) {
     res.status(500).json({
       status: "fail",
