@@ -24,16 +24,18 @@ mongoose
     console.log("Connected to Hotelkeeping Database");
 
     roomController.updateBookingRoomStatus();
-    
   })
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error);
   });
 
-app.use('/api/auth', authRoutes);
+app.use("/api/auth", authRoutes);
 
+// health check
+app.get("/health", (_req, res) => res.status(200).send("OK"));
+
+// listen
 const port = process.env.PORT || 3000;
-
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`App running on port ${port}...`);
 });
