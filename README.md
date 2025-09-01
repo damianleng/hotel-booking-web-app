@@ -40,6 +40,7 @@ This project is accompanied by three formal engineering documents that demonstra
 | **User Manual**             | Step-by-step instructions for using the system as Guest, Staff, and Cleaner | [📖 View](https://drive.google.com/file/d/1mAWjWpN4fDVyrxsWvQPLKIDk6NkBiMWX/view?usp=sharing) |
 | **Technical Documentation** | Use case diagrams, sequence diagrams, DB schema, ERD, and domain models     | [📘 View](https://drive.google.com/file/d/10RnaZnCbYPUKtrqjOWxwNcD-oqFtM6kJ/view?usp=sharing) |
 | **Final Report**            | Agile sprints, testing strategy, project scope, limitations, and lessons    | [📗 View](https://drive.google.com/file/d/1S1K0Uhid-ftRL8tC-wIneYmMFnq37lVE/view?usp=sharing) |
+| **Deployment**            | Deployed backend using Docker, Redis Caching, and testing via AWS             | [📕 View](https://drive.google.com/file/d/1ilj5sO54yYjiER-nwLQhr1g2gwPpzBih/view?usp=sharing) |
 
 ---
 
